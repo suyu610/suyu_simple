@@ -1,28 +1,41 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:suyu_simple/Components/TabBar.dart';
 import 'package:suyu_simple/pages/History.dart';
 import 'package:suyu_simple/pages/Mark.dart';
 import 'package:suyu_simple/pages/Profile.dart';
 import 'package:suyu_simple/pages/Rule.dart';
-
+import 'package:suyu_simple/provider/TabbarProvider.dart';
 
 import 'common/ThemeColor.dart';
 
 void main() {
-  runApp(MaterialApp(
-    title: "GNav",
-    theme: ThemeData(
-      primaryColor: ThemeColors.colorTheme,
-    ),
-    home: Main(),
-    debugShowCheckedModeBanner: false,
-  ));
+  runApp(MyApp());
+  if (Platform.isAndroid) {
+    SystemUiOverlayStyle systemUiOverlayStyle =
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+  }
+}
 
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-    statusBarColor: Colors.transparent
-  ));
-
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+        create: (_) => TabbarProvider(),
+        child: MaterialApp(
+          title: 'Material Components',
+          theme: ThemeData(
+            primaryColor: ThemeColors.colorTheme,
+          ),
+          home: Main(),
+          debugShowCheckedModeBanner: false,
+        ));
+  }
 }
 
 class Main extends StatefulWidget {
@@ -31,9 +44,6 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<StatefulWidget> _widgetOptions = <StatefulWidget>[
     MarkPage(),
     RulePage(),
@@ -43,53 +53,14 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context,
+        designSize: Size(375, 667), allowFontScaling: true);
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _widgetOptions
+            .elementAt(Provider.of<TabbarProvider>(context).currentIndex),
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(color: Colors.white, boxShadow: [
-          BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
-        ]),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-            child: GNav(
-                gap: 8,
-                activeColor: Colors.black,
-                color:ThemeColors.colorDDDDDD,
-                iconSize: 24,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                duration: Duration(milliseconds: 300),
-                tabBackgroundColor: ThemeColors.colorTheme,
-
-                tabs: [
-                  GButton(
-                    icon: Icons.playlist_add_check,
-                    text: '评分',
-                  ),
-                  GButton(
-                    icon: Icons.today,
-                    text: '规则',
-                  ),
-                  GButton(
-                    icon: Icons.alarm,
-                    text: '历史',
-                  ),
-                  GButton(
-                    icon: Icons.account_circle,
-                    text: '我的',
-                  ),
-                ],
-                selectedIndex: _selectedIndex,
-                onTabChange: (index) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                }),
-          ),
-        ),
-      ),
+      bottomNavigationBar: TabbarComponent(),
     );
   }
 }
