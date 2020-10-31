@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,6 +29,8 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (_) => TabbarProvider(),
         child: MaterialApp(
+          builder: BotToastInit(), //1.调用BotToastInit
+          navigatorObservers: [BotToastNavigatorObserver()], //2.注册路由观察者
           title: 'Material Components',
           theme: ThemeData(
             primaryColor: ThemeColors.colorTheme,

@@ -36,19 +36,20 @@ class _TabbarComponentState extends State<TabbarComponent> {
                     GButton(
                       icon: Icons.playlist_add_check,
                       text: '评分',
+                      textStyle: TextStyle(fontFamily: 'myFont'),
                     ),
                     GButton(
-                      icon: Icons.today,
-                      text: '规则',
-                    ),
+                        icon: Icons.today,
+                        text: '规则',
+                        textStyle: TextStyle(fontFamily: 'myFont')),
                     GButton(
-                      icon: Icons.alarm,
-                      text: '历史',
-                    ),
+                        icon: Icons.alarm,
+                        text: '历史',
+                        textStyle: TextStyle(fontFamily: 'myFont')),
                     GButton(
-                      icon: Icons.account_circle,
-                      text: '我的',
-                    ),
+                        icon: Icons.account_circle,
+                        text: '我的',
+                        textStyle: TextStyle(fontFamily: 'myFont')),
                   ],
                   selectedIndex: _selectedIndex,
                   onTabChange: (index) {
