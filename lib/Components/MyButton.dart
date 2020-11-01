@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 
-class myButton extends StatefulWidget {
-  myButton(
+// ignore: must_be_immutable
+class MyButton extends StatefulWidget {
+  MyButton(
       {this.height,
       this.width,
       this.title,
@@ -21,11 +22,11 @@ class myButton extends StatefulWidget {
   Function tapAction;
 
   @override
-  _myButtonState createState() => _myButtonState();
+  _MyButtonState createState() => _MyButtonState();
 }
 
 // ignore: camel_case_types
-class _myButtonState extends State<myButton> {
+class _MyButtonState extends State<MyButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -48,7 +49,7 @@ class _myButtonState extends State<myButton> {
             style: TextStyle(
                 color: ThemeColors.colorBlack,
                 fontFamily: 'myFont',
-                fontSize: this.widget.fontSize,
+                fontSize: widget.fontSize,
                 fontWeight: FontWeight.w400),
           ),
         ));

@@ -61,7 +61,7 @@ class _MarkPageState extends State<MarkPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      myButton(
+                      MyButton(
                         width: 117.w,
                         height: 30.h,
                         title: "重置",
@@ -81,7 +81,7 @@ class _MarkPageState extends State<MarkPage> {
                           target: Offset(1000, 100),
                         ),
                       ),
-                      myButton(
+                      MyButton(
                           width: 166.w,
                           height: 30.h,
                           title: "提交",
