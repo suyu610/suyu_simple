@@ -34,11 +34,12 @@ class _MarkMainBoxState extends State<MarkMainBox> {
             Padding(
               padding: EdgeInsets.only(top: 30),
             ),
-            Column(
-              children: dailyRecorderModel.list
-                  .map((item) => new MarkDetailLi(item))
-                  .toList(),
-            ),
+            Column(children: <Widget>[
+              MarkDetailLi(0),
+              MarkDetailLi(1),
+              MarkDetailLi(2),
+              MarkDetailLi(3),
+            ]),
             Padding(
               padding: EdgeInsets.only(top: 30),
             ),

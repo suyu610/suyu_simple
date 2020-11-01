@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/model/MarkItemModel.dart';
+import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 
 class TotalMark extends StatefulWidget {
   final List<MarkItemModel> markItemModellist;
@@ -17,15 +19,12 @@ class _TotalMarkState extends State<TotalMark> {
   int totalScore = 0;
   @override
   Widget build(BuildContext context) {
-    totalScore = 0;
-    markItemModellist.forEach((element) {
-      totalScore += element.currentScore;
-    });
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text("总分:",
             style: TextStyle(
+              fontFamily: 'myFont',
               fontWeight: FontWeight.bold,
               fontSize: ScreenUtil().setSp(16),
             )),
@@ -33,7 +32,10 @@ class _TotalMarkState extends State<TotalMark> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             new Container(
-              child: Text(this.totalScore.toString(),
+              child: Text(
+                  Provider.of<DailyMarkProvider>(context)
+                      .totalValue()
+                      .toString(),
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(30),
                     decoration: TextDecoration.underline,
@@ -48,6 +50,7 @@ class _TotalMarkState extends State<TotalMark> {
             ),
             Text("/ 完美 /",
                 style: TextStyle(
+                    fontFamily: 'myFont',
                     fontSize: ScreenUtil().setSp(14),
                     color: ThemeColors.colorBlack)),
           ],

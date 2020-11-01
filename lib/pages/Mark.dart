@@ -62,8 +62,11 @@ class _MarkPageState extends State<MarkPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       myButton(
-                        width: 117,
+                        width: 117.w,
+                        height: 30.h,
                         title: "重置",
+                        isYellow: false,
+                        fontSize: 15.sp,
                         tapAction: () => BotToast.showAttachedWidget(
                           attachedBuilder: (_) => Card(
                             child: Padding(
@@ -79,9 +82,11 @@ class _MarkPageState extends State<MarkPage> {
                         ),
                       ),
                       myButton(
-                          width: 166,
+                          width: 166.w,
+                          height: 30.h,
                           title: "提交",
                           isYellow: true,
+                          fontSize: 15,
                           tapAction: () => print("按了我")),
                     ],
                   )

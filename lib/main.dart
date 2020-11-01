@@ -10,6 +10,7 @@ import 'package:suyu_simple/pages/History.dart';
 import 'package:suyu_simple/pages/Mark.dart';
 import 'package:suyu_simple/pages/Profile.dart';
 import 'package:suyu_simple/pages/Rule.dart';
+import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 import 'package:suyu_simple/provider/TabbarProvider.dart';
 
 import 'common/ThemeColor.dart';
@@ -26,8 +27,12 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (_) => TabbarProvider(),
+    return MultiProvider(
+        providers: [
+          ListenableProvider<DailyMarkProvider>(
+              create: (_) => DailyMarkProvider()),
+          ListenableProvider<TabbarProvider>(create: (_) => TabbarProvider()),
+        ],
         child: MaterialApp(
           builder: BotToastInit(), //1.调用BotToastInit
           navigatorObservers: [BotToastNavigatorObserver()], //2.注册路由观察者
