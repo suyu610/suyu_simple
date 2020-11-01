@@ -29,19 +29,36 @@ class _MarkMainBoxState extends State<MarkMainBox> {
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            TextWithUnderLine(),
-            Padding(
-              padding: EdgeInsets.only(top: 30),
-            ),
-            Column(children: <Widget>[
-              MarkDetailLi(0),
-              MarkDetailLi(1),
-              MarkDetailLi(2),
-              MarkDetailLi(3),
-            ]),
-            Padding(
-              padding: EdgeInsets.only(top: 30),
+            Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    TextWithUnderLine("宇崽"),
+                    Text(
+                      "今天表现怎么样?",
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(18),
+                        fontFamily: 'myFont',
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 30),
+                ),
+                Column(children: <Widget>[
+                  MarkDetailLi(0),
+                  MarkDetailLi(1),
+                  MarkDetailLi(2),
+                  MarkDetailLi(3),
+                ]),
+                Padding(
+                  padding: EdgeInsets.only(top: 30),
+                ),
+              ],
             ),
             TotalMark(dailyRecorderModel.list),
           ],

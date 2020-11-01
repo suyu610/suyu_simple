@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:suyu_simple/Components/CustomLoading.dart';
 import 'package:suyu_simple/Components/MarkMainBox.dart';
 import 'package:suyu_simple/Components/MyButton.dart';
-import 'package:bot_toast/bot_toast.dart';
+import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 import 'package:toast/toast.dart';
@@ -56,7 +55,7 @@ class _MarkPageState extends State<MarkPage> {
               Positioned(
                 left: ScreenUtil().setWidth(14),
                 right: ScreenUtil().setWidth(14),
-                top: ScreenUtil().setHeight(60),
+                top: ScreenUtil().setHeight(50),
                 child: Column(
                   children: <Widget>[
                     Row(
@@ -76,11 +75,44 @@ class _MarkPageState extends State<MarkPage> {
                             style: ThemeFonts.titleFont,
                           ),
                         ]),
-                        CustomLoadWidget(),
+                        IconButton(
+                          tooltip: "自动保存",
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          alignment: Alignment.centerRight,
+                          padding: EdgeInsets.all(0.00),
+                          onPressed: () => Toast.show("已保存", context,
+                              gravity: Toast.TOP,
+                              backgroundColor: ThemeColors.colorTheme,
+                              textColor: ThemeColors.colorBlack,
+                              backgroundRadius: 8,
+                              border: Border.all(
+                                width: 2,
+                              )),
+                          icon: Icon(Icons.cloud_upload),
+                          // color: ThemeColors.colorTheme,
+                        ),
                       ],
                     ),
                     Padding(padding: EdgeInsets.all(10)),
-                    Text("已经连续优秀第4天", style: ThemeFonts.smallFont),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("已经连续优秀第 ", style: ThemeFonts.smallFont),
+                        Text("4",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                decorationStyle: TextDecorationStyle.solid,
+                                decorationThickness: 3,
+                                decorationColor: ThemeColors.colorTheme,
+                                // decoration: TextDecoration.underline,
+                                fontSize: ScreenUtil().setSp(12),
+                                color: ThemeColors.colorBlack,
+                                fontFamily: 'myFont')),
+                        Text(" 天", style: ThemeFonts.smallFont),
+                      ],
+                    ),
+
                     Padding(padding: EdgeInsets.all(10)),
                     //中间的大盒子
                     MarkMainBox(),

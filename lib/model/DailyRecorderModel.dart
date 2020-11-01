@@ -7,14 +7,19 @@ class DailyRecorderModel {
   bool isUpdate;
   int goodScore; //优秀的分数线
   int badScore; //不及格的分数线
+  int totalScore;
 
   DailyRecorderModel(this.list, this.modifyDate, this.isUpdate, this.isSubmit,
-      this.goodScore, this.badScore);
+      this.goodScore, this.badScore) {
+    totalScore = 0;
+    list.forEach((element) {
+      this.totalScore += element.maxScore;
+    });
+  }
 
   @override
   String toString() {
     String result = "";
-
     list.forEach((element) {
       result += element.toString();
       result += "------------------\n";
@@ -32,14 +37,3 @@ class DailyRecorderModel {
     return result;
   }
 }
-
-// main() {
-
-//   List<MarkItemModel> list = new List<MarkItemModel>();
-//   list.add(markItemModel1);
-//   list.add(markItemModel2);
-
-//   DailyRecorderModel dailyRecorderModel =
-//       new DailyRecorderModel(list, DateTime.now(), true, true);
-//   print(dailyRecorderModel.toString());
-// }

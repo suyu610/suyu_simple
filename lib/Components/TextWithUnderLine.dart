@@ -4,8 +4,8 @@ import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextWithUnderLine extends StatelessWidget {
-  const TextWithUnderLine({Key key}) : super(key: key);
-
+  const TextWithUnderLine(this.text, {Key key}) : super(key: key);
+  final String text;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,10 +13,10 @@ class TextWithUnderLine extends StatelessWidget {
         alignment: AlignmentDirectional.center,
         children: <Widget>[
           Text(
-            "黄鹏宇今天表现怎么样",
+            text,
             style: TextStyle(
               fontSize: ScreenUtil().setSp(18),
-              // decorationStyle: TextDecorationStyle.double,
+              // decorationStyle: TextDecorationStyle.solid,
               decorationStyle: TextDecorationStyle.wavy,
               decorationColor: ThemeColors.colorTheme,
               decoration: TextDecoration.underline,

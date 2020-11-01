@@ -7,7 +7,7 @@ import 'package:suyu_simple/common/ThemeColor.dart';
 // ignore: must_be_immutable
 class MyMarkButton extends StatefulWidget {
   MyMarkButton(
-      {this.height = 24,
+      {this.height = 30,
       this.width,
       this.isYellow = false,
       this.fontSize = 14,
@@ -89,7 +89,7 @@ class _MyMarkButtonState extends State<MyMarkButton> {
             padding: EdgeInsets.all(0),
             child: Icon(
               isAdd ? Icons.add : Icons.navigate_before,
-              size: height / 1.1,
+              size: height / 1.5,
               color: ThemeColors.colorBlack,
             ),
           ),

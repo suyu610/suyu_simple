@@ -34,26 +34,26 @@ class _TabbarComponentState extends State<TabbarComponent> {
                   tabBackgroundColor: ThemeColors.colorTheme,
                   tabs: [
                     GButton(
-                      borderRadius: BorderRadius.all(Radius.circular(9)),
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
                       icon: Icons.playlist_add_check,
                       text: '评分',
                       textStyle:
                           TextStyle(fontSize: 12.sp, fontFamily: 'myFont'),
                     ),
                     GButton(
-                        borderRadius: BorderRadius.all(Radius.circular(9)),
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
                         icon: Icons.today,
                         text: '规则',
                         textStyle:
                             TextStyle(fontSize: 12.sp, fontFamily: 'myFont')),
                     GButton(
-                        borderRadius: BorderRadius.all(Radius.circular(9)),
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
                         icon: Icons.alarm,
                         text: '历史',
                         textStyle:
                             TextStyle(fontSize: 12.sp, fontFamily: 'myFont')),
                     GButton(
-                        borderRadius: BorderRadius.all(Radius.circular(9)),
+                        borderRadius: BorderRadius.all(Radius.circular(39)),
                         icon: Icons.account_circle,
                         text: '我的',
                         textStyle:

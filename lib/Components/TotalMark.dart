@@ -5,6 +5,8 @@ import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/model/MarkItemModel.dart';
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 
+import 'RollingText.dart';
+
 class TotalMark extends StatefulWidget {
   final List<MarkItemModel> markItemModellist;
   TotalMark(this.markItemModellist, {Key key}) : super(key: key);
@@ -31,7 +33,15 @@ class _TotalMarkState extends State<TotalMark> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            new Container(
+            //分数
+            Container(
+              // child: RollingText(
+              //   leftNum: Provider.of<DailyMarkProvider>(context).totalValue() ~/
+              //       10 %
+              //       10,
+              //   rightNum:
+              //       Provider.of<DailyMarkProvider>(context).totalValue() % 10,
+              // ),
               child: Text(
                   Provider.of<DailyMarkProvider>(context)
                       .totalValue()
@@ -48,10 +58,16 @@ class _TotalMarkState extends State<TotalMark> {
             Padding(
               padding: EdgeInsets.only(right: ScreenUtil().setWidth(15)),
             ),
-            Text("/ 完美 /",
+            Text(
+                "/ " +
+                    Provider.of<DailyMarkProvider>(context)
+                        .getLevel()
+                        .toString() +
+                    " /",
                 style: TextStyle(
                     fontFamily: 'myFont',
                     fontSize: ScreenUtil().setSp(14),
+                    // fontWeight: FontWeight.bold,
                     color: ThemeColors.colorBlack)),
           ],
         )

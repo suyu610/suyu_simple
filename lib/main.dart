@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +9,7 @@ import 'package:suyu_simple/pages/Home.dart';
 import 'package:suyu_simple/pages/Login.dart';
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 import 'package:suyu_simple/provider/TabbarProvider.dart';
+import 'package:suyu_simple/tools/InitUtils.dart';
 
 import 'common/ThemeColor.dart';
 
@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
           ListenableProvider<TabbarProvider>(create: (_) => TabbarProvider()),
         ],
         child: MaterialApp(
-          builder: BotToastInit(), //1.调用BotToastInit
-          navigatorObservers: [BotToastNavigatorObserver()], //2.注册路由观察者
+          // ignore: missing_return
+          builder: EasyLoadingInit(),
           title: 'Material Components',
           theme: ThemeData(
             primaryColor: ThemeColors.colorTheme,
@@ -73,7 +73,8 @@ class _MainState extends State<Main> {
   @override
   void initState() {
     super.initState();
-    checkLogin(); // 这里是一个异步操作
+    // 一个异步操作
+    checkLogin();
   }
 
   @override

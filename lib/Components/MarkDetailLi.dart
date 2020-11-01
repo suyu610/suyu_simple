@@ -39,7 +39,7 @@ class _MarkDetailLiState extends State<MarkDetailLi> {
           MyMarkButton(
             isAdd: false,
             isYellow: false,
-            width: 43.w,
+            width: 50.w,
             tapAction: handleMinusBtnClick,
           ),
           Container(
@@ -52,20 +52,40 @@ class _MarkDetailLiState extends State<MarkDetailLi> {
                     style: BorderStyle.solid),
               ),
             ),
-            width: ScreenUtil().setWidth(30),
-            child: Text(
-              Provider.of<DailyMarkProvider>(context)
-                  .getCurrentValue(index)
-                  .toString(),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontFamily: 'myFont',
-                  fontSize: ScreenUtil().setSp(16),
-                  fontWeight: FontWeight.bold),
+            width: ScreenUtil().setWidth(60),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  Provider.of<DailyMarkProvider>(context)
+                      .getCurrentValue(index)
+                      .toString(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'myFont',
+                      fontSize: ScreenUtil().setSp(16),
+                      fontWeight: FontWeight.w700),
+                ),
+                Opacity(opacity: 0.5, child: Text(" / ")),
+                Opacity(
+                  opacity: 0.5,
+                  child: Text(
+                    Provider.of<DailyMarkProvider>(context)
+                        .getMaxValue(index)
+                        .toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'myFont',
+                        color: ThemeColors.colorBlack,
+                        fontSize: ScreenUtil().setSp(14),
+                        fontWeight: FontWeight.w100),
+                  ),
+                ),
+              ],
             ),
           ),
           MyMarkButton(
-            width: 43.w,
+            width: 50.w,
             isAdd: true,
             isYellow: true,
             tapAction: handleAddBtnClick,
