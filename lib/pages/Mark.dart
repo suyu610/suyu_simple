@@ -6,6 +6,10 @@ import 'package:suyu_simple/Components/MarkMainBox.dart';
 import 'package:suyu_simple/Components/MyButton.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
+import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
+import 'package:toast/toast.dart';
+
+import 'Login.dart';
 
 class MarkPage extends StatefulWidget {
   MarkPage({Key key}) : super(key: key);
@@ -15,6 +19,27 @@ class MarkPage extends StatefulWidget {
 }
 
 class _MarkPageState extends State<MarkPage> {
+  Future<void> handleSubmitBtnClick() async {
+    print("提交按钮被按");
+    var token = "123456";
+    bool saveScuess = await SharePreferencesUtils.token(
+        SharePreferencesUtilsWorkType.save,
+        value: token);
+    saveScuess ? print('token 保存成功') : print('token 保存失败');
+  }
+
+  Future<void> handleResetBtnClick() async {
+    print("重置按钮被按");
+    await SharePreferencesUtils.token(
+      SharePreferencesUtilsWorkType.remove,
+    );
+    Toast.show('重置成功', context,
+        duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return LoginPage();
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -23,79 +48,70 @@ class _MarkPageState extends State<MarkPage> {
       },
       child: ConstrainedBox(
         constraints: BoxConstraints.expand(),
-        child: Stack(
-          alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
-          children: <Widget>[
-            Positioned(
-              left: ScreenUtil().setWidth(14),
-              right: ScreenUtil().setWidth(14),
-              top: ScreenUtil().setHeight(60),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("素语", style: TextStyle(fontFamily: 'myFont')),
-                      Row(children: <Widget>[
-                        Icon(
-                          Icons.calendar_today,
-                          size: ScreenUtil().setSp(14),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(ScreenUtil().setWidth(5)),
-                        ),
-                        Text(
-                          "10月30日 周五",
-                          style: ThemeFonts.titleFont,
-                        ),
-                      ]),
-                      CustomLoadWidget(),
-                    ],
-                  ),
-                  Padding(padding: EdgeInsets.all(10)),
-                  Text("已经连续优秀第4天", style: ThemeFonts.smallFont),
-                  Padding(padding: EdgeInsets.all(10)),
-                  //中间的大盒子
-                  MarkMainBox(),
-                  Padding(padding: EdgeInsets.all(20)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      MyButton(
-                        width: 117.w,
-                        height: 30.h,
-                        title: "重置",
-                        isYellow: false,
-                        fontSize: 15.sp,
-                        tapAction: () => BotToast.showAttachedWidget(
-                          attachedBuilder: (_) => Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.favorite,
-                                color: Colors.redAccent,
-                              ),
-                            ),
+        child: Container(
+          decoration: ThemeFonts.lineBoxDecoration,
+          child: Stack(
+            alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
+            children: <Widget>[
+              Positioned(
+                left: ScreenUtil().setWidth(14),
+                right: ScreenUtil().setWidth(14),
+                top: ScreenUtil().setHeight(60),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text("素语", style: TextStyle(fontFamily: 'myFont')),
+                        Row(children: <Widget>[
+                          Icon(
+                            Icons.calendar_today,
+                            size: ScreenUtil().setSp(14),
                           ),
-                          duration: Duration(seconds: 2),
-                          target: Offset(1000, 100),
+                          Padding(
+                            padding: EdgeInsets.all(ScreenUtil().setWidth(5)),
+                          ),
+                          Text(
+                            "10月30日 周五",
+                            style: ThemeFonts.titleFont,
+                          ),
+                        ]),
+                        CustomLoadWidget(),
+                      ],
+                    ),
+                    Padding(padding: EdgeInsets.all(10)),
+                    Text("已经连续优秀第4天", style: ThemeFonts.smallFont),
+                    Padding(padding: EdgeInsets.all(10)),
+                    //中间的大盒子
+                    MarkMainBox(),
+                    Padding(padding: EdgeInsets.all(20)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        MyButton(
+                          width: 117.w,
+                          height: 24.h,
+                          title: "重置",
+                          isYellow: false,
+                          fontSize: 15.sp,
+                          tapAction: handleResetBtnClick,
                         ),
-                      ),
-                      MyButton(
-                          width: 166.w,
-                          height: 30.h,
-                          title: "提交",
-                          isYellow: true,
-                          fontSize: 15,
-                          tapAction: () => print("按了我")),
-                    ],
-                  )
-                ],
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                        MyButton(
+                            width: 166.w,
+                            height: 24.h,
+                            title: "提交",
+                            isYellow: true,
+                            fontSize: 15,
+                            tapAction: handleSubmitBtnClick),
+                      ],
+                    )
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

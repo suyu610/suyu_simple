@@ -16,6 +16,12 @@ class ThemeFonts {
   static TextStyle smallFont = TextStyle(
       fontWeight: FontWeight.normal,
       fontSize: ScreenUtil().setSp(12),
-      color: ThemeColors.colorDDDDDD,
+      color: ThemeColors.colorBlack,
       fontFamily: 'myFont');
+  static BoxDecoration lineBoxDecoration = BoxDecoration(
+      image: DecorationImage(
+    image: AssetImage("assets/images/main_bg_with_blank.png"),
+    fit: BoxFit.none,
+    repeat: ImageRepeat.repeat,
+  ));
 }

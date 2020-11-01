@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/Components/TabBar.dart';
-import 'package:suyu_simple/pages/History.dart';
-import 'package:suyu_simple/pages/Mark.dart';
-import 'package:suyu_simple/pages/Profile.dart';
-import 'package:suyu_simple/pages/Rule.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:suyu_simple/pages/Home.dart';
+import 'package:suyu_simple/pages/Login.dart';
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 import 'package:suyu_simple/provider/TabbarProvider.dart';
 
@@ -52,23 +50,40 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  static List<StatefulWidget> _widgetOptions = <StatefulWidget>[
-    MarkPage(),
-    RulePage(),
-    HistoryPage(),
-    ProfilePage(),
-  ];
+  var loginState;
+  Future checkLogin() async {
+    Future<dynamic> token = Future(() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      return prefs.getString("token");
+    });
+
+    token.then((value) {
+      if (value == null) {
+        setState(() {
+          loginState = 0;
+        });
+      } else {
+        setState(() {
+          loginState = 1;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkLogin(); // 这里是一个异步操作
+  }
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context,
         designSize: Size(375, 667), allowFontScaling: true);
-    return Scaffold(
-      body: Center(
-        child: _widgetOptions
-            .elementAt(Provider.of<TabbarProvider>(context).currentIndex),
-      ),
-      bottomNavigationBar: TabbarComponent(),
-    );
+    if (loginState == 0) {
+      return LoginPage();
+    } else {
+      return HomePage();
+    }
   }
 }
