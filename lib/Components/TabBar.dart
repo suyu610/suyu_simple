@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
@@ -22,34 +23,41 @@ class _TabbarComponentState extends State<TabbarComponent> {
           ]),
           child: SafeArea(
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
               child: GNav(
                   gap: 8,
                   activeColor: Colors.black,
                   color: ThemeColors.colorDDDDDD,
-                  iconSize: 24,
+                  iconSize: 16.sp,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   duration: Duration(milliseconds: 400),
                   tabBackgroundColor: ThemeColors.colorTheme,
                   tabs: [
                     GButton(
+                      borderRadius: BorderRadius.all(Radius.circular(9)),
                       icon: Icons.playlist_add_check,
                       text: '评分',
-                      textStyle: TextStyle(fontFamily: 'myFont'),
+                      textStyle:
+                          TextStyle(fontSize: 12.sp, fontFamily: 'myFont'),
                     ),
                     GButton(
+                        borderRadius: BorderRadius.all(Radius.circular(9)),
                         icon: Icons.today,
                         text: '规则',
-                        textStyle: TextStyle(fontFamily: 'myFont')),
+                        textStyle:
+                            TextStyle(fontSize: 12.sp, fontFamily: 'myFont')),
                     GButton(
+                        borderRadius: BorderRadius.all(Radius.circular(9)),
                         icon: Icons.alarm,
                         text: '历史',
-                        textStyle: TextStyle(fontFamily: 'myFont')),
+                        textStyle:
+                            TextStyle(fontSize: 12.sp, fontFamily: 'myFont')),
                     GButton(
+                        borderRadius: BorderRadius.all(Radius.circular(9)),
                         icon: Icons.account_circle,
                         text: '我的',
-                        textStyle: TextStyle(fontFamily: 'myFont')),
+                        textStyle:
+                            TextStyle(fontSize: 12.sp, fontFamily: 'myFont')),
                   ],
                   selectedIndex: _selectedIndex,
                   onTabChange: (index) {

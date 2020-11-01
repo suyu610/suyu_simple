@@ -22,11 +22,11 @@ class _CustomLoadWidgetState extends State<CustomLoadWidget>
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
 
     animationController.addStatusListener((AnimationStatus status) {
-      if (status == AnimationStatus.completed) {
-        animationController.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        animationController.forward();
-      }
+      //   if (status == AnimationStatus.completed) {
+      //     animationController.reverse();
+      //   } else if (status == AnimationStatus.dismissed) {
+      // animationController.forward();
+      //   }
     });
     animationController.forward();
 
@@ -40,6 +40,16 @@ class _CustomLoadWidgetState extends State<CustomLoadWidget>
   }
 
   void handleTap() {
+    //动画开始
+
+    animationController
+      ..reset()
+      ..forward()
+      ..reset()
+      ..forward()
+      ..reset()
+      ..forward();
+
     BotToast.showCustomText(
         onlyOne: true,
         clickClose: true,

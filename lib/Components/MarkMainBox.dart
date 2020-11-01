@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/common/ThemeFonts.dart';
+import 'package:suyu_simple/data/SampleDate.dart';
+import 'package:suyu_simple/model/DailyRecorderModel.dart';
 
 import 'MarkDetailLi.dart';
+import 'TextWithUnderLine.dart';
+import 'TotalMark.dart';
 
 class MarkMainBox extends StatefulWidget {
   MarkMainBox({Key key}) : super(key: key);
@@ -14,6 +17,12 @@ class MarkMainBox extends StatefulWidget {
 }
 
 class _MarkMainBoxState extends State<MarkMainBox> {
+  DailyRecorderModel dailyRecorderModel;
+  initState() {
+    super.initState();
+    dailyRecorderModel = SampleDate.todayRecorder;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,32 +30,24 @@ class _MarkMainBoxState extends State<MarkMainBox> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: <Widget>[
-            Stack(
-              alignment: AlignmentDirectional.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: Container(
-                    color: ThemeColors.colorTheme,
-                    height: ScreenUtil().setHeight(10),
-                    width: ScreenUtil().setWidth(230),
-                  ),
-                ),
-                Text(
-                  "黄鹏宇今天表现怎么样",
-                  style: ThemeFonts.titleFont,
-                  textAlign: TextAlign.center,
-                ),
-              ],
+            TextWithUnderLine(),
+            Padding(
+              padding: EdgeInsets.only(top: 30),
             ),
-            MarkDetailLi(),
-            MarkDetailLi(),
-            Text("还行"),
+            Column(
+              children: dailyRecorderModel.list
+                  .map((item) => new MarkDetailLi(item))
+                  .toList(),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 30),
+            ),
+            TotalMark(dailyRecorderModel.list),
           ],
         ),
       ),
-      height: ScreenUtil().setHeight(393),
-      width: ScreenUtil().setWidth(343),
+      height: 393.h,
+      width: 343.w,
       decoration: BoxDecoration(
         border: Border.all(
           color: ThemeColors.colorBlack,
