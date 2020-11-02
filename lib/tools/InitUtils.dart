@@ -12,7 +12,8 @@ TransitionBuilder EasyLoadingInit() {
     ..indicatorSize = 25.0
     ..radius = 10.0
     ..backgroundColor = ThemeColors.colorTheme
-    ..indicatorColor = ThemeColors.colorWhite
+    ..indicatorColor = Colors.purple
+    ..indicatorType = EasyLoadingIndicatorType.wanderingCubes
     ..textColor = ThemeColors.colorBlack
     ..textStyle = TextStyle(fontWeight: FontWeight.w500)
     ..fontSize = 13

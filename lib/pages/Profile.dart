@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suyu_simple/Components/MyButton.dart';
@@ -32,9 +33,22 @@ class _ProfilePageState extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "输入ID，绑定你的小伙伴",
-              style: ThemeFonts.titleFont,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "输入",
+                  style: ThemeFonts.titleFont,
+                ),
+                Text(
+                  "ID",
+                  style: ThemeFonts.titleFont,
+                ),
+                Text(
+                  "绑定你的小伙伴",
+                  style: ThemeFonts.titleFont,
+                )
+              ],
             ),
             Padding(
               padding: EdgeInsets.all(20),
@@ -42,6 +56,20 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: const EdgeInsets.only(left: 40, right: 40),
               child: PinCodeTextField(
+                // autoDismissKeyboard: false,
+                autoFocus: true,
+
+                validator: (value) {
+                  return value.trim().length > 4 || value.trim().length == 0
+                      ? null
+                      : "ID要够5位嗷";
+                },
+                autoValidate: true,
+                dialogConfig: DialogConfig(
+                    dialogContent: "要粘贴",
+                    dialogTitle: "粘贴",
+                    negativeText: "取消",
+                    affirmativeText: "粘贴"),
                 inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                 length: 5,
                 obsecureText: false,
@@ -70,7 +98,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 errorAnimationController: errorController,
                 controller: textEditingController,
                 onCompleted: (v) {
-                  print("Completed");
+                  // IMP  通过ID搜寻用户
+
+                  EasyLoading.show();
                 },
                 onChanged: (value) {
                   print(value);
