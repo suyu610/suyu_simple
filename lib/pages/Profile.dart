@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suyu_simple/Components/MyButton.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
+import 'package:suyu_simple/tools/StrUtil.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key}) : super(key: key);
@@ -16,16 +17,35 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   TextEditingController textEditingController = new TextEditingController();
-  String currentText;
+  String currentText = "";
+  void handleSearchBtnClick() {
+    print("不能为空");
+    if (StrUtil.isNumber(currentText) && currentText.length == 5) {
+      EasyLoading.show();
+    } else {
+      EasyLoading.showError("\nid是数字，并且是5位数");
+    }
+  }
 
   var errorController;
   @override
   Widget build(BuildContext context) {
+    bool nameIsTap = false;
+
+    void handleNameTap() {
+      print("按了一下");
+      setState(() {
+        nameIsTap = !nameIsTap;
+        print(nameIsTap);
+      });
+    }
+
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
         // 触摸收起键盘
         FocusScope.of(context).requestFocus(FocusNode());
+        EasyLoading.dismiss();
       },
       child: Container(
         decoration: ThemeFonts.lineBoxDecoration,
@@ -33,6 +53,72 @@ class _ProfilePageState extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(
+              "你的ID是",
+              style: ThemeFonts.titleFont,
+            ),
+            Padding(
+              padding: EdgeInsets.all(10.w),
+            ),
+            GestureDetector(
+              onTap: handleNameTap,
+              child: Container(
+                width: 150.w,
+                padding: EdgeInsets.all(10.w),
+                decoration: BoxDecoration(
+                  color: nameIsTap
+                      ? Color.fromRGBO(0, 0, 0, 1)
+                      : Color.fromRGBO(254, 212, 91, 1),
+                  // boxShadow: [
+                  //   new BoxShadow(
+                  //       color: Color.fromRGBO(173, 179, 191, 0.3),
+                  //       blurRadius: 1.0,
+                  //       offset: new Offset(0, 0))
+                  // ],
+                  border: Border.merge(
+                    new Border(
+                        left: BorderSide(
+                            color: nameIsTap
+                                ? ThemeColors.colorTheme
+                                : Colors.black,
+                            width: 5)),
+                    new Border(
+                        right: BorderSide(
+                            color: nameIsTap
+                                ? ThemeColors.colorTheme
+                                : Colors.black,
+                            width: 5)),
+                  ),
+                ), // borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.face,
+                      color: nameIsTap ? Colors.white : Colors.black,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 5.w),
+                    ),
+                    Text(
+                      "12345",
+                      style: TextStyle(
+                          letterSpacing: 5.w,
+                          fontWeight: FontWeight.w900,
+                          color: nameIsTap ? Colors.white : Colors.black,
+                          fontSize: ScreenUtil().setSp(20),
+                          fontFamily: 'myFont'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 30.h, bottom: 30.h),
+              height: 1.h,
+              width: 300.w,
+              color: Colors.transparent,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -58,7 +144,6 @@ class _ProfilePageState extends State<ProfilePage> {
               child: PinCodeTextField(
                 // autoDismissKeyboard: false,
                 autoFocus: true,
-
                 validator: (value) {
                   return value.trim().length > 4 || value.trim().length == 0
                       ? null
@@ -98,8 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 errorAnimationController: errorController,
                 controller: textEditingController,
                 onCompleted: (v) {
-                  // IMP  通过ID搜寻用户
-
+                  // IMP:  通过ID搜寻用户
                   EasyLoading.show();
                 },
                 onChanged: (value) {
@@ -118,12 +202,10 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: EdgeInsets.all(20),
             ),
             MyButton(
-              width: 117.w,
-              height: 24.h,
-              title: "确定",
+              "搜索",
               isYellow: false,
               fontSize: 15.sp,
-              tapAction: () => {},
+              tapAction: handleSearchBtnClick,
             ),
           ],
         ),

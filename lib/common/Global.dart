@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Global {
   static SharedPreferences _prefs;
-  static String userID;  
+  static String userID;
 
   //初始化全局信息，会在APP启动时执行
   static Future init() async {

@@ -48,8 +48,8 @@ Widget _getHorizantalGradientAreaChart() {
         ),
         SfCartesianChart(
           backgroundColor: ThemeColors.colorWhite,
-          // borderWidth: 0,
-          // borderColor: ThemeColors.colorBlack,
+          borderWidth: 2,
+          borderColor: ThemeColors.colorBlack,
           plotAreaBorderWidth: 0,
           primaryXAxis: CategoryAxis(
             labelPlacement: LabelPlacement.onTicks,
@@ -89,15 +89,14 @@ Widget _getHorizantalGradientAreaChart() {
         Padding(
           padding: EdgeInsets.all(30.h),
         ),
-        MyButton(
+        MyButton("亲他一下",
             width: 117.w,
             height: 24.h,
-            title: "亲他一下",
             isYellow: false,
             fontSize: 15.sp,
             tapAction: () => EasyLoading.showToast('收到!',
                 duration: Duration(milliseconds: 500),
-                toastPosition: EasyLoadingToastPosition.center)),
+                toastPosition: EasyLoadingToastPosition.bottom)),
       ],
     ),
   );
@@ -138,11 +137,15 @@ List<ChartSeries<_ChartData, String>> _getGradientAreaSeries() {
 
       /// To set the gradient colors for series.
       gradient: const LinearGradient(colors: <Color>[
-        Color.fromRGBO(30, 170, 241, 1),
-        Color.fromRGBO(114, 198, 241, 0.6),
+        Color.fromRGBO(254, 212, 91, 1),
+
+        Color.fromRGBO(254, 212, 91, 0.6),
+        // Color.fromRGBO(30, 170, 241, 1),
+        // Color.fromRGBO(114, 198, 241, 0.6),
       ], stops: <double>[
-        0.25,
         0.6,
+        0.9,
+        // 1,
       ]),
       borderWidth: 2,
       borderColor: Color.fromRGBO(0, 0, 0, 1),

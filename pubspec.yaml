@@ -35,6 +35,7 @@ dependencies:
   liquid_pull_to_refresh: ^2.0.0
   json_annotation: ^3.0.1
   syncfusion_flutter_charts: ^18.3.44
+  bubble: ^1.1.9+1
 
 dev_dependencies:
   flutter_test:
@@ -55,7 +56,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/main_bg_with_blank.png      
+    - assets/images/      
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

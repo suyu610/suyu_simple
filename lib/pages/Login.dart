@@ -64,9 +64,9 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.only(top: 100),
           ),
           MyButton(
+            "加载中",
             width: 117,
             height: 30,
-            title: "加载中",
             isYellow: false,
             fontSize: 15,
             tapAction: () => EasyLoading.show(status: '正在登录...'),
@@ -75,9 +75,9 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.all(10),
           ),
           MyButton(
+            "取消",
             width: 117,
             height: 30,
-            title: "取消",
             isYellow: false,
             fontSize: 15,
             tapAction: () => EasyLoading.dismiss(),
@@ -86,9 +86,7 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.all(10),
           ),
           MyButton(
-            width: 117,
-            height: 30,
-            title: "进入首页",
+            "进入首页",
             isYellow: false,
             fontSize: 15,
             tapAction: () =>

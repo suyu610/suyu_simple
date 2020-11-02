@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 
 // ignore: must_be_immutable
 class MyMarkButton extends StatefulWidget {
   MyMarkButton(
       {this.height = 30,
-      this.width,
+      this.width = 30,
       this.isYellow = false,
       this.fontSize = 14,
       this.tapAction,
@@ -50,8 +51,8 @@ class _MyMarkButtonState extends State<MyMarkButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: width,
-        height: height,
+        width: width.w * 1.2,
+        height: height.w / 1.2,
         child: GestureDetector(
           onLongPress: () {
             timer = Timer.periodic(Duration(milliseconds: 100), (e) {
@@ -80,17 +81,23 @@ class _MyMarkButtonState extends State<MyMarkButton> {
                 ? ThemeColors.colorTheme
                 : ThemeColors.colorWhite, //: ThemeColors.colorWhite,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderRadius:
+                    BorderRadius.all(Radius.circular(widget.height / 4)),
                 side: BorderSide(
-                    color: ThemeColors.colorBlack,
+                    color: isAdd
+                        ? ThemeColors.colorBlack
+                        : ThemeColors.colorBlack,
                     style: BorderStyle.solid,
-                    width: 3)),
+                    width: 2)),
             onPressed: tapAction,
             padding: EdgeInsets.all(0),
-            child: Icon(
-              isAdd ? Icons.add : Icons.navigate_before,
-              size: height / 1.5,
-              color: ThemeColors.colorBlack,
+            child: Text(
+              isAdd ? '+' : '-',
+              style: TextStyle(
+                  color:
+                      isAdd ? ThemeColors.colorBlack : ThemeColors.colorBlack,
+                  fontSize: ScreenUtil().setSp(16),
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ));

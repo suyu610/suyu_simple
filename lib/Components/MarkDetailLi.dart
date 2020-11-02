@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/Components/MyMarkButton.dart';
@@ -22,6 +23,8 @@ class _MarkDetailLiState extends State<MarkDetailLi> {
   }
 
   void handleMinusBtnClick() {
+    EasyLoading.showError('姐姐快停手!');
+
     Provider.of<DailyMarkProvider>(context, listen: false).decrement(index);
   }
 
@@ -33,13 +36,20 @@ class _MarkDetailLiState extends State<MarkDetailLi> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(Provider.of<DailyMarkProvider>(context).getTitle(index),
-              style: TextStyle(
-                  fontFamily: 'myFont', fontSize: ScreenUtil().setSp(16))),
+          Container(
+            width: 100.w,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                  Provider.of<DailyMarkProvider>(context).getTitle(index),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: 'myFont', fontSize: ScreenUtil().setSp(16))),
+            ),
+          ),
           MyMarkButton(
             isAdd: false,
             isYellow: false,
-            width: 50.w,
             tapAction: handleMinusBtnClick,
           ),
           Container(
@@ -85,7 +95,6 @@ class _MarkDetailLiState extends State<MarkDetailLi> {
             ),
           ),
           MyMarkButton(
-            width: 50.w,
             isAdd: true,
             isYellow: true,
             tapAction: handleAddBtnClick,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suyu_simple/Components/MarkMainBox.dart';
 import 'package:suyu_simple/Components/MyButton.dart';
@@ -37,6 +38,25 @@ class _MarkPageState extends State<MarkPage> {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return LoginPage();
     }));
+  }
+
+  void handleSaveBtnClick() {
+    EasyLoading.show();
+    Future.delayed(Duration(seconds: 1), () {
+      // EasyLoading.dismiss();
+      EasyLoading.show(status: "已保存", indicator: Icon(Icons.swap_vert));
+    });
+    Future.delayed(Duration(milliseconds: 1500), () {
+      EasyLoading.dismiss();
+    });
+    // Toast.show("已保存", context,
+    //     gravity: Toast.TOP,
+    //     backgroundColor: ThemeColors.colorTheme,
+    //     textColor: ThemeColors.colorBlack,
+    //     backgroundRadius: 8,
+    //     border: Border.all(
+    //       width: 2,
+    //     ));
   }
 
   @override
@@ -81,14 +101,7 @@ class _MarkPageState extends State<MarkPage> {
                           splashColor: Colors.transparent,
                           alignment: Alignment.centerRight,
                           padding: EdgeInsets.all(0.00),
-                          onPressed: () => Toast.show("已保存", context,
-                              gravity: Toast.TOP,
-                              backgroundColor: ThemeColors.colorTheme,
-                              textColor: ThemeColors.colorBlack,
-                              backgroundRadius: 8,
-                              border: Border.all(
-                                width: 2,
-                              )),
+                          onPressed: handleSaveBtnClick,
                           icon: Icon(Icons.cloud_upload),
                           // color: ThemeColors.colorTheme,
                         ),
@@ -121,19 +134,14 @@ class _MarkPageState extends State<MarkPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         MyButton(
-                          width: 117.w,
-                          height: 24.h,
-                          title: "完美",
+                          "完美",
+                          width: 120,
                           isYellow: true,
-                          fontSize: 15.sp,
                           tapAction: handleResetBtnClick,
                         ),
-                        MyButton(
-                            width: 166.w,
-                            height: 24.h,
-                            title: "提交",
+                        MyButton("提交",
+                            width: 170,
                             isYellow: false,
-                            fontSize: 15,
                             tapAction: handleSubmitBtnClick),
                       ],
                     )

@@ -37,7 +37,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // Default_TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "life.qdu.suyu_simple"
         minSdkVersion 16
         targetSdkVersion 28

@@ -23,7 +23,7 @@ class DailyMarkProvider with ChangeNotifier {
       todayRecorder.list.elementAt(index).currentScore--;
       notifyListeners();
     } else {
-      EasyLoading.showError('没有差到负数吧!');
+      EasyLoading.showError('还能减到负数?!');
     }
   }
 
@@ -66,5 +66,9 @@ class DailyMarkProvider with ChangeNotifier {
 
   int getCurrentValue(index) {
     return todayRecorder.list.elementAt(index).currentScore;
+  }
+
+  int getLength() {
+    return todayRecorder.list.length;
   }
 }

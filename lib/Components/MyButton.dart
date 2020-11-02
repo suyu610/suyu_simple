@@ -4,12 +4,11 @@ import 'package:suyu_simple/common/ThemeColor.dart';
 
 // ignore: must_be_immutable
 class MyButton extends StatefulWidget {
-  MyButton(
-      {this.height,
-      this.width,
-      this.title,
+  MyButton(this.title,
+      {this.height = 28,
+      this.width = 117,
       this.isYellow,
-      this.fontSize,
+      this.fontSize = 15,
       this.tapAction,
       Key key})
       : super(key: key);
@@ -49,7 +48,7 @@ class _MyButtonState extends State<MyButton> {
             style: TextStyle(
                 color: ThemeColors.colorBlack,
                 fontFamily: 'myFont',
-                fontSize: widget.fontSize,
+                fontSize: ScreenUtil().setSp(widget.fontSize),
                 fontWeight: FontWeight.w400),
           ),
         ));

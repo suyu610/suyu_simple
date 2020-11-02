@@ -6,14 +6,14 @@ import 'package:suyu_simple/common/ThemeColor.dart';
 // ignore: non_constant_identifier_names
 TransitionBuilder EasyLoadingInit() {
   EasyLoading.instance
-    ..displayDuration = const Duration(milliseconds: 1500)
-    ..indicatorType = EasyLoadingIndicatorType.chasingDots
+    ..displayDuration = const Duration(milliseconds: 1500)    
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
     ..loadingStyle = EasyLoadingStyle.custom
     ..indicatorSize = 25.0
     ..radius = 10.0
     ..backgroundColor = ThemeColors.colorTheme
-    ..indicatorColor = Colors.purple
-    ..indicatorType = EasyLoadingIndicatorType.wanderingCubes
+    ..indicatorColor = Colors.black
+    ..indicatorType = EasyLoadingIndicatorType.hourGlass
     ..textColor = ThemeColors.colorBlack
     ..textStyle = TextStyle(fontWeight: FontWeight.w500)
     ..fontSize = 13
