@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/Components/Tabbar.dart';
+import 'package:suyu_simple/pages/Chat.dart';
 import 'package:suyu_simple/provider/TabbarProvider.dart';
 
 import 'History.dart';
@@ -19,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   static List<StatefulWidget> _widgetOptions = <StatefulWidget>[
     MarkPage(),
     RulePage(),
+    ChatPage(),
     HistoryPage(),
     ProfilePage(),
   ];

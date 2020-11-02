@@ -5,8 +5,6 @@ import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/model/MarkItemModel.dart';
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 
-import 'RollingText.dart';
-
 class TotalMark extends StatefulWidget {
   final List<MarkItemModel> markItemModellist;
   TotalMark(this.markItemModellist, {Key key}) : super(key: key);

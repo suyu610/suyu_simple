@@ -9,12 +9,18 @@ import 'package:suyu_simple/pages/Home.dart';
 import 'package:suyu_simple/pages/Login.dart';
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 import 'package:suyu_simple/provider/TabbarProvider.dart';
+import 'package:suyu_simple/provider/TableProvider.dart';
 import 'package:suyu_simple/tools/InitUtils.dart';
 
+import 'common/Global.dart';
 import 'common/ThemeColor.dart';
 
 void main() {
-  runApp(MyApp());
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Global.init().then((e) => runApp(MyApp()));
+
   if (Platform.isAndroid) {
     SystemUiOverlayStyle systemUiOverlayStyle =
         SystemUiOverlayStyle(statusBarColor: Colors.transparent);
@@ -27,6 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
+          ListenableProvider<TableProvide>(create: (_) => TableProvide()),
           ListenableProvider<DailyMarkProvider>(
               create: (_) => DailyMarkProvider()),
           ListenableProvider<TabbarProvider>(create: (_) => TabbarProvider()),

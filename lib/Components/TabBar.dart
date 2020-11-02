@@ -48,6 +48,12 @@ class _TabbarComponentState extends State<TabbarComponent> {
                             TextStyle(fontSize: 12.sp, fontFamily: 'myFont')),
                     GButton(
                         borderRadius: BorderRadius.all(Radius.circular(30)),
+                        icon: Icons.chat,
+                        text: '聊天',
+                        textStyle:
+                            TextStyle(fontSize: 12.sp, fontFamily: 'myFont')),
+                    GButton(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
                         icon: Icons.alarm,
                         text: '历史',
                         textStyle:

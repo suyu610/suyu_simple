@@ -52,7 +52,6 @@ class _RollingTextState extends State<RollingText> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
 
     Future.delayed(Duration(milliseconds: 300), () async {

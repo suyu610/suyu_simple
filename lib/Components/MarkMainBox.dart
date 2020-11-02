@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/data/SampleDate.dart';
+import 'package:suyu_simple/sampleData/SampleDate.dart';
 import 'package:suyu_simple/model/DailyRecorderModel.dart';
 
 import 'MarkDetailLi.dart';
