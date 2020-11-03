@@ -6,12 +6,7 @@ abstract class BaseDBProvider {
   bool isTableExists = false;
   tableSqlString();
   tableName();
-  tableBaseString(String name, String columnID) {
-    return '''
-        create table $name (
-          $columnID integer primary key autoincrement,
-    ''';
-  }
+  
 
   Future<Database> getDataBase() async {
     return await open();

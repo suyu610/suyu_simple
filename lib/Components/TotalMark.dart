@@ -33,13 +33,6 @@ class _TotalMarkState extends State<TotalMark> {
           children: <Widget>[
             //分数
             Container(
-              // child: RollingText(
-              //   leftNum: Provider.of<DailyMarkProvider>(context).totalValue() ~/
-              //       10 %
-              //       10,
-              //   rightNum:
-              //       Provider.of<DailyMarkProvider>(context).totalValue() % 10,
-              // ),
               child: Text(
                   Provider.of<DailyMarkProvider>(context)
                       .totalValue()

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:suyu_simple/common/ThemeFonts.dart';
 
 class RulePage extends StatefulWidget {
   RulePage({Key key}) : super(key: key);
@@ -14,8 +15,11 @@ class _RulePageState extends State<RulePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          "规则页面",
+        Center(
+          child: Text(
+            "规则页面",
+            style: ThemeFonts.titleFont,
+          ),
         ),
       ],
     );

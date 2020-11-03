@@ -143,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: const EdgeInsets.only(left: 40, right: 40),
               child: PinCodeTextField(
                 // autoDismissKeyboard: false,
-                autoFocus: true,
+                autoFocus: false,
                 validator: (value) {
                   return value.trim().length > 4 || value.trim().length == 0
                       ? null

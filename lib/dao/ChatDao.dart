@@ -6,7 +6,7 @@ class ChatDAO extends BaseDBProvider {
   //表名
   final String name = "ChatMessage";
   //表主键字段
-  final String columnID = "_id";
+  final String columnID = "msgId";
 
   @override
   tableName() {
@@ -16,9 +16,9 @@ class ChatDAO extends BaseDBProvider {
   //创建表
   @override
   tableSqlString() {
-    return tableBaseString(name, columnID) +
-        '''
-    id text not null,
+    return '''
+    create table $name(
+    msgId integer primary key autoincrement,
     content text,
     createID text,
     createName text,
@@ -55,7 +55,7 @@ class ChatDAO extends BaseDBProvider {
     Database db = await getDataBase();
     List<Map<String, dynamic>> maps = await db.query(name);
     print("*************************");
-    print(maps.length);
+    print(maps);
     print("*************************");
     if (maps.length > 0) {
       List<ChatMessage> msgs =
@@ -73,7 +73,6 @@ class ChatDAO extends BaseDBProvider {
 
   Map<String, dynamic> toMap(ChatMessage msg) {
     Map<String, dynamic> map = {
-      "id": msg.id,
       "content": msg.content,
       "createId": msg.createID,
       "createName": msg.createName,

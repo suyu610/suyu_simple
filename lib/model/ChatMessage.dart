@@ -5,7 +5,7 @@ part 'ChatMessage.g.dart'; //login_info此名字需与文件名相同
 
 @JsonSerializable()
 class ChatMessage {
-  String id;
+  int msgId;
   int isSend;
   int direct;
   String content;
@@ -24,7 +24,7 @@ class ChatMessage {
   int isPlaying;
 
   ChatMessage(
-      {this.id,
+      {this.msgId,
       this.isSend,
       this.direct,
       this.content,

@@ -12,9 +12,20 @@ class TableProvide with ChangeNotifier {
     //根据ID查询数据
     List<ChatMessage> msgList = await dao.getMessageList();
     if (msgList != null) {
-      list = msgList;
+      list = msgList.reversed.toList();
     }
     Future.delayed(Duration(seconds: 1), () {});
     return list;
+  }
+
+  insertNewMsg(ChatMessage msg) {
+    ChatDAO dao = new ChatDAO();
+    dao.insert(msg);
+  }
+
+  deleteAllMsg() {
+    //初始化DAO
+    ChatDAO dao = new ChatDAO();
+    dao.deleteAllMsg();
   }
 }

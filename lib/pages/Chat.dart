@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:bubble/bubble.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/dao/ChatDao.dart';
+import 'package:suyu_simple/components/ChatMsg.dart';
 import 'package:suyu_simple/model/ChatMessage.dart';
+import 'package:suyu_simple/model/MsgType.dart';
 import 'package:suyu_simple/provider/TableProvider.dart';
 import 'package:suyu_simple/tools/RandomUtils.dart';
 
@@ -22,49 +22,19 @@ class _ChatPageState extends State<ChatPage> {
   int counter = 0;
 
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
+  @override
+  void initState() {
+    super.initState();
+    cacheMsgList = List<ChatMessage>();
+  }
 
-  BubbleStyle styleSomebody = BubbleStyle(
-    nip: BubbleNip.leftTop,
-    color: ThemeColors.colorTheme,
-    shadowColor: Colors.transparent,
-    elevation: 10,
-    margin: BubbleEdges.only(top: 8.0, right: 40.0),
-    alignment: Alignment.topLeft,
-  );
-
-  BubbleStyle styleMe = BubbleStyle(
-    nip: BubbleNip.rightBottom,
-    color: Colors.red[50],
-    elevation: 0,
-    margin: BubbleEdges.only(top: 8.0, left: 40.0),
-    alignment: Alignment.topRight,
-  );
-
-  Future insertMessage() async {
-    print("*******************获取数据前*******************");
-    print(cacheMsgList);
-
-    int randomDirect = RandomUtil.numberScope(0, 2);
-    print("方向是" + randomDirect.toString());
-
-    ChatDAO dao = new ChatDAO();
+  Future _insertMsg(int index) async {
     //定义实体
-    ChatMessage msg = new ChatMessage(
-      id: "001",
-      content: RandomUtil.getRandomStrNoMoreThan_zh(25),
-      createID: "1001",
-      createTime: "2020-11-2 15:49:03",
-      // type: MsgType.Text,
-      isSend: 1,
-      direct: randomDirect,
-      createName: RandomUtil.getRandomStrNoMoreThan_zh(3),
-    );
+    ChatMessage msg = index == MsgType.Pic.index
+        ? RandomUtil.getRandomMsgPic()
+        : RandomUtil.getRandomMsg();
 
-    int i = await dao.insert(msg);
-
-    print("插入数据成功：$i");
-
-    print(cacheMsgList);
+    Provider.of<TableProvide>(context, listen: false).insertNewMsg(msg);
 
     listKey.currentState
         .insertItem(0, duration: const Duration(milliseconds: 500));
@@ -74,24 +44,24 @@ class _ChatPageState extends State<ChatPage> {
       ..addAll(cacheMsgList.reversed.toList())
       ..add(msg);
     cacheMsgList = cacheMsgList.reversed.toList();
-    print("*******************Counter*******************");
 
-    print(counter);
+    // 滚动到最底下
+    if (_listViewScrollController.offset !=
+        _listViewScrollController.position.maxScrollExtent) {
+      _scrollToBottom();
+    }
   }
 
   //删除所有数据
   Future deleteAllMsg() async {
-    //初始化DAO
-    ChatDAO dao = new ChatDAO();
-    dao.deleteAllMsg();
+    Provider.of<TableProvide>(context, listen: false).deleteAllMsg();
     setState(() {});
   }
 
   List<ChatMessage> cacheMsgList;
 
   Future<Null> _onRefresh() async {
-    await Future.delayed(Duration(seconds: 1), () {
-      print('refresh');
+    await Future.delayed(Duration(milliseconds: 300), () {
       setState(() {});
     });
   }
@@ -99,16 +69,20 @@ class _ChatPageState extends State<ChatPage> {
   ScrollController _listViewScrollController = new ScrollController();
 
   void _scrollToBottom() {
-    // _listViewScrollController.animateTo(
-    //     _listViewScrollController.position.minScrollExtent,
-    //     duration: const Duration(milliseconds: 400),
-    //     curve: Curves.easeOut);
+    _listViewScrollController.animateTo(
+        _listViewScrollController.position.minScrollExtent,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeOut);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    // cacheMsgList.add(value)
+  Future<List<ChatMessage>> queryMessages() async {
+    try {
+      cacheMsgList = await Provider.of<TableProvide>(context, listen: false)
+          .getTableInfo();
+    } catch (e) {
+      print(e.message);
+    }
+    return cacheMsgList;
   }
 
   @override
@@ -123,7 +97,7 @@ class _ChatPageState extends State<ChatPage> {
               border: Border.merge(
                 new Border(
                     left: BorderSide(color: Colors.transparent, width: 0)),
-                new Border(bottom: BorderSide(color: Colors.black, width: 5)),
+                new Border(bottom: BorderSide(color: Colors.black, width: 2)),
               ),
             ),
             child: Column(
@@ -132,24 +106,24 @@ class _ChatPageState extends State<ChatPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       FlatButton(
-                        onPressed: _scrollToBottom,
-                        child: Text("滚到最后面"),
+                        onPressed: () => _insertMsg(MsgType.Pic.index),
+                        child: Text("插入一个图片消息"),
                       ),
                       FlatButton(
-                        onPressed: insertMessage,
-                        child: Text("插入一条数据"),
+                        onPressed: () => _insertMsg(MsgType.Text.index),
+                        child: Text("插入一条文本消息"),
                       ),
                     ]),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     FlatButton(
-                      onPressed: () {},
-                      child: Text("获取数据"),
-                    ),
-                    FlatButton(
                       onPressed: deleteAllMsg,
                       child: Text("删除所有数据"),
+                    ),
+                    FlatButton(
+                      onPressed: _scrollToBottom,
+                      child: Text("滚到最后面"),
                     ),
                   ],
                 ),
@@ -157,7 +131,7 @@ class _ChatPageState extends State<ChatPage> {
             ),
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(10, 10, 10, 20),
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: FutureBuilder<List<ChatMessage>>(
               future: queryMessages(),
               //当网络不可用时，使用缓存数据
@@ -165,7 +139,6 @@ class _ChatPageState extends State<ChatPage> {
               builder: (BuildContext context,
                   AsyncSnapshot<List<ChatMessage>> snapshot) {
                 // 请求已结束
-                // snapshot.connectionState == ConnectionState.waiting
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasError) {
                     return Container(
@@ -176,7 +149,7 @@ class _ChatPageState extends State<ChatPage> {
                     );
                   } else {
                     return Container(
-                      height: 473.h,
+                      height: 520.h,
                       child: Column(
                         children: <Widget>[
                           Container(
@@ -220,50 +193,11 @@ class _ChatPageState extends State<ChatPage> {
   Widget slideIt(BuildContext context, int index, animation) {
     ChatMessage item = cacheMsgList[index];
     return SlideTransition(
-      position: Tween<Offset>(
-        begin: const Offset(-1, 0),
-        end: Offset(0, 0),
-      ).animate(animation),
-      child: ListTile(
-          leading: item.direct == 0
-              ? null
-              : Container(
-                  height: 35.w,
-                  width: 35.w,
-                  padding: EdgeInsets.all(2.w),
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 2),
-                      borderRadius: BorderRadius.circular(20.w),
-                      color: ThemeColors.colorTheme),
-                  child: Icon(Icons.face, color: ThemeColors.colorBlack)),
-          trailing: item.direct != 0
-              ? null
-              : Container(
-                  height: 35.w,
-                  width: 35.w,
-                  padding: EdgeInsets.all(9.w),
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 2),
-                    borderRadius: BorderRadius.circular(20.w),
-                    color: ThemeColors.colorWhite,
-                  ),
-                  child: Image.asset(
-                    "assets/images/girl.png",
-                  )),
-          title: Bubble(
-            style: item.direct == 0 ? styleMe : styleSomebody, //:,
-            child: Text('${item.createName} : ${item.content}'),
-          )),
-    );
-  }
-
-  Future<List<ChatMessage>> queryMessages() async {
-    try {
-      cacheMsgList = await Provider.of<TableProvide>(context).getTableInfo();
-    } catch (e) {
-      print(e.message);
-    }
-
-    return cacheMsgList;
+        position: Tween<Offset>(
+          //让他从底下出来
+          begin: const Offset(0, 1),
+          end: const Offset(0, 0),
+        ).chain(CurveTween(curve: Curves.ease)).animate(animation),
+        child: ChatMsg(item));
   }
 }

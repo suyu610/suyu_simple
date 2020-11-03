@@ -23,7 +23,10 @@ class _MarkDetailLiState extends State<MarkDetailLi> {
   }
 
   void handleMinusBtnClick() {
-    EasyLoading.showError('姐姐快停手!');
+    // EasyLoading.showError('姐姐快停手!');
+    EasyLoading.showToast('求求你别减了!',
+        duration: Duration(milliseconds: 500),
+        toastPosition: EasyLoadingToastPosition.top);
 
     Provider.of<DailyMarkProvider>(context, listen: false).decrement(index);
   }

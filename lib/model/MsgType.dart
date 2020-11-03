@@ -1,3 +1,4 @@
 enum MsgType {
   Text,
+  Pic
 }

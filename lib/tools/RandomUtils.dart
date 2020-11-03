@@ -1,5 +1,8 @@
 import 'dart:math';
 
+import 'package:suyu_simple/model/ChatMessage.dart';
+import 'package:suyu_simple/model/MsgType.dart';
+
 class RandomUtil {
   static final _random = new Random();
   static const _chars_eng =
@@ -25,5 +28,29 @@ class RandomUtil {
   // ignore: non_constant_identifier_names
   static String getRandomStrNoMoreThan_zh(int length) {
     return getRandomString_zh(RandomUtil.numberScope(1, length));
+  }
+
+  static ChatMessage getRandomMsg() {
+    return new ChatMessage(
+      content: RandomUtil.getRandomStrNoMoreThan_zh(25),
+      createID: "1001",
+      createTime: "2020-11-2 15:49:03",
+      type: MsgType.Text.index,
+      isSend: 1,
+      direct: RandomUtil.numberScope(0, 2),
+      createName: RandomUtil.getRandomStrNoMoreThan_zh(3),
+    );
+  }
+
+  static ChatMessage getRandomMsgPic() {
+    return new ChatMessage(
+      createID: "1001",
+      createTime: "2020-11-2 15:49:03",
+      type: MsgType.Pic.index,
+      isSend: 1,
+      path: "assets/images/girl.png",
+      direct: RandomUtil.numberScope(0, 2),
+      createName: RandomUtil.getRandomStrNoMoreThan_zh(3),
+    );
   }
 }
