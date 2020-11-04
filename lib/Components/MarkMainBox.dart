@@ -26,7 +26,7 @@ class _MarkMainBoxState extends State<MarkMainBox> {
   }
 
   ///下拉刷新方法,为list重新赋值
-  ///   
+  ///
   Future<Null> _onRefresh() async {
     await Future.delayed(Duration(seconds: 1), () {
       // IMP: 刷新获取的数据
@@ -59,7 +59,7 @@ class _MarkMainBoxState extends State<MarkMainBox> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: EdgeInsets.only(top: 10),
                 ),
                 Container(
                     height: 275.h,
@@ -67,7 +67,7 @@ class _MarkMainBoxState extends State<MarkMainBox> {
                       onRefresh: _onRefresh,
                       backgroundColor: ThemeColors.colorTheme,
                       color: ThemeColors.colorBlack,
-                      child: Theme(                        
+                      child: Theme(
                         data: Theme.of(context)
                             .copyWith(accentColor: ThemeColors.colorWhite),
                         child: ListView.builder(
@@ -78,24 +78,7 @@ class _MarkMainBoxState extends State<MarkMainBox> {
                               return MarkDetailLi(index);
                             }),
                       ),
-                    )
-                    /*
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        MarkDetailLi(0),
-                        MarkDetailLi(1),
-                        MarkDetailLi(2),
-                        MarkDetailLi(3),
-                        MarkDetailLi(4),
-                        MarkDetailLi(5),
-                        MarkDetailLi(6),
-                        MarkDetailLi(6),
-                      ],
-                    ),
-                  ),
-                  */
-                    ),
+                    )),
                 // Column(children: <Widget>[
                 // ]),
               ],

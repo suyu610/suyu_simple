@@ -107,7 +107,7 @@ class _MarkPageState extends State<MarkPage> {
                         ),
                       ],
                     ),
-                    Padding(padding: EdgeInsets.all(10)),
+                    Padding(padding: EdgeInsets.all(5)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -125,7 +125,6 @@ class _MarkPageState extends State<MarkPage> {
                         Text(" 天", style: ThemeFonts.smallFont),
                       ],
                     ),
-
                     Padding(padding: EdgeInsets.all(10)),
                     //中间的大盒子
                     MarkMainBox(),

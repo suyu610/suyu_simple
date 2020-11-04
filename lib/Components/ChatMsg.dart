@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bubble/bubble.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +44,7 @@ class ChatMsg extends StatelessWidget {
             style: item.direct == 0 ? styleMe : styleSomebody, //:,
             child: item.type == MsgType.Text.index
                 ? Text('${item.content}')
-                : Image.asset(item.path),
+                :Image.file(File(item.path))
           )),
     );
   }
@@ -58,7 +60,7 @@ BubbleStyle styleSomebody = BubbleStyle(
 );
 
 BubbleStyle styleMe = BubbleStyle(
-  nip: BubbleNip.rightBottom,
+  nip: BubbleNip.rightTop,
   color: Colors.red[50],
   elevation: 0,
   margin: BubbleEdges.only(top: 8.0, left: 40.0),

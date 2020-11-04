@@ -54,9 +54,9 @@ class ChatDAO extends BaseDBProvider {
   Future<List<ChatMessage>> getMessageList() async {
     Database db = await getDataBase();
     List<Map<String, dynamic>> maps = await db.query(name);
-    print("*************************");
-    print(maps);
-    print("*************************");
+    // print("************ChatDAO - getMessageList*************");
+    // print(maps);
+    // print("*************************");
     if (maps.length > 0) {
       List<ChatMessage> msgs =
           maps.map((item) => ChatMessage.fromJson(item)).toList();

@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'dart:math';
 
+import 'package:path_provider/path_provider.dart';
 import 'package:suyu_simple/model/ChatMessage.dart';
 import 'package:suyu_simple/model/MsgType.dart';
 
@@ -50,6 +52,42 @@ class RandomUtil {
       isSend: 1,
       path: "assets/images/girl.png",
       direct: RandomUtil.numberScope(0, 2),
+      createName: RandomUtil.getRandomStrNoMoreThan_zh(3),
+    );
+  }
+
+  static ChatMessage getUserRandomMsg(String text) {
+    return new ChatMessage(
+      content: text,
+      createID: "1001",
+      createTime: "2020-11-2 15:49:03",
+      type: MsgType.Text.index,
+      isSend: 1,
+      direct: 0,
+      createName: RandomUtil.getRandomStrNoMoreThan_zh(3),
+    );
+  }
+
+  static Future<ChatMessage> getRandomMsgPicWithPic(File image) async {
+    // getting a directory path for saving
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+    int imgHash = image.hashCode;
+    String newImagePath = appDocPath + "/" + imgHash.toString() + ".jpg";
+    print("-----RandomUtils-----");
+    print(newImagePath);
+
+    // copy the file to a new path
+    await image.copy(newImagePath);
+    // ChatMessage c =
+
+    return new ChatMessage(
+      createID: "1001",
+      createTime: "2020-11-2 15:49:03",
+      type: MsgType.Pic.index,
+      isSend: 1,
+      path: newImagePath,
+      direct: 0,
       createName: RandomUtil.getRandomStrNoMoreThan_zh(3),
     );
   }
