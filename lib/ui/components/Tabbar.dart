@@ -15,6 +15,8 @@ class _TabbarComponentState extends State<TabbarComponent> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+
     return ChangeNotifierProvider(
         create: (_) => TabbarProvider(),
         child: Container(
@@ -31,7 +33,7 @@ class _TabbarComponentState extends State<TabbarComponent> {
                   iconSize: 16.sp,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   duration: Duration(milliseconds: 400),
-                  tabBackgroundColor: ThemeColors.colorTheme,
+                  tabBackgroundColor: themeData.buttonColor,
                   tabs: [
                     GButton(
                       borderRadius: BorderRadius.all(Radius.circular(30)),

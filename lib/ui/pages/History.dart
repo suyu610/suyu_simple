@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:suyu_simple/Components/MyButton.dart';
+import 'package:suyu_simple/ui/Components/MyButton.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';

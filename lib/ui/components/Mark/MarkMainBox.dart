@@ -3,12 +3,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/components/MarkDetailLi.dart';
+import 'package:suyu_simple/ui/components/Mark/MarkDetailLi.dart';
+
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 import 'package:suyu_simple/sampleData/SampleDate.dart';
 import 'package:suyu_simple/model/DailyRecorderModel.dart';
 
-import 'TextWithUnderLine.dart';
+import '../TextWithUnderLine.dart';
 import 'TotalMark.dart';
 
 class MarkMainBox extends StatefulWidget {

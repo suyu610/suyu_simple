@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:suyu_simple/Components/MyButton.dart';
+import 'package:suyu_simple/ui/Components/MyButton.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/tools/StrUtil.dart';

@@ -3,10 +3,28 @@ import 'dart:io';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/model/ChatMessage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:suyu_simple/model/MsgType.dart';
+import 'package:full_screen_image/full_screen_image.dart';
+
+Widget slideIt(BuildContext context, int index, animation,
+    List<ChatMessage> cacheMsgList) {
+  if (cacheMsgList != null || cacheMsgList.length != 0) {
+    ChatMessage item = cacheMsgList[index];
+    return SlideTransition(
+        position: Tween<Offset>(
+          //让他从底下出来
+          begin: const Offset(0, 1),
+          end: const Offset(0, 0),
+        ).chain(CurveTween(curve: Curves.ease)).animate(animation),
+        child: ChatMsg(item));
+  }
+  return null;
+}
 
 class ChatMsg extends StatelessWidget {
   const ChatMsg(this.item, {Key key}) : super(key: key);
@@ -41,11 +59,21 @@ class ChatMsg extends StatelessWidget {
                     "assets/images/girl.png",
                   )),
           title: Bubble(
-            style: item.direct == 0 ? styleMe : styleSomebody, //:,
-            child: item.type == MsgType.Text.index
-                ? Text('${item.content}')
-                :Image.file(File(item.path))
-          )),
+              style: item.direct == 0 ? styleMe : styleSomebody, //:,
+              child: item.type == MsgType.Text.index
+                  ? Text('${item.content}')
+                  : FullScreenWidget(
+                      child: Hero(
+                        tag: item.hashCode,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.file(
+                            File(item.path),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ))),
     );
   }
 }

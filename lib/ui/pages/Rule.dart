@@ -168,5 +168,4 @@ class _RulePageState extends State<RulePage> {
     }
     return null;
   }
-
 }
