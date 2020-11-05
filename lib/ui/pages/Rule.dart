@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class RulePage extends StatefulWidget {
   RulePage({Key key}) : super(key: key);
@@ -12,30 +13,41 @@ class RulePage extends StatefulWidget {
 }
 
 class _RulePageState extends State<RulePage> {
-  PickedFile _imageFile;
-  dynamic _pickImageError;
-  bool isVideo = false;
-  String _retrieveDataError;
+  final TextEditingController inputController = TextEditingController();
 
-  final ImagePicker _picker = ImagePicker();
-  final TextEditingController maxWidthController = TextEditingController();
-  final TextEditingController maxHeightController = TextEditingController();
-  final TextEditingController qualityController = TextEditingController();
+  StreamController<int> _counterStreamController = StreamController<int>(
+    onCancel: () {
+      print('cancel');
+    },
+    onListen: () {
+      print('listen');
+    },
+  );
 
-  void _onImageButtonPressed(ImageSource source, {BuildContext context}) async {
-    try {
-      final pickedFile = await _picker.getImage(
-        source: source,
-        imageQuality: 50,
-      );
-      setState(() {
-        _imageFile = pickedFile;
-      });
-    } catch (e) {
-      setState(() {
-        _pickImageError = e;
-      });
+  int _counter = 0;
+  Stream _counterStream;
+  StreamSink _counterSink;
+
+  // 使用 StreamSink 向 Stream 发送事件，当 _counter 大于 9 时调用 close 方法关闭流。
+  void _incrementCounter() {
+    if (_counter > 9) {
+      _counterSink.close();
+      return;
     }
+    _counter++;
+    _counterSink.add(_counter);
+  }
+
+  // 主动关闭流
+  void _closeStream() {
+    _counterStreamController.close();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _counterSink = _counterStreamController.sink;
+    _counterStream = _counterStreamController.stream;
   }
 
   @override
@@ -45,127 +57,73 @@ class _RulePageState extends State<RulePage> {
 
   @override
   void dispose() {
-    maxWidthController.dispose();
-    maxHeightController.dispose();
-    qualityController.dispose();
     super.dispose();
+    _counterSink.close();
+    _counterStreamController.close();
+    inputController.dispose();
   }
 
-  Widget _previewImage() {
-    final Text retrieveError = _getRetrieveErrorWidget();
-    if (retrieveError != null) {
-      return retrieveError;
-    }
-    if (_imageFile != null) {
-      if (kIsWeb) {
-        // Why network?
-        // See https://pub.dev/packages/image_picker#getting-ready-for-the-web-platform
-        return Image.network(_imageFile.path);
+  Stream<int> countStream(int to) async* {
+    for (int i = 1; i <= to; i++) {
+      if (i == 4) {
+        throw new Exception('Intentional exception');
       } else {
-        return Image.file(File(_imageFile.path));
+        yield i;
       }
-    } else if (_pickImageError != null) {
-      return Text(
-        'Pick image error: $_pickImageError',
-        textAlign: TextAlign.center,
-      );
-    } else {
-      return const Text(
-        'You have not yet picked an image.',
-        textAlign: TextAlign.center,
-      );
-    }
-  }
-
-  Future<void> retrieveLostData() async {
-    final LostData response = await _picker.getLostData();
-    if (response.isEmpty) {
-      return;
-    }
-    if (response.file != null) {
-      if (response.type == RetrieveType.image) {
-        isVideo = false;
-        setState(() {
-          _imageFile = response.file;
-        });
-      }
-    } else {
-      _retrieveDataError = response.exception.code;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("规则"),
-      ),
-      body: Center(
-        child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
-            ? FutureBuilder<void>(
-                future: retrieveLostData(),
-                builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.none:
-                    case ConnectionState.waiting:
-                      return const Text(
-                        'You have not yet picked an image.',
-                        textAlign: TextAlign.center,
-                      );
-                    case ConnectionState.done:
-                      return _previewImage();
-                    default:
-                      if (snapshot.hasError) {
-                        return Text(
-                          'Pick image/video error: ${snapshot.error}}',
-                          textAlign: TextAlign.center,
-                        );
-                      } else {
-                        return const Text(
-                          'You have not yet picked an image.',
-                          textAlign: TextAlign.center,
-                        );
-                      }
-                  }
-                },
-              )
-            : (_previewImage()),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          StreamBuilder<int>(
+            stream: _counterStream,
+            initialData: _counter,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Text(
+                  'Done',
+                  style: Theme.of(context).textTheme.bodyText2,
+                );
+              }
+              int number = snapshot.data;
+              return Text(
+                '$number',
+                style: Theme.of(context).textTheme.bodyText2,
+              );
+            },
+          ),
+          TextField(
+            controller: inputController,
+          ),
+          RaisedButton(onPressed: () => {}),
+        ],
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
-            onPressed: () {
-              isVideo = false;
-              _onImageButtonPressed(ImageSource.gallery, context: context);
-            },
-            heroTag: 'image0',
-            tooltip: 'Pick Image from gallery',
-            child: const Icon(Icons.photo_library),
+            onPressed: _incrementCounter,
+            tooltip: 'Increment',
+            child: Icon(Icons.star),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: FloatingActionButton(
-              onPressed: () {
-                isVideo = false;
-                _onImageButtonPressed(ImageSource.camera, context: context);
-              },
-              heroTag: 'image1',
-              tooltip: 'Take a Photo',
-              child: const Icon(Icons.camera_alt),
-            ),
+          SizedBox(height: 24.0),
+          FloatingActionButton(
+            onPressed: _incrementCounter,
+            tooltip: 'Close',
+            child: Icon(Icons.add),
+          ),
+          SizedBox(height: 24.0),
+          FloatingActionButton(
+            onPressed: _closeStream,
+            tooltip: 'Close',
+            child: Icon(Icons.close),
           ),
         ],
       ),
     );
-  }
-
-  Text _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError);
-      _retrieveDataError = null;
-      return result;
-    }
-    return null;
   }
 }

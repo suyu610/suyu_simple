@@ -13,7 +13,7 @@ import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/ui/components/Chat/ChatBar.dart';
 import 'package:suyu_simple/ui/components/Chat/ChatMsg.dart';
 import 'package:suyu_simple/model/ChatMessage.dart';
-import 'package:suyu_simple/provider/TableProvider.dart';
+import 'package:suyu_simple/provider/ChatProvider.dart';
 import 'package:suyu_simple/tools/RandomUtils.dart';
 
 class ChatPage extends StatefulWidget {
@@ -24,26 +24,20 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  int counter = 0;
-
-  final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey();
   @override
   void initState() {
     super.initState();
-    cacheMsgList = List<ChatMessage>();
+    Provider.of<ChatProvider>(context, listen: false).setListKey(_listKey);
+    Provider.of<ChatProvider>(context, listen: false)
+        .initList(new List<ChatMessage>());
   }
 
-  void handle(msg) {
-    Provider.of<TableProvide>(context, listen: false).insertNewMsg(msg);
+  void handle(msg) async {
+    Provider.of<ChatProvider>(context, listen: false).insertNewMsg(msg);
 
-    listKey.currentState
+    _listKey.currentState
         .insertItem(0, duration: const Duration(milliseconds: 500));
-    counter++;
-
-    cacheMsgList = <ChatMessage>[]
-      ..addAll(cacheMsgList.reversed.toList())
-      ..add(msg);
-    cacheMsgList = cacheMsgList.reversed.toList();
 
     // 滚动到最底下
     if (_listViewScrollController.offset !=
@@ -64,42 +58,29 @@ class _ChatPageState extends State<ChatPage> {
       EasyLoading.showError("不能发空消息");
       return;
     }
+
     //定义实体
     ChatMessage msg = RandomUtil.getUserRandomMsg(text);
+    //保存在provider的list中
+    Provider.of<ChatProvider>(context, listen: false).insertNewMsg(msg);
 
-    Provider.of<TableProvide>(context, listen: false).insertNewMsg(msg);
-    listKey.currentState
+    _listKey.currentState
         .insertItem(0, duration: const Duration(milliseconds: 500));
-    counter++;
-
-    cacheMsgList = <ChatMessage>[]
-      ..addAll(cacheMsgList.reversed.toList())
-      ..add(msg);
-    cacheMsgList = cacheMsgList.reversed.toList();
 
     // 滚动到最底下
     if (_listViewScrollController.offset !=
         _listViewScrollController.position.maxScrollExtent) {
       _scrollToBottom();
     }
+
     _textFieldController.clear();
   }
-
-  //删除所有数据
-  Future deleteAllMsg() async {
-    Provider.of<TableProvide>(context, listen: false).deleteAllMsg();
-    setState(() {});
-  }
-
-  List<ChatMessage> cacheMsgList;
 
   Future _onRefresh() async {
     await Future.delayed(Duration(milliseconds: 300), () {
       setState(() {});
     });
   }
-
-  void openImagePicker() {}
 
   ScrollController _listViewScrollController = new ScrollController();
 
@@ -110,20 +91,10 @@ class _ChatPageState extends State<ChatPage> {
         curve: Curves.easeOut);
   }
 
-  Future<List<ChatMessage>> queryMessages() async {
-    try {
-      Provider.of<TableProvide>(context, listen: false)
-          .getTableInfo()
-          .then((value) => cacheMsgList = value);
-    } catch (e) {
-      print(e.message);
-    }
-    return cacheMsgList;
-  }
-
   TextEditingController _textFieldController = new TextEditingController();
 
   //相册/////////////
+
   PickedFile _imageFile;
   dynamic _pickImageError;
   final ImagePicker _picker = ImagePicker();
@@ -156,6 +127,7 @@ class _ChatPageState extends State<ChatPage> {
 
   void _handlePickImage() {
     String err = _getRetrieveErrorWidget();
+
     //如果不为空，则发生错误
     if (err != null) {
       EasyLoading.show(status: err);
@@ -171,7 +143,8 @@ class _ChatPageState extends State<ChatPage> {
       EasyLoading.show(status: "没选择照片?");
     }
   }
-  //相册/////////////
+
+  ////////////相册/////////////
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +161,8 @@ class _ChatPageState extends State<ChatPage> {
           Container(
             padding: EdgeInsets.fromLTRB(5.h, 10, 10, 65.h),
             child: FutureBuilder<List<ChatMessage>>(
-              future: queryMessages(),
+              future: Provider.of<ChatProvider>(context, listen: false)
+                  .getWholeChatInfoInDatabase(),
               builder: (BuildContext context,
                   AsyncSnapshot<List<ChatMessage>> snapshot) {
                 // 请求已结束
@@ -201,6 +175,12 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                     );
                   } else {
+                    print("===========请求结束，结果为============");
+                    //保存起来
+                    // Provider.of<ChatProvider>(context, listen: false)
+                    // .updateList(snapshot.data);
+                    // cacheMsgList = snapshot.data;
+                    print("===========${snapshot.data.length}============");
                     return Column(
                       children: <Widget>[
                         Container(
@@ -214,16 +194,20 @@ class _ChatPageState extends State<ChatPage> {
                                   accentColor: ThemeColors.colorWhite),
                               child: AnimatedList(
                                   reverse: true,
-                                  key: listKey,
+                                  key: _listKey,
                                   //插到最前面
                                   controller: _listViewScrollController,
                                   padding: EdgeInsets.all(0),
                                   //添加分割线
-                                  initialItemCount: cacheMsgList?.length ??
-                                      0, //snapshot.data.length,
+                                  initialItemCount: snapshot.data.length,
                                   itemBuilder: (context, index, animation) {
-                                    return slideIt(context, index, animation,
-                                        cacheMsgList);
+                                    return slideIt(
+                                        context,
+                                        index,
+                                        animation,
+                                        Provider.of<ChatProvider>(context,
+                                                listen: false)
+                                            .getTmpList());
                                   }),
                             ),
                           ),

@@ -19,6 +19,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   google_nav_bar: ^3.1.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -41,6 +43,7 @@ dependencies:
   lottie: ^0.7.0+1
   animated_splash: ^1.0.0
   full_screen_image: ^1.0.2
+  popup_menu: ^1.0.5
 
 
 dev_dependencies:

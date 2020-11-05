@@ -7,7 +7,7 @@ class MyButton extends StatefulWidget {
   MyButton(this.title,
       {this.height = 28,
       this.width = 117,
-      this.isYellow,
+      this.isYellow = false,
       this.fontSize = 15,
       this.tapAction,
       Key key})

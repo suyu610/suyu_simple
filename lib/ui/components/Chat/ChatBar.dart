@@ -1,11 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
+import 'package:suyu_simple/provider/ChatProvider.dart';
 
 class ChatBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
+    void handledeleteAllMsg() {
+      Provider.of<ChatProvider>(context, listen: false).deleteAllMsg();
+    }
+
     return AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,
@@ -44,9 +50,12 @@ class ChatBar extends StatelessWidget implements PreferredSizeWidget {
                   ],
                 ),
               ),
-              Icon(
-                Icons.delete_sweep,
-                color: ThemeColors.colorBlack,
+              GestureDetector(
+                child: Icon(
+                  Icons.delete_sweep,
+                  color: ThemeColors.colorBlack,
+                ),
+                onTap: handledeleteAllMsg,
               ),
               SizedBox(
                 width: 10.w,

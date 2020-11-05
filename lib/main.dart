@@ -5,17 +5,19 @@ import 'package:animated_splash/animated_splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suyu_simple/common/MyTheme.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
+import 'package:suyu_simple/tools/MainUtil.dart';
 import 'package:suyu_simple/ui/pages/Home.dart';
 import 'package:suyu_simple/ui/pages/Login.dart';
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 import 'package:suyu_simple/provider/TabbarProvider.dart';
-import 'package:suyu_simple/provider/TableProvider.dart';
+import 'package:suyu_simple/provider/ChatProvider.dart';
 
 import 'package:suyu_simple/tools/InitUtils.dart';
 import 'package:suyu_simple/ui/pages/Main.dart';
@@ -30,7 +32,7 @@ void main() {
         MultiProvider(providers: [
           ListenableProvider<ThemeProvider>(
               create: (_) => ThemeProvider(lightTheme)),
-          ListenableProvider<TableProvide>(create: (_) => TableProvide()),
+          ListenableProvider<ChatProvider>(create: (_) => ChatProvider()),
           ListenableProvider<DailyMarkProvider>(
               create: (_) => DailyMarkProvider()),
           ListenableProvider<TabbarProvider>(create: (_) => TabbarProvider()),
@@ -54,8 +56,17 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeProvider>(context, listen: true);
-
     return MaterialApp(
+        localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('zh', 'CH'),
+        const Locale('en', 'US'),
+      ],
+      locale: Locale('zh'),
+      
       builder: EasyLoadingInit(),
       theme: themeNotifier.getTheme(),
       debugShowCheckedModeBanner: false,
