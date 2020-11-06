@@ -6,68 +6,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/model/ChatMessage.dart';
-import 'package:popup_menu/popup_menu.dart';
 
 import 'package:suyu_simple/model/MsgType.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 
-PopupMenu menu = PopupMenu(
-  items: [
-    MenuItem(title: 'Copy', image: Image.asset('assets/copy.png')),
-    MenuItem(
-        title: 'Home',
-        image: Icon(
-          Icons.home,
-          color: Colors.white,
-        )),
-    MenuItem(
-        title: 'Mail',
-        image: Icon(
-          Icons.mail,
-          color: Colors.white,
-        )),
-    MenuItem(
-        title: 'Power',
-        image: Icon(
-          Icons.power,
-          color: Colors.white,
-        )),
-    MenuItem(
-        title: 'Setting',
-        image: Icon(
-          Icons.settings,
-          color: Colors.white,
-        )),
-    MenuItem(
-        title: 'Traffic',
-        image: Icon(
-          Icons.traffic,
-          color: Colors.white,
-        ))
-  ],
-);
-
-Widget slideIt(BuildContext context, int index, animation,
+// ignore: non_constant_identifier_names
+Widget ChatMsg(BuildContext context, int index, animation,
     List<ChatMessage> cacheMsgList) {
   if (cacheMsgList != null || cacheMsgList.length != 0) {
     ChatMessage item = cacheMsgList[index];
+    //如果是图片，则从左右出来
     return SlideTransition(
         position: Tween<Offset>(
           //让他从底下出来
-          begin: const Offset(0, 1),
+          begin: item.type == MsgType.Pic.index ? Offset(1, 0) : Offset(0, 1),
           end: const Offset(0, 0),
         ).chain(CurveTween(curve: Curves.ease)).animate(animation),
-        child: ChatMsg(item));
+        child: ChatMsgContent(item));
   }
   return null;
 }
 
-class ChatMsg extends StatelessWidget {
-  const ChatMsg(this.item, {Key key}) : super(key: key);
+class ChatMsgContent extends StatelessWidget {
+  const ChatMsgContent(this.item, {Key key}) : super(key: key);
   final ChatMessage item;
 
   @override
   Widget build(BuildContext context) {
+    print(item);
+
     return GestureDetector(
       onLongPress: () => showModalBottomSheet(
           context: context,

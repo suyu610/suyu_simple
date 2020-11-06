@@ -1,15 +1,15 @@
-import 'package:dio/dio.dart';
+// import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/ui/Components/MyButton.dart';
 import 'package:suyu_simple/common/MyTheme.dart';
-import 'package:suyu_simple/common/ThemeFonts.dart';
+// import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/provider/ThemeProvider.dart';
-import 'package:suyu_simple/tools/DioUtils.dart';
+// import 'package:suyu_simple/tools/DioUtils.dart';
 
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+// import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'Home.dart';
 
@@ -96,8 +96,8 @@ class _LoginPageState extends State<LoginPage> {
             "进入首页",
             isYellow: false,
             fontSize: 15,
-            tapAction: () =>
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+            tapAction: () => Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) {
               return HomePage();
             })),
           ),

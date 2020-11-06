@@ -11,10 +11,11 @@ import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/ui/components/Chat/ChatBar.dart';
-import 'package:suyu_simple/ui/components/Chat/ChatMsg.dart';
+// import 'package:suyu_simple/ui/components/Chat/ChatMsg.dart';
 import 'package:suyu_simple/model/ChatMessage.dart';
 import 'package:suyu_simple/provider/ChatProvider.dart';
 import 'package:suyu_simple/tools/RandomUtils.dart';
+import 'package:suyu_simple/ui/components/Chat/ChatMsg.dart';
 
 class ChatPage extends StatefulWidget {
   ChatPage({Key key}) : super(key: key);
@@ -25,16 +26,15 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
     Provider.of<ChatProvider>(context, listen: false).setListKey(_listKey);
-    Provider.of<ChatProvider>(context, listen: false)
-        .initList(new List<ChatMessage>());
   }
 
   void handle(msg) async {
-    Provider.of<ChatProvider>(context, listen: false).insertNewMsg(msg);
+    Provider.of<ChatProvider>(context, listen: false).sendNewMsg(msg);
 
     _listKey.currentState
         .insertItem(0, duration: const Duration(milliseconds: 500));
@@ -53,16 +53,21 @@ class _ChatPageState extends State<ChatPage> {
     RandomUtil.getRandomMsgPicWithPic(img).then((msg) => handle(msg));
   }
 
-  Future _userInsertTextMsg(String text) async {
+  // from 0 自己的
+  // from 1 别人的
+
+  Future _userInsertTextMsg(String text, int from) async {
     if (text == "" || text == null) {
       EasyLoading.showError("不能发空消息");
       return;
     }
 
     //定义实体
-    ChatMessage msg = RandomUtil.getUserRandomMsg(text);
+
+    ChatMessage msg = RandomUtil.getUserRandomMsg(text, from);
+
     //保存在provider的list中
-    Provider.of<ChatProvider>(context, listen: false).insertNewMsg(msg);
+    Provider.of<ChatProvider>(context, listen: false).sendNewMsg(msg);
 
     _listKey.currentState
         .insertItem(0, duration: const Duration(milliseconds: 500));
@@ -133,7 +138,6 @@ class _ChatPageState extends State<ChatPage> {
       EasyLoading.show(status: err);
       // return ;
     }
-    print(_imageFile.path);
 
     if (_imageFile != null) {
       _userAddImg(File(_imageFile.path));
@@ -160,73 +164,53 @@ class _ChatPageState extends State<ChatPage> {
         child: Stack(children: <Widget>[
           Container(
             padding: EdgeInsets.fromLTRB(5.h, 10, 10, 65.h),
-            child: FutureBuilder<List<ChatMessage>>(
-              future: Provider.of<ChatProvider>(context, listen: false)
-                  .getWholeChatInfoInDatabase(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<ChatMessage>> snapshot) {
-                // 请求已结束
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return Container(
-                      height: 60.0,
-                      child: Center(
-                        child: Text("Error: ${snapshot.error}"),
+            child: StreamBuilder(
+                stream: Provider.of<ChatProvider>(context).streamList,
+                initialData: Provider.of<ChatProvider>(context).getTmpList(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    print("--------CHAT----------");
+                    print(snapshot.data);
+
+                    if (snapshot.data.runtimeType == String) {
+                      _userInsertTextMsg(snapshot.data, 1);
+                    }
+
+                    return RefreshIndicator(
+                      onRefresh: _onRefresh,
+                      backgroundColor: ThemeColors.colorTheme,
+                      color: ThemeColors.colorBlack,
+                      child: Theme(
+                        data: Theme.of(context)
+                            .copyWith(accentColor: ThemeColors.colorWhite),
+                        child: AnimatedList(
+                            reverse: true,
+                            key: _listKey,
+                            //插到最前面
+                            controller: _listViewScrollController,
+                            padding: EdgeInsets.all(0),
+                            //添加分割线
+                            initialItemCount: Provider.of<ChatProvider>(context,
+                                    listen: false)
+                                .getTmpList()
+                                .length,
+                            itemBuilder: (context, index, animation) {
+                              return ChatMsg(
+                                  context,
+                                  index,
+                                  animation,
+                                  Provider.of<ChatProvider>(context,
+                                          listen: false)
+                                      .getTmpList());
+                            }),
                       ),
                     );
                   } else {
-                    print("===========请求结束，结果为============");
-                    //保存起来
-                    // Provider.of<ChatProvider>(context, listen: false)
-                    // .updateList(snapshot.data);
-                    // cacheMsgList = snapshot.data;
-                    print("===========${snapshot.data.length}============");
-                    return Column(
-                      children: <Widget>[
-                        Container(
-                            child: Expanded(
-                          child: RefreshIndicator(
-                            onRefresh: _onRefresh,
-                            backgroundColor: ThemeColors.colorTheme,
-                            color: ThemeColors.colorBlack,
-                            child: Theme(
-                              data: Theme.of(context).copyWith(
-                                  accentColor: ThemeColors.colorWhite),
-                              child: AnimatedList(
-                                  reverse: true,
-                                  key: _listKey,
-                                  //插到最前面
-                                  controller: _listViewScrollController,
-                                  padding: EdgeInsets.all(0),
-                                  //添加分割线
-                                  initialItemCount: snapshot.data.length,
-                                  itemBuilder: (context, index, animation) {
-                                    return slideIt(
-                                        context,
-                                        index,
-                                        animation,
-                                        Provider.of<ChatProvider>(context,
-                                                listen: false)
-                                            .getTmpList());
-                                  }),
-                            ),
-                          ),
-                        ))
-                      ],
-                    );
+                    return Text("无数据");
                   }
-                } else {
-                  // 请求未结束，显示loading
-                  return Center(
-                      child: CircularProgressIndicator(
-                    backgroundColor: ThemeColors.colorTheme,
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                        ThemeColors.colorBlack),
-                  ));
-                }
-              },
-            ),
+                }),
           ),
+
           //底部的
           Align(
             alignment: Alignment.bottomCenter,
@@ -292,7 +276,7 @@ class _ChatPageState extends State<ChatPage> {
                         textInputAction: TextInputAction.send,
                         onEditingComplete: () {
                           // 这里进行事件处理
-                          _userInsertTextMsg(_textFieldController.text);
+                          _userInsertTextMsg(_textFieldController.text, 0);
                         },
                         controller: _textFieldController,
                         decoration: InputDecoration(
@@ -318,7 +302,7 @@ class _ChatPageState extends State<ChatPage> {
                   //发送按钮
                   GestureDetector(
                     onTap: () {
-                      _userInsertTextMsg(_textFieldController.text);
+                      _userInsertTextMsg(_textFieldController.text, 0);
                     },
                     child: Container(
                       height: 30.w,

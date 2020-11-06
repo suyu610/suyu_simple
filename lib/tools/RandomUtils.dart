@@ -56,14 +56,14 @@ class RandomUtil {
     );
   }
 
-  static ChatMessage getUserRandomMsg(String text) {
+  static ChatMessage getUserRandomMsg(String text, int from) {
     return new ChatMessage(
       content: text,
       createID: "1001",
       createTime: "2020-11-2 15:49:03",
       type: MsgType.Text.index,
       isSend: 1,
-      direct: 0,
+      direct: from,
       createName: RandomUtil.getRandomStrNoMoreThan_zh(3),
     );
   }

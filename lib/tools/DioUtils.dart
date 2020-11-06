@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'dart:async';
 
+// import 'package:json_annotation/json_annotation.dart';
+
 /*
  * 封装 restful 请求
  *
@@ -16,7 +18,8 @@ class DioUtils {
   static Dio dio;
 
   /// default options
-  static const String API_PREFIX = 'https://tcc.taobao.com/cc/json/mobile_tel_segment.htm';
+  static const String API_PREFIX =
+      'https://tcc.taobao.com/cc/json/mobile_tel_segment.htm';
   static const int CONNECT_TIMEOUT = 10000;
   static const int RECEIVE_TIMEOUT = 3000;
 
@@ -30,7 +33,8 @@ class DioUtils {
   ///Get请求测试
   static void getHttp() async {
     try {
-      Response response = await Dio().get("http://www.google.cn");
+      Response response =
+          await Dio().get("https://interface.meiriyiwen.com//article/random");
       print("response$response");
     } catch (e) {
       print(e);
@@ -77,7 +81,7 @@ class DioUtils {
   //metthod 请求方式
   //onSuccess 成功回调
   //onError 失败回调
-  static Future<Map> request<T>(String url,
+  static Future request<T>(String url,
       {parameters,
       method,
       Function(T t) onSuccess,
@@ -93,7 +97,7 @@ class DioUtils {
     });
 
     /// 打印:请求地址-请求方式-请求参数
-    print('请求地址：【' + method + '  ' + url + '】');
+    print('请求地址：【 ' + method + '  ' + url + '】 ');
     print('请求参数：' + parameters.toString());
 
     Dio dio = createInstance();
@@ -110,6 +114,7 @@ class DioUtils {
       } else {
         throw Exception('statusCode:${response.statusCode}');
       }
+      // JsonLiteral.
       print('响应数据：' + response.toString());
     } on DioError catch (e) {
       print('请求出错：' + e.toString());

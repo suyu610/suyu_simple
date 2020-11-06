@@ -1,41 +1,44 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:suyu_simple/dao/ChatDao.dart';
+import 'package:suyu_simple/data/ChatStream.dart';
 import 'package:suyu_simple/model/ChatMessage.dart';
-import 'package:suyu_simple/ui/components/Chat/ChatMsg.dart';
 
 class ChatProvider with ChangeNotifier {
-  List<ChatMessage> _list;
+  List<dynamic> _list;
 
-  void updateList(newList) {
-    _list.clear();
-    this._list = newList;
-  }
+  //stream类型的list
+  List<dynamic> getTmpList() => _list;
 
-  List<ChatMessage> getTmpList() => _list;
+  Stream streamList = ChatStream.instance.getStream();
 
-  Future<List<ChatMessage>> getWholeChatInfoInDatabase() async {
-    print("有人请求了");
-    this._list.clear();
+  sendNewMsg(dynamic msg) async {
+    //给socket发送命令
 
-    //初始化DA
-    ChatDAO dao = new ChatDAO();
-    //根据ID查询数据
-    List<ChatMessage> msgList = await dao.getMessageList();
-    print(msgList);
-    if (msgList != null) {
-      this._list = msgList.reversed.toList();
-      print("**************");
-      print(_list);
-    } else {
-      print("没数据");
+    if (msg is ChatMessage && msg.content != null) {
+      //如果是服务器传过来的，就不要再发送了。
+      //如果是自己发的，则需要再发送
+      //自己的为0
+
+      if (msg.direct != 1) {
+        ChatStream.instance.websocket.sink.add(msg.content);
+
+        // IMP:传输图片
+        // final myFile = File('file.txt');
+        // final bytes = await myFile.readAsBytes();
+
+        // ChatStream.instance.websocket.sink.add(bytes);
+
+      }
     }
-    return this._list;
-  }
 
-  insertNewMsg(ChatMessage msg) {
     this._list.insert(0, msg);
     ChatDAO dao = new ChatDAO();
-    dao.insert(msg);
+    await dao.insert(msg);
   }
 
   GlobalKey<AnimatedListState> _listKey;
@@ -46,8 +49,24 @@ class ChatProvider with ChangeNotifier {
     _listKey = listKey;
   }
 
-  void initList(List<ChatMessage> newList) {
-    _list = newList;
+  void initList(dynamic newList) {
+    print(newList.runtimeType);
+    if (newList == null) {
+      _list = List<ChatMessage>();
+      print("空白数据");
+      EasyLoading.showToast("成功连接服务器!!!!!!!",
+          duration: Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.bottom);
+    }
+
+    if (newList is List) {
+      _list = newList;
+      print("有数据");
+    } else {
+      EasyLoading.showToast("成功连接服务器!!!!!!!",
+          duration: Duration(seconds: 1),
+          toastPosition: EasyLoadingToastPosition.bottom);
+    }
   }
 
   deleteAllMsg() async {

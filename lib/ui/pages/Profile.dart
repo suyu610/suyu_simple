@@ -18,6 +18,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   TextEditingController textEditingController = new TextEditingController();
+  TextEditingController _commentsController = new TextEditingController();
+
   String currentText = "";
   void handleSearchBtnClick() {
     print("不能为空");
@@ -42,7 +44,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     // showAboutDialog(context: context);
-
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
@@ -60,21 +61,135 @@ class _ProfilePageState extends State<ProfilePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  IconButton(
-                    icon: Icon(
-                      Icons.flash_on,
-                      // color: Theme.of(context).primaryColor,
-                    ),
-                    onPressed: () => showAboutDialog(
-                        context: context,
-                        applicationVersion: "v0.2",
-                        applicationName: "素语评分",
-                        applicationLegalese: "一个练手的东西",
-                        applicationIcon: SizedBox(
-                            height: 50.0.h,
-                            width: 50.0.h,
-                            child: Center(
-                                child: Image.asset("assets/images/logo.jpg")))),
+                  Hero(
+                    tag: "logo",
+                    child: RaisedButton(
+                        color: Colors.transparent,
+                        elevation: 0,
+                        child: Icon(Icons.flash_on),
+                        onPressed: () => showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        8.0)), //this right here
+                                child: Container(
+                                  height: 400,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    border: Border.all(width: 3),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Hero(
+                                              tag: "logo",
+                                              child: SizedBox(
+                                                  width: 30.h,
+                                                  child: Icon(Icons.flash_on)),
+                                            ),
+                                            Text(
+                                              "素语评分",
+                                              style: ThemeFonts.titleFont,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          "v0.2",
+                                          style: TextStyle(fontSize: 14),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        Text(
+                                          "一个用来学习flutter的小玩具",
+                                          style: ThemeFonts.bodyFont,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        // Container(
+                                        //   height: 1,
+                                        //   width: 375,
+                                        //   color: Colors.black12,
+                                        // ),
+                                        SizedBox(
+                                          height: 10.h,
+                                        ),
+                                        SizedBox(
+                                          height: 40.h,
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.merge(
+                                              new Border(
+                                                  top: BorderSide(
+                                                      color: nameIsTap
+                                                          ? ThemeColors
+                                                              .colorTheme
+                                                          : Colors.transparent,
+                                                      width: 3)),
+                                              new Border(
+                                                  bottom: BorderSide(
+                                                      color: nameIsTap
+                                                          ? ThemeColors
+                                                              .colorTheme
+                                                          : Colors.transparent,
+                                                      width: 3)),
+                                            ),
+                                          ),
+                                          child: TextField(
+                                            controller: _commentsController,
+                                            textInputAction:
+                                                TextInputAction.done,
+                                            onEditingComplete: () =>
+                                                print("ok"),
+                                            maxLines: 2,
+                                            textAlign: TextAlign.center,
+                                            decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                hintStyle: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 14),
+                                                hintText: '想对我说点什么吗?'),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20.h,
+                                        ),
+                                        SizedBox(
+                                          width: 320.0,
+                                          child: RaisedButton(
+                                            onPressed: () {},
+                                            child: Text(
+                                              "查看详细介绍",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            color: Colors.black,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            })),
                   ),
                 ],
               ),
