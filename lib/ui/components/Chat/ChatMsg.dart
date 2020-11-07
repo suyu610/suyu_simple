@@ -1,14 +1,16 @@
 import 'dart:io';
 
 import 'package:bubble/bubble.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/model/ChatMessage.dart';
 
 import 'package:suyu_simple/model/MsgType.dart';
-import 'package:full_screen_image/full_screen_image.dart';
+import 'package:suyu_simple/ui/components/Image/FullScreenWidget.dart';
 
 // ignore: non_constant_identifier_names
 Widget ChatMsg(BuildContext context, int index, animation,
@@ -33,40 +35,42 @@ class ChatMsgContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(item);
-
+    File imageFile;
+    if (item.type == MsgType.Pic.index) {
+      imageFile = File(item.path);
+    }
     return GestureDetector(
-      onLongPress: () => showModalBottomSheet(
-          context: context,
-          elevation: 0,
-          backgroundColor: Theme.of(context).errorColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          builder: (BuildContext context) {
-            return SafeArea(
-                child: Container(
-              height: 50.h,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(
-                      Icons.delete,
-                      color: Colors.white,
+        onLongPress: () => showModalBottomSheet(
+            context: context,
+            elevation: 0,
+            backgroundColor: Theme.of(context).errorColor,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            builder: (BuildContext context) {
+              return SafeArea(
+                  child: Container(
+                height: 50.h,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                      onPressed: () => {},
                     ),
-                    onPressed: () => {},
-                  ),
-                  Text(
-                    "删除",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ));
-          }),
-      child: Container(
-        child: ListTile(
+                    Text(
+                      "删除",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ));
+            }),
+        child: Container(
+          child: ListTile(
             leading: item.direct == 0
                 ? null
                 : Container(
@@ -93,25 +97,77 @@ class ChatMsgContent extends StatelessWidget {
                       "assets/images/girl.png",
                     )),
             title: Bubble(
-                style: item.direct == 0 ? styleMe : styleSomebody, //:,
-                child: item.type == MsgType.Text.index
-                    ? Text('${item.content}')
-                    : FullScreenWidget(
-                        child: Center(
+              style: item.direct == 0 ? styleMe : styleSomebody, //:,
+              child: item.type == MsgType.Text.index
+                  ? Text('${item.content}')
+                  : FullScreenWidget(
+                      backgroundColor: Colors.white,
+                      child: Center(
                         child: Hero(
-                          transitionOnUserGestures: true,
-                          tag: item.hashCode,
+                          tag: imageFile.uri,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16),
-                            child: GestureDetector(
-                              child: Image.file(
-                                File(item.path),
-                                fit: BoxFit.cover,
-                              ),
+                            child: ExtendedImage.file(
+                              imageFile,
+                              fit: BoxFit.contain,
+                              //enableLoadState: false,
+                              mode: ExtendedImageMode.gesture,
+                              initGestureConfigHandler: (state) {
+                                return GestureConfig(
+                                  minScale: 1.0,
+                                  animationMinScale: 0.7,
+                                  maxScale: 3.0,
+                                  animationMaxScale: 3.5,
+                                  speed: 1.0,
+                                  inertialSpeed: 100.0,
+                                  initialScale: 1.0,
+                                  inPageView: false,
+                                  initialAlignment: InitialAlignment.center,
+                                );
+                              },
                             ),
                           ),
                         ),
-                      )))),
+                      ),
+                    ),
+            ),
+          ),
+        ));
+  }
+}
+
+class DetailScreen extends StatelessWidget {
+  const DetailScreen(this.item, {Key key}) : super(key: key);
+  final File item;
+
+  @override
+  Widget build(BuildContext context) {
+    return ExtendedImageSlidePage(
+      child: GestureDetector(
+        child: Hero(
+            tag: item.uri,
+            child: ExtendedImage.file(
+              item,
+              fit: BoxFit.contain,
+              enableLoadState: false,
+              mode: ExtendedImageMode.gesture,
+              initGestureConfigHandler: (state) {
+                return GestureConfig(
+                  minScale: 0.9,
+                  animationMinScale: 0.7,
+                  maxScale: 3.0,
+                  animationMaxScale: 3.5,
+                  speed: 1.0,
+                  inertialSpeed: 100.0,
+                  initialScale: 1.0,
+                  inPageView: false,
+                  initialAlignment: InitialAlignment.center,
+                );
+              },
+            )),
+        onTap: () {
+          Navigator.pop(context);
+        },
       ),
     );
   }

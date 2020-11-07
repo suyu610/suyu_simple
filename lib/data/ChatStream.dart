@@ -21,14 +21,18 @@ class ChatStream {
 
   StreamSink get sink => _chatMsgStreamController.sink;
 
-  final IOWebSocketChannel webSocketChannel = new IOWebSocketChannel.connect(
-      'ws://62.234.61.19:9090/websocket/' +
-          RandomUtil.getRandomStrNoMoreThan(RandomUtil.numberScope(2, 11)));
+  IOWebSocketChannel webSocketChannel;
 
   static ChatStream _instance;
   StreamController<dynamic> _chatMsgStreamController;
 
   ChatStream._internal() {
+    final String userName =
+        RandomUtil.getRandomStrNoMoreThan(RandomUtil.numberScope(4, 11));
+    print("用户名是$userName");
+    webSocketChannel = new IOWebSocketChannel.connect(
+        'ws://62.234.61.19:9090/websocket/$userName');
+
     // 初始化
     _chatMsgStreamController = StreamController.broadcast();
 

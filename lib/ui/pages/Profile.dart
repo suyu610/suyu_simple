@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
+import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/tools/StrUtil.dart';
 import 'package:suyu_simple/ui/components/MyButton.dart';
 
@@ -174,7 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ),
                                         SizedBox(
                                           width: 320.0,
-                                          child: RaisedButton(
+                                          child: FlatButton(
                                             onPressed: () {},
                                             child: Text(
                                               "查看详细介绍",
@@ -197,7 +199,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: <Widget>[
                   Text(
                     "你的ID是",
-                    style: ThemeFonts.titleFont,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: ScreenUtil().setSp(20),
+                        fontFamily: Provider.of<FontFamilyProvider>(context)
+                            .fontFamily),
                   ),
                   Padding(
                     padding: EdgeInsets.all(10.w),
@@ -266,16 +272,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "输入",
-                        style: ThemeFonts.titleFont,
-                      ),
-                      Text(
-                        "ID",
-                        style: ThemeFonts.titleFont,
-                      ),
-                      Text(
-                        "绑定你的小伙伴",
-                        style: ThemeFonts.titleFont,
+                        "输入ID绑定你的小伙伴",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontSize: ScreenUtil().setSp(20),
+                            fontFamily: Provider.of<FontFamilyProvider>(context)
+                                .fontFamily),
                       ),
                     ],
                   ),
@@ -283,6 +285,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding:
                         const EdgeInsets.only(top: 20, left: 40, right: 40),
                     child: PinCodeTextField(
+                      showCursor: false,
+                      appContext: context,
                       // autoDismissKeyboard: false,
                       autoFocus: false,
                       validator: (value) {
@@ -291,18 +295,18 @@ class _ProfilePageState extends State<ProfilePage> {
                             ? null
                             : "ID要够5位嗷";
                       },
-                      autoValidate: true,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       dialogConfig: DialogConfig(
                           dialogContent: "要粘贴",
                           dialogTitle: "粘贴",
                           negativeText: "取消",
                           affirmativeText: "粘贴"),
                       inputFormatters: [
-                        WhitelistingTextInputFormatter.digitsOnly
+                        // FilteringTextInputFormatter.allow()
                       ],
                       length: 5,
-                      obsecureText: false,
-                      textInputType: TextInputType.number,
+                      obscureText: false,
+                      keyboardType: TextInputType.number,
                       animationType: AnimationType.slide,
                       textStyle: TextStyle(
                         fontSize: 20,

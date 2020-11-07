@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -54,9 +53,9 @@ class ChatProvider with ChangeNotifier {
     if (newList == null) {
       _list = List<ChatMessage>();
       print("空白数据");
-      EasyLoading.showToast("成功连接服务器!!!!!!!",
-          duration: Duration(seconds: 1),
-          toastPosition: EasyLoadingToastPosition.bottom);
+      // EasyLoading.showToast("成功连接服务器!!!!!!!",
+      //     duration: Duration(seconds: 1),
+      //     toastPosition: EasyLoadingToastPosition.bottom);
     }
 
     if (newList is List) {

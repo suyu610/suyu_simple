@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/ui/Components/MyMarkButton.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
@@ -47,7 +48,9 @@ class _MarkDetailLiState extends State<MarkDetailLi> {
                   Provider.of<DailyMarkProvider>(context).getTitle(index),
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontFamily: 'myFont', fontSize: ScreenUtil().setSp(16))),
+                      fontFamily:
+                          Provider.of<FontFamilyProvider>(context).fontFamily,
+                      fontSize: ScreenUtil().setSp(16))),
             ),
           ),
           MyMarkButton(
@@ -75,7 +78,8 @@ class _MarkDetailLiState extends State<MarkDetailLi> {
                       .toString(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontFamily: 'myFont',
+                      fontFamily:
+                          Provider.of<FontFamilyProvider>(context).fontFamily,
                       fontSize: ScreenUtil().setSp(16),
                       fontWeight: FontWeight.w700),
                 ),
@@ -88,7 +92,8 @@ class _MarkDetailLiState extends State<MarkDetailLi> {
                         .toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: 'myFont',
+                        fontFamily:
+                            Provider.of<FontFamilyProvider>(context).fontFamily,
                         color: ThemeColors.colorBlack,
                         fontSize: ScreenUtil().setSp(14),
                         fontWeight: FontWeight.w100),

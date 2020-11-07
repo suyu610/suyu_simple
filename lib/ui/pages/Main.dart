@@ -41,7 +41,6 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context,
         designSize: Size(375, 667), allowFontScaling: true);
-
     if (loginState == 0) {
       return LoginPage();
     } else {

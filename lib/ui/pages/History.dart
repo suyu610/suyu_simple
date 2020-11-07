@@ -24,6 +24,7 @@ class HistoryPageState extends State<HistoryPage> {
           title: const Text(
             '历史记录',
             textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16),
           ),
         ),
         body: _getHorizantalGradientAreaChart());
@@ -34,8 +35,8 @@ class HistoryPageState extends State<HistoryPage> {
 Widget _getHorizantalGradientAreaChart() {
   return Container(
     decoration: ThemeFonts.lineBoxDecoration,
-    padding: EdgeInsets.only(top: 40.h, bottom: 100.h, left: 10.w, right: 10.w),
-    height: 675.h,
+    padding: EdgeInsets.only(top: 40.h, bottom: 50.h, left: 10.w, right: 10.w),
+    height: 600.h,
     width: 375.w,
     child: Column(
       children: <Widget>[
@@ -44,7 +45,7 @@ Widget _getHorizantalGradientAreaChart() {
           style: ThemeFonts.titleFont,
         ),
         Padding(
-          padding: EdgeInsets.all(30.h),
+          padding: EdgeInsets.all(15.h),
         ),
         SfCartesianChart(
           backgroundColor: ThemeColors.colorWhite,
@@ -87,13 +88,11 @@ Widget _getHorizantalGradientAreaChart() {
           },
         ),
         Padding(
-          padding: EdgeInsets.all(30.h),
+          padding: EdgeInsets.all(15.h),
         ),
         MyButton("亲他一下",
-            width: 117.w,
-            height: 24.h,
             isYellow: false,
-            fontSize: 15.sp,
+            fontSize: 14.sp,
             tapAction: () => EasyLoading.showToast('收到!',
                 duration: Duration(milliseconds: 500),
                 toastPosition: EasyLoadingToastPosition.bottom)),

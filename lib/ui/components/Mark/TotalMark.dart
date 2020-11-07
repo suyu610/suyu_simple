@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/model/MarkItemModel.dart';
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
+import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 
 class TotalMark extends StatefulWidget {
   final List<MarkItemModel> markItemModellist;
@@ -24,7 +25,7 @@ class _TotalMarkState extends State<TotalMark> {
       children: <Widget>[
         Text("总分:",
             style: TextStyle(
-              fontFamily: 'myFont',
+              fontFamily: Provider.of<FontFamilyProvider>(context).fontFamily,
               fontWeight: FontWeight.bold,
               fontSize: ScreenUtil().setSp(16),
             )),
@@ -44,6 +45,8 @@ class _TotalMarkState extends State<TotalMark> {
                     decorationColor: ThemeColors.colorTheme,
                     decorationThickness: 3,
                     fontWeight: FontWeight.bold,
+                    fontFamily:
+                        Provider.of<FontFamilyProvider>(context).fontFamily,
                   )),
             ),
             Padding(
@@ -56,7 +59,8 @@ class _TotalMarkState extends State<TotalMark> {
                         .toString() +
                     " /",
                 style: TextStyle(
-                    fontFamily: 'myFont',
+                    fontFamily:
+                        Provider.of<FontFamilyProvider>(context).fontFamily,
                     fontSize: ScreenUtil().setSp(14),
                     // fontWeight: FontWeight.bold,
                     color: ThemeColors.colorBlack)),

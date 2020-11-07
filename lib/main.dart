@@ -1,7 +1,6 @@
 // import 'dart:async';
 // import 'dart:io';
 
-import 'package:animated_splash/animated_splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 // import 'package:flutter/services.dart';
@@ -12,16 +11,19 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suyu_simple/common/MyTheme.dart';
+import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/data/ChatStream.dart';
 // import 'package:suyu_simple/common/ThemeFonts.dart';
 // import 'package:suyu_simple/tools/MainUtil.dart';
 // import 'package:suyu_simple/ui/pages/Home.dart';
 // import 'package:suyu_simple/ui/pages/Login.dart';
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
+import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/provider/TabbarProvider.dart';
 import 'package:suyu_simple/provider/ChatProvider.dart';
 
 import 'package:suyu_simple/tools/InitUtils.dart';
+import 'package:suyu_simple/ui/components/Splash.dart';
 import 'package:suyu_simple/ui/pages/Main.dart';
 
 import 'common/Global.dart';
@@ -32,6 +34,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Global.init().then((e) => runApp(
         MultiProvider(providers: [
+          ListenableProvider<FontFamilyProvider>(
+              create: (_) => FontFamilyProvider()),
           ListenableProvider<ThemeProvider>(
               create: (_) => ThemeProvider(lightTheme)),
           ListenableProvider<ChatProvider>(create: (_) => ChatProvider()),
@@ -78,6 +82,7 @@ class _MyAppState extends State<MyApp> {
       theme: themeNotifier.getTheme(),
       debugShowCheckedModeBanner: false,
       home: AnimatedSplash(
+        color: ThemeColors.colorTheme,
         duration: 1000,
         home: Main(),
         imagePath: "assets/images/logo.png",

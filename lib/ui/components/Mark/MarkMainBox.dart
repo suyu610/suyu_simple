@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
+import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/ui/components/Mark/MarkDetailLi.dart';
 
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
@@ -54,7 +55,8 @@ class _MarkMainBoxState extends State<MarkMainBox> {
                       "今天表现怎么样?",
                       style: TextStyle(
                         fontSize: ScreenUtil().setSp(18),
-                        fontFamily: 'myFont',
+                        fontFamily:
+                            Provider.of<FontFamilyProvider>(context).fontFamily,
                       ),
                     ),
                   ],

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/ui/Components/Mark/MarkMainBox.dart';
 import 'package:suyu_simple/ui/Components/MyButton.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
@@ -81,7 +83,7 @@ class _MarkPageState extends State<MarkPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text("素语", style: TextStyle(fontFamily: 'myFont')),
+                        Text("     ", style: TextStyle(fontFamily: 'myFont')),
                         Row(children: <Widget>[
                           Icon(
                             Icons.calendar_today,
@@ -90,10 +92,13 @@ class _MarkPageState extends State<MarkPage> {
                           Padding(
                             padding: EdgeInsets.all(ScreenUtil().setWidth(5)),
                           ),
-                          Text(
-                            "10月30日 周五",
-                            style: ThemeFonts.titleFont,
-                          ),
+                          Text("10月30日 周五",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: ScreenUtil().setSp(20),
+                                  fontFamily:
+                                      Provider.of<FontFamilyProvider>(context)
+                                          .fontFamily)),
                         ]),
                         IconButton(
                           tooltip: "自动保存",
@@ -111,24 +116,19 @@ class _MarkPageState extends State<MarkPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text("已经连续优秀第 ", style: ThemeFonts.smallFont),
-                        Text("4",
+                        Text("已经连续优秀第 4 天",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                decorationStyle: TextDecorationStyle.solid,
-                                decorationThickness: 3,
-                                decorationColor: ThemeColors.colorTheme,
-                                // decoration: TextDecoration.underline,
+                                fontWeight: FontWeight.w300,
                                 fontSize: ScreenUtil().setSp(12),
-                                color: ThemeColors.colorBlack,
-                                fontFamily: 'myFont')),
-                        Text(" 天", style: ThemeFonts.smallFont),
+                                fontFamily:
+                                    Provider.of<FontFamilyProvider>(context)
+                                        .fontFamily)),
                       ],
                     ),
                     Padding(padding: EdgeInsets.all(10)),
                     //中间的大盒子
                     MarkMainBox(),
-                    Padding(padding: EdgeInsets.all(20)),
+                    Padding(padding: EdgeInsets.all(10)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[

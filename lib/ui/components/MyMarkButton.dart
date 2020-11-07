@@ -84,9 +84,8 @@ class _MyMarkButtonState extends State<MyMarkButton> {
                 borderRadius:
                     BorderRadius.all(Radius.circular(widget.height / 4)),
                 side: BorderSide(
-                    color: isAdd
-                        ? ThemeColors.colorBlack
-                        : ThemeColors.colorBlack,
+                    color:
+                        isAdd ? ThemeColors.colorBlack : ThemeColors.colorBlack,
                     style: BorderStyle.solid,
                     width: 2)),
             onPressed: tapAction,
