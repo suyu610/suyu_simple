@@ -18,10 +18,12 @@ class ThemeFonts {
       fontSize: ScreenUtil().setSp(12),
       color: ThemeColors.colorBlack,
       fontFamily: 'kaitiFont');
+
   static BoxDecoration lineBoxDecoration = BoxDecoration(
+      color: Colors.white,
       image: DecorationImage(
-    image: AssetImage("assets/images/main_bg_with_blank.png"),
-    fit: BoxFit.none,
-    repeat: ImageRepeat.repeat,
-  ));
+        image: AssetImage("assets/images/main_bg_with_blank.png"),
+        fit: BoxFit.none,
+        repeat: ImageRepeat.repeat,
+      ));
 }

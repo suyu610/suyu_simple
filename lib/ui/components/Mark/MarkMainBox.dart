@@ -50,7 +50,7 @@ class _MarkMainBoxState extends State<MarkMainBox> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    TextWithUnderLine("宇崽"),
+                    TextWithUnderLine("他"),
                     Text(
                       "今天表现怎么样?",
                       style: TextStyle(
@@ -62,10 +62,10 @@ class _MarkMainBoxState extends State<MarkMainBox> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 10),
+                  padding: EdgeInsets.only(top: 20.h),
                 ),
                 Container(
-                    height: 275.h,
+                    height: 285.h,
                     child: RefreshIndicator(
                       onRefresh: _onRefresh,
                       backgroundColor: ThemeColors.colorTheme,
@@ -90,7 +90,7 @@ class _MarkMainBoxState extends State<MarkMainBox> {
           ],
         ),
       ),
-      height: 393.h,
+      height: 400.h,
       width: 343.w,
       decoration: BoxDecoration(
         color: Color.fromRGBO(255, 255, 255, 0.5),

@@ -38,65 +38,45 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   CurvedAnimation curved_1; //曲线动画，动画插值，
   CurvedAnimation curved_2;
+  Image logoImage;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    precacheImage(logoImage.image, context);
+  }
 
   @override
   void initState() {
     super.initState();
-    // FormData formData = new FormData.from({
-    //   "uuid": "9dad1c81889ff0ea8c8c5ade6a5e36e3",
-    //   "sign": "",
-    //   "sso_id": "",
-    //   "own_version": "100",
-    //   "channel": "ios",
-    //   "dev_os_version": "iOS12.3.1",
-    //   "timestamp": "1564974676",
-    //   "screen_size": "[375,667]",
-    //   "is_jailbreak": 0,
-    //   "os": "ios",
-    //   "device_name": "iPhone6S",
-    //   "os_version": "",
-    //   "country_code": "CN",
-    //   "ios_version": "1.0.0",
-    // });
-    //发送网络请求
-    // DioUtils.postHttp(
-    //   "huhuapi/firstnew/indexnew.html",
-    //   parameters: formData,
-    //   onSuccess: (data) {
-    //     setState(() {
-    //       this.data = data;
-    //     });
-    //     Toast.show('来了', context, gravity: Toast.CENTER);
-    //   },
-    //   onError: (error) {
-    //     Toast.show(error, context);
-    //   },
-    // );
+    logoImage = Image.asset("assets/images/logo_trans.png");
+
     rotationController = AnimationController(
-      duration: const Duration(milliseconds: 9000),
+      duration: const Duration(milliseconds: 3000),
       vsync: this,
     );
     rotationController.repeat(reverse: false);
 
     curved_1 = new CurvedAnimation(
-        parent: rotationController, curve: Curves.linear); //模仿小球自由落体运动轨迹
+        parent: rotationController, curve: Curves.easeInCubic); //模仿小球自由落体运动轨迹
     curved_2 = new CurvedAnimation(
         parent: rotationController, curve: Curves.linear); //模仿小球自由落体运动轨迹
 
     _usrController = AnimationController(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     );
 
     _pswController = AnimationController(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     );
 
     Future.delayed(Duration(milliseconds: 200), () {
       _usrController.forward(from: 0.0);
     });
-    Future.delayed(Duration(milliseconds: 300), () {
+    Future.delayed(Duration(milliseconds: 500), () {
       _pswController.forward(from: 0.0);
     });
 
@@ -128,7 +108,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     Provider.of<ThemeProvider>(context, listen: false)
         .changeTheme(isDarkMode ? lightTheme : darkTheme);
     isDarkMode = !isDarkMode;
-
     setState(() {});
   }
 
@@ -162,7 +141,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  //  Provider.of<FontFamilyProvider>(context, listen: false).fontFamily
                   IconButton(
                       icon:
                           Provider.of<FontFamilyProvider>(context, listen: true)
@@ -175,7 +153,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               ? ThemeColors.colorTheme
                               : Colors.black,
                       onPressed: handleChangeFont),
-
                   IconButton(
                       icon: Icon(
                           isDarkMode ? Ionicons.moon_sharp : Ionicons.sunny),
@@ -215,8 +192,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               height: 70.0.h,
                               width: 70.0.h,
                               child: GestureDetector(
-                                child:
-                                    Image.asset("assets/images/logo_trans.png"),
+                                child: Hero(
+                                  tag: "logoImg",
+                                  child:
+                                      SizedBox(height: 80.0, child: logoImage),
+                                ),
                                 onTap: speedUp,
                                 onLongPress: speedUp,
                               )),

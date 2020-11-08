@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/provider/ChatProvider.dart';
@@ -52,7 +53,17 @@ class ChatBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               GestureDetector(
                 child: Icon(
-                  Icons.delete_sweep,
+                  Ionicons.trash_outline,
+                  color: ThemeColors.colorBlack,
+                ),
+                onTap: handledeleteAllMsg,
+              ),
+              SizedBox(
+                width: 10.w,
+              ),
+              GestureDetector(
+                child: Icon(
+                  Ionicons.planet_outline,
                   color: ThemeColors.colorBlack,
                 ),
                 onTap: handledeleteAllMsg,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/provider/TabbarProvider.dart';
@@ -38,7 +39,7 @@ class _TabbarComponentState extends State<TabbarComponent> {
                     GButton(
                       backgroundColor: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.all(Radius.circular(30)),
-                      icon: Icons.playlist_add_check,
+                      icon: Ionicons.home_outline,
                       text: '评分',
                       textStyle:
                           TextStyle(fontSize: 12.sp, fontFamily: 'myFont'),
@@ -46,28 +47,28 @@ class _TabbarComponentState extends State<TabbarComponent> {
                     GButton(
                         backgroundColor: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.all(Radius.circular(30)),
-                        icon: Icons.today,
+                        icon: Ionicons.color_wand_outline,
                         text: '规则',
                         textStyle:
                             TextStyle(fontSize: 12.sp, fontFamily: 'myFont')),
                     GButton(
                         backgroundColor: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.all(Radius.circular(30)),
-                        icon: Icons.chat,
+                        icon: Ionicons.chatbubble_outline,
                         text: '聊天',
                         textStyle:
                             TextStyle(fontSize: 12.sp, fontFamily: 'myFont')),
                     GButton(
                         backgroundColor: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.all(Radius.circular(30)),
-                        icon: Icons.alarm,
+                        icon: Ionicons.analytics_outline,
                         text: '历史',
                         textStyle:
                             TextStyle(fontSize: 12.sp, fontFamily: 'myFont')),
                     GButton(
                         backgroundColor: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.all(Radius.circular(39)),
-                        icon: Icons.account_circle,
+                        icon: Ionicons.person_outline,
                         text: '我的',
                         textStyle:
                             TextStyle(fontSize: 12.sp, fontFamily: 'myFont')),

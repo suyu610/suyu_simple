@@ -39,15 +39,15 @@ class _TotalMarkState extends State<TotalMark> {
                       .totalValue()
                       .toString(),
                   style: TextStyle(
-                    fontSize: ScreenUtil().setSp(30),
-                    decoration: TextDecoration.underline,
-                    decorationStyle: TextDecorationStyle.solid,
-                    decorationColor: ThemeColors.colorTheme,
-                    decorationThickness: 3,
-                    fontWeight: FontWeight.bold,
-                    fontFamily:
-                        Provider.of<FontFamilyProvider>(context).fontFamily,
-                  )),
+                      fontSize: ScreenUtil().setSp(30),
+                      decoration: TextDecoration.underline,
+                      decorationStyle: TextDecorationStyle.solid,
+                      decorationColor: ThemeColors.colorTheme,
+                      decorationThickness: 2.5,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "kaitiFont"
+                      // Provider.of<FontFamilyProvider>(context).fontFamily,
+                      )),
             ),
             Padding(
               padding: EdgeInsets.only(right: ScreenUtil().setWidth(15)),

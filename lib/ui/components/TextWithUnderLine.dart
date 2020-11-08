@@ -26,7 +26,7 @@ class TextWithUnderLine extends StatelessWidget {
               decorationColor: ThemeColors.colorTheme,
               decoration: TextDecoration.underline,
               decorationThickness: 2,
-              fontFamily: fontfamily,
+              fontFamily: Provider.of<FontFamilyProvider>(context).fontFamily,
 
               // textAlign: TextAlign.center,
             ),

@@ -57,7 +57,8 @@ class FullScreenPage extends StatefulWidget {
   _FullScreenPageState createState() => _FullScreenPageState();
 }
 
-class _FullScreenPageState extends State<FullScreenPage> {
+class _FullScreenPageState extends State<FullScreenPage>
+    with SingleTickerProviderStateMixin {
   double initialPositionY = 0;
 
   double currentPositionY = 0;
@@ -69,12 +70,17 @@ class _FullScreenPageState extends State<FullScreenPage> {
   double disposeLimit = 150;
 
   Duration animationDuration;
+  AnimationController fadeAnimationController;
+  Animation fadeAnim;
 
   @override
   void initState() {
     super.initState();
     setDisposeLevel();
     animationDuration = Duration.zero;
+    fadeAnimationController =
+        AnimationController(duration: Duration(milliseconds: 300), vsync: this);
+    fadeAnim = Tween(begin: 1.0, end: 0.0).animate(fadeAnimationController);
   }
 
   setDisposeLevel() {
@@ -92,6 +98,13 @@ class _FullScreenPageState extends State<FullScreenPage> {
     setState(() {
       initialPositionY = details.globalPosition.dy;
     });
+  }
+
+  void _tap() {
+    setState(() {
+      fadeAnimationController.forward();
+    });
+    Navigator.of(context).pop();
   }
 
   void _whileVerticalDrag(details) {
@@ -145,27 +158,30 @@ class _FullScreenPageState extends State<FullScreenPage> {
           ? Colors.transparent
           : widget.backgroundColor,
       body: GestureDetector(
-        onTap: () => Navigator.of(context).pop(),
+        onTap: _tap,
         onVerticalDragStart: (details) => _startVerticalDrag(details),
         onVerticalDragUpdate: (details) => _whileVerticalDrag(details),
         onVerticalDragEnd: (details) => _endVerticalDrag(details),
-        child: Container(
-          color: widget.backgroundColor.withOpacity(opacity),
-          constraints: BoxConstraints.expand(
-            height: MediaQuery.of(context).size.height,
-          ),
-          child: Stack(
-            children: <Widget>[
-              AnimatedPositioned(
-                duration: animationDuration,
-                curve: Curves.fastOutSlowIn,
-                top: 0 + positionYDelta,
-                bottom: 0 - positionYDelta,
-                left: 0,
-                right: 0,
-                child: widget.child,
-              )
-            ],
+        child: FadeTransition(
+          opacity: fadeAnim,
+          child: Container(
+            color: widget.backgroundColor.withOpacity(opacity),
+            constraints: BoxConstraints.expand(
+              height: MediaQuery.of(context).size.height,
+            ),
+            child: Stack(
+              children: <Widget>[
+                AnimatedPositioned(
+                  duration: animationDuration,
+                  curve: Curves.fastOutSlowIn,
+                  top: 0 + positionYDelta,
+                  bottom: 0 - positionYDelta,
+                  left: 0,
+                  right: 0,
+                  child: widget.child,
+                )
+              ],
+            ),
           ),
         ),
       ),

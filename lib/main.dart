@@ -58,7 +58,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     EasyLoading.instance.toastPosition = EasyLoadingToastPosition.bottom;
-
+    precacheImage(Image.asset("assets/images/logo_trans.png").image, context);
+    precacheImage(Image.asset("assets/images/logo.png").image, context);
     ChatStream.instance.getStream().listen(
           (data) =>
               Provider.of<ChatProvider>(context, listen: false).initList(data),
@@ -83,9 +84,8 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: AnimatedSplash(
         color: ThemeColors.colorTheme,
-        duration: 1000,
+        duration: 0,
         home: Main(),
-        imagePath: "assets/images/logo.png",
       ),
     );
   }
