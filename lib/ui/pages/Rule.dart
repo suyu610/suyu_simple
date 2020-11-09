@@ -1,14 +1,6 @@
-// import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:suyu_simple/common/ThemeColor.dart';
-// import 'package:suyu_simple/data/ChatStream.dart';
-// import 'package:suyu_simple/model/ChatMessage.dart';
-import 'package:suyu_simple/provider/ChatProvider.dart';
-import 'package:suyu_simple/tools/DioUtils.dart';
 
 class RulePage extends StatefulWidget {
   RulePage({Key key}) : super(key: key);

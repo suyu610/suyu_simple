@@ -11,8 +11,6 @@ class TextWithUnderLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String fontfamily =
-        Provider.of<FontFamilyProvider>(context, listen: false).fontFamily;
     return Container(
       child: Stack(
         alignment: AlignmentDirectional.center,

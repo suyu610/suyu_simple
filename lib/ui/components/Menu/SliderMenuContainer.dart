@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
+// import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
 
 enum SliderOpen { LEFT_TO_RIGHT, RIGHT_TO_LEFT, TOP_TO_BOTTOM }

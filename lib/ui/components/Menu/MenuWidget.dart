@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
+// import 'package:suyu_simple/common/ThemeFonts.dart';
+// import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 
 class MenuWidget extends StatelessWidget {
   const MenuWidget({Key key}) : super(key: key);
@@ -17,16 +19,16 @@ class MenuWidget extends StatelessWidget {
       color: Colors.grey[900],
       child: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Icon(
-            //   Icons.flash_on,
-            //   size: 30.sp,
-            // ),
+            SizedBox(
+              height: 0.h,
+            ),
             Text("隐藏功能",
                 style: TextStyle(
                     fontSize: 24.sp,
                     fontFamily: "myFont",
+                    // fontWeight: FontWeight.bold,
                     color: Colors.white)),
             SizedBox(
               width: 100.w,
@@ -40,6 +42,7 @@ class MenuWidget extends StatelessWidget {
                       Icon(
                         Ionicons.game_controller_outline,
                         color: Colors.white,
+                        size: 16.sp,
                       ),
                       SizedBox(width: 20),
                       Text(
@@ -57,6 +60,7 @@ class MenuWidget extends StatelessWidget {
                       Icon(
                         Ionicons.images_outline,
                         color: Colors.white,
+                        size: 16.sp,
                       ),
                       SizedBox(width: 20),
                       Text(
@@ -74,6 +78,7 @@ class MenuWidget extends StatelessWidget {
                       Icon(
                         Ionicons.musical_note_outline,
                         color: Colors.white,
+                        size: 16.sp,
                       ),
                       SizedBox(width: 20),
                       Text(
@@ -89,12 +94,13 @@ class MenuWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Icon(
-                        Ionicons.radio_outline,
+                        Ionicons.bookmark_outline,
                         color: Colors.white,
+                        size: 16.sp,
                       ),
                       SizedBox(width: 20),
                       Text(
-                        "提建议",
+                        "收藏夹",
                         style: TextStyle(
                           fontSize: 16.sp,
                           color: Colors.white,
@@ -108,17 +114,31 @@ class MenuWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                IconButton(
+                    iconSize: 16.sp,
+                    icon: Provider.of<FontFamilyProvider>(context, listen: true)
+                            .isUseCustomFontFamily
+                        ? Icon(Ionicons.color_palette_sharp)
+                        : Icon(Ionicons.color_palette_outline),
+                    color:
+                        Provider.of<FontFamilyProvider>(context, listen: true)
+                                .isUseCustomFontFamily
+                            ? ThemeColors.colorTheme
+                            : Colors.white,
+                    onPressed: () => {}),
+                IconButton(
+                    iconSize: 16.sp,
+                    icon: Icon(true ? Ionicons.moon_sharp : Ionicons.sunny),
+                    color: Colors.white,
+                    onPressed: () => {}),
                 Hero(
                   tag: "logo",
-                  child: RaisedButton(
+                  child: IconButton(
+                      iconSize: 16.sp,
                       color: Colors.transparent,
-                      elevation: 0,
-                      child: Text(
-                        "about me",
-                        style: TextStyle(
-                          fontFamily: "kaitiFont",
-                          color: Colors.white,
-                        ),
+                      icon: Icon(
+                        Icons.flash_on_sharp,
+                        color: Colors.white,
                       ),
                       onPressed: () => showDialog(
                           context: context,
@@ -129,11 +149,8 @@ class MenuWidget extends StatelessWidget {
                                 height: 200.h,
                                 decoration: BoxDecoration(
                                   color: ThemeColors.colorTheme,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.elliptical(85, 23),
-                                    topRight: Radius.elliptical(50, 88),
-                                    bottomRight: Radius.elliptical(90, 29),
-                                    bottomLeft: Radius.elliptical(50, 92),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18),
                                   ),
                                 ),
                                 child: Center(
@@ -148,6 +165,9 @@ class MenuWidget extends StatelessWidget {
                           })),
                 ),
               ],
+            ),
+            SizedBox(
+              height: 0.h,
             ),
           ],
         ),

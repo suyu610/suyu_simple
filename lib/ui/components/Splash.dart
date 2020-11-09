@@ -2,7 +2,6 @@ library animated_splash;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:suyu_simple/common/ThemeColor.dart';
 
 Widget _home;
 Function _customFunction;

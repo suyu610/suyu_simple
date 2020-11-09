@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/model/ChatMessage.dart';
 
@@ -43,28 +44,34 @@ class ChatMsgContent extends StatelessWidget {
         onLongPress: () => showModalBottomSheet(
             context: context,
             elevation: 0,
-            backgroundColor: Theme.of(context).errorColor,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             builder: (BuildContext context) {
               return SafeArea(
                   child: Container(
-                height: 50.h,
+                height: 100.h,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        Icons.delete,
-                        color: Colors.white,
+                    GestureDetector(
+                        child: Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(
+                        Ionicons.trash_outline,
+                        color: Colors.black,
+                        size: 28.sp,
                       ),
-                      onPressed: () => {},
-                    ),
-                    Text(
-                      "删除",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
+                    )),
+                    GestureDetector(
+                        child: Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(
+                        Ionicons.bookmark_outline,
+                        color: Colors.black,
+                        size: 28.sp,
+                      ),
+                    )),
                   ],
                 ),
               ));
