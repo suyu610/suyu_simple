@@ -9,6 +9,7 @@ import 'package:suyu_simple/ui/components/Mark/MarkDetailLi.dart';
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 import 'package:suyu_simple/sampleData/SampleDate.dart';
 import 'package:suyu_simple/model/DailyRecorderModel.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../TextWithUnderLine.dart';
 import 'TotalMark.dart';
@@ -47,16 +48,18 @@ class _MarkMainBoxState extends State<MarkMainBox> {
           children: <Widget>[
             Column(
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Stack(
+                  // mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    TextWithUnderLine("他"),
-                    Text(
-                      "今天表现怎么样?",
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(18),
-                        fontFamily:
-                            Provider.of<FontFamilyProvider>(context).fontFamily,
+                    Center(
+                      child: Text(
+                        "他今天表现怎么样",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(18),
+                          fontFamily: Provider.of<FontFamilyProvider>(context)
+                              .fontFamily,
+                        ),
                       ),
                     ),
                   ],

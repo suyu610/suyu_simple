@@ -91,18 +91,15 @@ class _MarkPageState extends State<MarkPage> {
         }
       },
       child: Container(
-        height: 675.h,
-        color: Colors.red,
-        // decoration: ThemeFonts.lineBoxDecoration,
         child: SliderMenu(
-          appBarPadding: EdgeInsets.only(right: 10, left: 10, top: 24),
+          appBarPadding: EdgeInsets.only(right: 20.w, left: 3.w, top: 24),
           key: _key,
           appBarColor: Colors.transparent,
           trailing: GestureDetector(
             onTap: handleSaveBtnClick,
-            child: Icon(Ionicons.cloud_done_outline),
+            child: Icon(Ionicons.settings_outline),
           ),
-          title: Text("10月30日 周五",
+          title: Text("10月30日周五",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontWeight: FontWeight.w300,
@@ -136,20 +133,7 @@ class _MarkPageState extends State<MarkPage> {
                         //     ],
                         //   ),
                         // ),
-                        Padding(padding: EdgeInsets.all(5)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text("已经连续优秀第 4 天",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: ScreenUtil().setSp(12),
-                                    fontFamily:
-                                        Provider.of<FontFamilyProvider>(context)
-                                            .fontFamily)),
-                          ],
-                        ),
-                        Padding(padding: EdgeInsets.all(10)),
+
                         //中间的大盒子
                         MarkMainBox(),
                         Padding(padding: EdgeInsets.all(10)),

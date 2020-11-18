@@ -18,7 +18,7 @@ class MyButton extends StatefulWidget {
   double height = 32;
   double width;
   String title;
-  bool isYellow = false;
+  bool isYellow;
   double fontSize = 15;
   Function tapAction;
 

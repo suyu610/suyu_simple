@@ -1,10 +1,10 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:suyu_simple/ui/Components/MyButton.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class HistoryPage extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -15,88 +15,230 @@ class HistoryPage extends StatefulWidget {
 }
 
 class HistoryPageState extends State<HistoryPage> {
+  double _value = 30;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: ThemeColors.colorTheme,
-          elevation: 0,
-          title: const Text(
-            '历史记录',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16),
-          ),
-        ),
-        body: _getHorizantalGradientAreaChart());
+    return Container(
+      decoration: ThemeFonts.lineBoxDecoration,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _getHorizantalGradientAreaChart(),
+          // Text("当前心情",
+          //     style: TextStyle(
+          //         letterSpacing: 5.w,
+          //         fontWeight: FontWeight.w900,
+          //         color: Colors.black,
+          //         fontSize: ScreenUtil().setSp(15),
+          //         fontFamily: 'myFont')),
+          this.dashboard(),
+        ],
+      ),
+    );
   }
+
+  dashboard() {
+    return Container(
+      child: SfRadialGauge(
+          enableLoadingAnimation: true,
+          animationDuration: 3500,
+          axes: <RadialAxis>[
+            RadialAxis(
+              // 地盘
+              showAxisLine: true,
+              showLabels: true,
+              showTicks: false,
+              minimum: 0,
+              maximum: 100,
+              startAngle: 180,
+              endAngle: 45,
+              useRangeColorForAxis: false,
+              interval: 20,
+              // 表盘
+              axisLineStyle: AxisLineStyle(
+                thickness: 0.23,
+                thicknessUnit: GaugeSizeUnit.factor,
+                color: Colors.deepPurple,
+              ),
+
+              majorTickStyle: MajorTickStyle(
+                  length: 0.15, lengthUnit: GaugeSizeUnit.factor, thickness: 0),
+              minorTicksPerInterval: 0, labelOffset: 15,
+
+              minorTickStyle: MinorTickStyle(
+                  length: 0.04, lengthUnit: GaugeSizeUnit.factor, thickness: 1),
+              ranges: <GaugeRange>[
+                GaugeRange(
+                    startValue: 0,
+                    endValue: 100,
+                    color: ThemeColors.colorTheme,
+                    sizeUnit: GaugeSizeUnit.factor,
+                    startWidth: 0.23,
+                    endWidth: 0.23),
+                // GaugeRange(
+                //     startValue: 35,
+                //     endValue: 70,
+                //     sizeUnit: GaugeSizeUnit.factor,
+                //     color: Color(0xFFffad40),
+                //     startWidth: 0.23,
+                //     endWidth: 0.23),
+                // GaugeRange(
+                //     startValue: 70,
+                //     endValue: 100,
+                //     sizeUnit: GaugeSizeUnit.factor,
+                //     color: Color(0xffff9200), //Color(ThemeColors.colorTheme),
+                //     startWidth: 0.23,
+                //     endWidth: 0.23),
+              ],
+
+              pointers: <GaugePointer>[
+                RangePointer(
+                    value: _value,
+                    width: 35.w,
+                    enableAnimation: true,
+                    color: Color(0xffff7471),
+                    enableDragging: true,
+                    onValueChanging: onValueChanging,
+                    onValueChanged: onvalueChanged),
+                NeedlePointer(
+                    onValueChanging: onValueChanging,
+                    enableAnimation: true,
+                    value: _value,
+                    needleStartWidth: 1,
+                    needleEndWidth: 5,
+                    // 中心的圈
+                    knobStyle: KnobStyle(
+                        color: Colors.white,
+                        borderColor: Color(0xFFDADADA),
+                        knobRadius: 0.06,
+                        borderWidth: 0.04),
+                    tailStyle: TailStyle(
+                        color: Color(0xFFDADADA), width: 5, length: 0.15)),
+              ],
+
+              axisLabelStyle:
+                  GaugeTextStyle(fontWeight: FontWeight.w300, fontSize: 12),
+              annotations: <GaugeAnnotation>[
+                GaugeAnnotation(
+                    widget: Container(
+                      child: Text("当前心情",
+                          // (NumUtil.getNumByValueDouble(_value, 1))
+                          //     .toStringAsFixed(2),
+                          style: TextStyle(
+                              fontSize: 15.sp, fontWeight: FontWeight.bold)),
+                    ),
+                    angle: 90,
+                    positionFactor: 0.5)
+              ],
+            )
+          ]),
+    );
+  }
+
+  void onValueChanging(ValueChangingArgs args) {
+    _value = args.value;
+    setState(() {});
+  }
+
+  void onvalueChanged(double value) {}
 }
 
 ///  /// Return the circular chart with horizontal gradient.
 Widget _getHorizantalGradientAreaChart() {
-  return Container(
-    decoration: ThemeFonts.lineBoxDecoration,
-    padding: EdgeInsets.only(top: 40.h, bottom: 50.h, left: 10.w, right: 10.w),
-    height: 600.h,
-    width: 375.w,
-    child: Column(
-      children: <Widget>[
-        Text(
-          "十月记录",
-          style: ThemeFonts.titleFont,
-        ),
-        Padding(
-          padding: EdgeInsets.all(15.h),
-        ),
-        SfCartesianChart(
-          backgroundColor: ThemeColors.colorWhite,
-          borderWidth: 2,
-          borderColor: ThemeColors.colorBlack,
-          plotAreaBorderWidth: 0,
-          primaryXAxis: CategoryAxis(
-            labelPlacement: LabelPlacement.onTicks,
-            labelRotation: -45,
-            axisLine: AxisLine(width: 1),
-            majorGridLines: MajorGridLines(width: 0),
+  return SafeArea(
+    child: Container(
+      decoration: ThemeFonts.lineBoxDecoration,
+      padding:
+          EdgeInsets.only(top: 10.h, bottom: 10.h, left: 20.w, right: 20.w),
+      child: Column(
+        children: <Widget>[
+          GestureDetector(
+            onTap: () => {},
+            child: Container(
+              width: 200.w,
+              padding: EdgeInsets.all(5.w),
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(254, 212, 91, 1),
+                boxShadow: [
+                  new BoxShadow(
+                      color: Color.fromRGBO(173, 179, 191, 0.3),
+                      blurRadius: 1.0,
+                      offset: new Offset(0, 0))
+                ],
+                border: Border.merge(
+                  new Border(left: BorderSide(color: Colors.black, width: 5)),
+                  new Border(right: BorderSide(color: Colors.black, width: 5)),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.calendar_today_outlined,
+                    color: Colors.black,
+                    size: 18.sp,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 5.w),
+                  ),
+                  Text(
+                    "十一月记录",
+                    style: TextStyle(
+                        letterSpacing: 5.w,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black,
+                        fontSize: ScreenUtil().setSp(15),
+                        fontFamily: 'myFont'),
+                  ),
+                ],
+              ),
+            ),
           ),
-          tooltipBehavior: TooltipBehavior(enable: true, canShowMarker: true),
-          primaryYAxis: NumericAxis(
-            interval: 2,
-            minimum: 85,
-            maximum: 100,
-            labelFormat: '{value}分',
-            axisLine: AxisLine(width: 1),
+          Padding(
+            padding: EdgeInsets.all(5.h),
           ),
-          series: _getGradientAreaSeries(),
-          onMarkerRender: (MarkerRenderArgs args) {
-            if (args.pointIndex == 0) {
-              args.color = const Color.fromRGBO(207, 124, 168, 1);
-            } else if (args.pointIndex == 1) {
-              args.color = const Color.fromRGBO(210, 133, 167, 1);
-            } else if (args.pointIndex == 2) {
-              args.color = const Color.fromRGBO(219, 128, 161, 1);
-            } else if (args.pointIndex == 3) {
-              args.color = const Color.fromRGBO(213, 143, 151, 1);
-            } else if (args.pointIndex == 4) {
-              args.color = const Color.fromRGBO(226, 157, 126, 1);
-            } else if (args.pointIndex == 5) {
-              args.color = const Color.fromRGBO(220, 169, 122, 1);
-            } else if (args.pointIndex == 6) {
-              args.color = const Color.fromRGBO(221, 176, 108, 1);
-            } else if (args.pointIndex == 7) {
-              args.color = const Color.fromRGBO(222, 187, 97, 1);
-            }
-          },
-        ),
-        Padding(
-          padding: EdgeInsets.all(15.h),
-        ),
-        MyButton("亲他一下",
-            isYellow: false,
-            fontSize: 14.sp,
-            tapAction: () => EasyLoading.showToast('收到!',
-                duration: Duration(milliseconds: 500),
-                toastPosition: EasyLoadingToastPosition.bottom)),
-      ],
+          SfCartesianChart(
+            backgroundColor: ThemeColors.colorWhite,
+            borderWidth: 0,
+            borderColor: Colors.transparent,
+            plotAreaBorderWidth: 0,
+            primaryXAxis: CategoryAxis(
+              labelPlacement: LabelPlacement.onTicks,
+              labelRotation: -45,
+              axisLine: AxisLine(width: 1),
+              majorGridLines: MajorGridLines(width: 0),
+            ),
+            tooltipBehavior: TooltipBehavior(enable: true, canShowMarker: true),
+            primaryYAxis: NumericAxis(
+              interval: 2,
+              minimum: 85,
+              maximum: 100,
+              labelFormat: '{value}分',
+              axisLine: AxisLine(width: 1),
+            ),
+            series: _getGradientAreaSeries(),
+            onMarkerRender: (MarkerRenderArgs args) {
+              if (args.pointIndex == 0) {
+                args.color = const Color.fromRGBO(207, 124, 168, 1);
+              } else if (args.pointIndex == 1) {
+                args.color = const Color.fromRGBO(210, 133, 167, 1);
+              } else if (args.pointIndex == 2) {
+                args.color = const Color.fromRGBO(219, 128, 161, 1);
+              } else if (args.pointIndex == 3) {
+                args.color = const Color.fromRGBO(213, 143, 151, 1);
+              } else if (args.pointIndex == 4) {
+                args.color = const Color.fromRGBO(226, 157, 126, 1);
+              } else if (args.pointIndex == 5) {
+                args.color = const Color.fromRGBO(220, 169, 122, 1);
+              } else if (args.pointIndex == 6) {
+                args.color = const Color.fromRGBO(221, 176, 108, 1);
+              } else if (args.pointIndex == 7) {
+                args.color = const Color.fromRGBO(222, 187, 97, 1);
+              }
+            },
+          ),
+        ],
+      ),
     ),
   );
 }
@@ -137,13 +279,11 @@ List<ChartSeries<_ChartData, String>> _getGradientAreaSeries() {
       /// To set the gradient colors for series.
       gradient: const LinearGradient(colors: <Color>[
         Color.fromRGBO(254, 212, 91, 1),
-
-        Color.fromRGBO(254, 212, 91, 0.6),
+        // Color.fromRGBO(254, 212, 91, 0.6),
         // Color.fromRGBO(30, 170, 241, 1),
         // Color.fromRGBO(114, 198, 241, 0.6),
       ], stops: <double>[
         0.6,
-        0.9,
         // 1,
       ]),
       borderWidth: 2,
@@ -155,7 +295,7 @@ List<ChartSeries<_ChartData, String>> _getGradientAreaSeries() {
           color: Color.fromRGBO(255, 255, 255, 1),
           borderColor: Color.fromRGBO(0, 0, 0, 0.4),
           borderWidth: 2),
-      borderDrawMode: BorderDrawMode.top,
+      borderDrawMode: BorderDrawMode.all,
       dataSource: chartData,
       xValueMapper: (_ChartData sales, _) => sales.x,
       yValueMapper: (_ChartData sales, _) => sales.y,

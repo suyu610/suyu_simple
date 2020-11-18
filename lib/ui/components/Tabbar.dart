@@ -47,8 +47,8 @@ class _TabbarComponentState extends State<TabbarComponent> {
                     GButton(
                         backgroundColor: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.all(Radius.circular(30)),
-                        icon: Ionicons.color_wand_outline,
-                        text: '规则',
+                        icon: Ionicons.flower_outline,
+                        text: '仓库',
                         textStyle:
                             TextStyle(fontSize: 12.sp, fontFamily: 'myFont')),
                     GButton(
@@ -62,7 +62,7 @@ class _TabbarComponentState extends State<TabbarComponent> {
                         backgroundColor: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.all(Radius.circular(30)),
                         icon: Ionicons.analytics_outline,
-                        text: '历史',
+                        text: '数据',
                         textStyle:
                             TextStyle(fontSize: 12.sp, fontFamily: 'myFont')),
                     GButton(

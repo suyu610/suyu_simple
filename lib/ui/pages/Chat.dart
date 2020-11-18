@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
@@ -49,7 +50,6 @@ class _ChatPageState extends State<ChatPage> {
   Future _userAddImg(File img) async {
     // 将相片存到本地
     // 获取本地链接
-    //定义实体
     RandomUtil.getRandomMsgPicWithPic(img).then((msg) => handle(msg));
   }
 
@@ -312,7 +312,7 @@ class _ChatPageState extends State<ChatPage> {
                           // borderRadius: BorderRadius.circular(5.h),
                           ),
                       child: Icon(
-                        Icons.send,
+                        Ionicons.send,
                         color: ThemeColors.colorBlack,
                         size: 20.sp,
                       ),

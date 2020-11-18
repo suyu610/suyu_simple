@@ -6,6 +6,9 @@ import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
+import 'package:suyu_simple/ui/components/Menu/MenuItem.dart';
+
+import '../AboutDialog.dart';
 // import 'package:suyu_simple/common/ThemeFonts.dart';
 // import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 
@@ -20,6 +23,7 @@ class MenuWidget extends StatelessWidget {
       child: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
               height: 0.h,
@@ -31,83 +35,27 @@ class MenuWidget extends StatelessWidget {
                     // fontWeight: FontWeight.bold,
                     color: Colors.white)),
             SizedBox(
-              width: 100.w,
-              height: 200.h,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Ionicons.game_controller_outline,
-                        color: Colors.white,
-                        size: 16.sp,
-                      ),
-                      SizedBox(width: 20),
-                      Text(
-                        "玩游戏",
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
+                  MenuItem(
+                      title: "玩游戏",
+                      icon: Ionicons.game_controller_outline,
+                      tapAction: () => {}),
+                  MenuItem(
+                    title: "相册",
+                    icon: Ionicons.images_outline,
+                    tapAction: () => print("xixi"),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Ionicons.images_outline,
-                        color: Colors.white,
-                        size: 16.sp,
-                      ),
-                      SizedBox(width: 20),
-                      Text(
-                        "相册",
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Ionicons.musical_note_outline,
-                        color: Colors.white,
-                        size: 16.sp,
-                      ),
-                      SizedBox(width: 20),
-                      Text(
-                        "唱歌",
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Ionicons.bookmark_outline,
-                        color: Colors.white,
-                        size: 16.sp,
-                      ),
-                      SizedBox(width: 20),
-                      Text(
-                        "收藏夹",
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
-                  ),
+                  MenuItem(
+                      title: "唱歌",
+                      icon: Ionicons.musical_note_outline,
+                      tapAction: () => {}),
+                  MenuItem(
+                      title: "收藏夹",
+                      icon: Ionicons.bookmark_outline,
+                      tapAction: () => {}),
                 ],
               ),
             ),
@@ -128,7 +76,16 @@ class MenuWidget extends StatelessWidget {
                     onPressed: () => {}),
                 IconButton(
                     iconSize: 16.sp,
+                    // ignore: dead_code
                     icon: Icon(true ? Ionicons.moon_sharp : Ionicons.sunny),
+                    color: Colors.white,
+                    onPressed: () => {}),
+                IconButton(
+                    iconSize: 16.sp,
+                    // ignore: dead_code
+                    icon: Icon(
+                      Ionicons.git_network_outline,
+                    ),
                     color: Colors.white,
                     onPressed: () => {}),
                 Hero(
@@ -143,25 +100,7 @@ class MenuWidget extends StatelessWidget {
                       onPressed: () => showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return Dialog(
-                              backgroundColor: Colors.transparent,
-                              child: Container(
-                                height: 200.h,
-                                decoration: BoxDecoration(
-                                  color: ThemeColors.colorTheme,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(18),
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "嘿~你好呀",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            );
+                            return MyAboutDialog();
                           })),
                 ),
               ],

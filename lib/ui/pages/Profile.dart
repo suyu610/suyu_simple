@@ -9,6 +9,7 @@ import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/tools/StrUtil.dart';
+import 'package:suyu_simple/ui/components/AboutDialog.dart';
 import 'package:suyu_simple/ui/components/MyButton.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -20,8 +21,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   TextEditingController textEditingController = new TextEditingController();
-  TextEditingController _commentsController = new TextEditingController();
-
   String currentText = "";
   void handleSearchBtnClick() {
     print("不能为空");
@@ -45,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     }
 
-    // showAboutDialog(context: context);
+    // showAboutDialog
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
@@ -72,125 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         onPressed: () => showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return Dialog(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        8.0)), //this right here
-                                child: Container(
-                                  height: 400,
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
-                                    border: Border.all(width: 3),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8)),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Hero(
-                                              tag: "logo",
-                                              child: SizedBox(
-                                                  width: 30.h,
-                                                  child: Icon(Icons.flash_on)),
-                                            ),
-                                            Text(
-                                              "素语评分",
-                                              style: ThemeFonts.titleFont,
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
-                                        ),
-                                        Text(
-                                          "v0.2",
-                                          style: TextStyle(fontSize: 14),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        Text(
-                                          "一个用来学习flutter的小玩具",
-                                          style: ThemeFonts.bodyFont,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        // Container(
-                                        //   height: 1,
-                                        //   width: 375,
-                                        //   color: Colors.black12,
-                                        // ),
-                                        SizedBox(
-                                          height: 10.h,
-                                        ),
-                                        SizedBox(
-                                          height: 40.h,
-                                        ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            border: Border.merge(
-                                              new Border(
-                                                  top: BorderSide(
-                                                      color: nameIsTap
-                                                          ? ThemeColors
-                                                              .colorTheme
-                                                          : Colors.transparent,
-                                                      width: 3)),
-                                              new Border(
-                                                  bottom: BorderSide(
-                                                      color: nameIsTap
-                                                          ? ThemeColors
-                                                              .colorTheme
-                                                          : Colors.transparent,
-                                                      width: 3)),
-                                            ),
-                                          ),
-                                          child: TextField(
-                                            controller: _commentsController,
-                                            textInputAction:
-                                                TextInputAction.done,
-                                            onEditingComplete: () =>
-                                                print("ok"),
-                                            maxLines: 2,
-                                            textAlign: TextAlign.center,
-                                            decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                hintStyle: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 14),
-                                                hintText: '想对我说点什么吗?'),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 20.h,
-                                        ),
-                                        SizedBox(
-                                          width: 320.0,
-                                          child: FlatButton(
-                                            onPressed: () {},
-                                            child: Text(
-                                              "查看详细介绍",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            color: Colors.black,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
+                              return MyAboutDialog();
                             })),
                   ),
                 ],
@@ -237,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       : Colors.black,
                                   width: 5)),
                         ),
-                      ), // borderRadius: BorderRadius.circular(10)),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
