@@ -2,9 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ionicons/ionicons.dart';
-
 import 'package:suyu_simple/common/ThemeColor.dart';
+import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/ui/components/Carousel.dart';
 import 'package:suyu_simple/ui/components/MyButton.dart';
 // import 'package:slimy_card/slimy_card.dart';
@@ -18,16 +17,10 @@ class RulePage extends StatefulWidget {
 
 class _RulePageState extends State<RulePage> {
   final TextEditingController inputController = TextEditingController();
-  List<String> items;
+  List<String> items = new List<String>.from(["亲亲卡", "抱抱卡", "亲耳朵卡"]);
   @override
   void initState() {
     super.initState();
-    this.items = new List<String>();
-    items.add("亲亲卡");
-    items.add("抱抱卡");
-    items.add("亲耳朵卡");
-    items.add("打屁股卡");
-    items.add("口交卡");
     // this.items = new List<String>.generate(10, (int index) => "Item: $index");
   }
 
@@ -108,67 +101,93 @@ class _RulePageState extends State<RulePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
+        child: Container(
+            decoration: ThemeFonts.lineBoxDecoration,
             child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            GestureDetector(
-              onTap: () => {},
-              child: Container(
-                width: 150.w,
-                padding: EdgeInsets.all(5.w),
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(254, 212, 91, 1),
-                  boxShadow: [
-                    new BoxShadow(
-                        color: Color.fromRGBO(173, 179, 191, 0.3),
-                        blurRadius: 1.0,
-                        offset: new Offset(0, 0))
-                  ],
-                  border: Border.merge(
-                    new Border(left: BorderSide(color: Colors.black, width: 5)),
-                    new Border(
-                        right: BorderSide(color: Colors.black, width: 5)),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Ionicons.flower_outline,
-                      color: Colors.black,
-                      size: 18.sp,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () => {},
+                      child: Container(
+                        width: 150.w,
+                        padding: EdgeInsets.all(5.w),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(254, 212, 91, 1),
+                          boxShadow: [
+                            new BoxShadow(
+                                color: Color.fromRGBO(173, 179, 191, 0.3),
+                                blurRadius: 1.0,
+                                offset: new Offset(0, 0))
+                          ],
+                          border: Border.merge(
+                            new Border(
+                                left:
+                                    BorderSide(color: Colors.black, width: 5)),
+                            new Border(
+                                right:
+                                    BorderSide(color: Colors.black, width: 5)),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              "当前拥有",
+                              style: TextStyle(
+                                  letterSpacing: 5.w,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.black,
+                                  fontSize: ScreenUtil().setSp(15),
+                                  fontFamily: 'myFont'),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 5.w),
+                    SizedBox(
+                      height: 10.h,
                     ),
                     Text(
-                      "仓库",
-                      style: TextStyle(
-                          letterSpacing: 5.w,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.black,
-                          fontSize: ScreenUtil().setSp(15),
-                          fontFamily: 'myFont'),
+                      " 10 朵小红花",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      " 3 张卡片",
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
-              ),
-            ),
-            Column(
-              children: [
-                this.renderCustomCarousel(),
-                MyButton(
-                  "使用",
-                  isYellow: true,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "1 / 3",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              fontSize: 22.sp, color: Colors.grey.shade200),
+                        ),
+                        SizedBox(
+                          width: 50.w,
+                        )
+                      ],
+                    ),
+                    this.renderCustomCarousel(),
+                    MyButton(
+                      "使用",
+                      isYellow: true,
+                    ),
+                  ],
                 ),
+                SizedBox(
+                  height: 20.h,
+                )
               ],
-            ),
-            SizedBox(
-              height: 20.h,
-            )
-          ],
-        )),
+            )),
       ),
     );
   }

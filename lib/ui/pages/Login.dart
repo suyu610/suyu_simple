@@ -1,24 +1,22 @@
 // import 'package:dio/dio.dart';
 import 'dart:async';
+import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/animation.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:crypto/crypto.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
-
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
-
 import 'package:suyu_simple/common/MyTheme.dart';
-// import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/provider/ThemeProvider.dart';
-// import 'package:suyu_simple/tools/DioUtils.dart';
-
-// import 'package:flutter_easyloading/flutter_easyloading.dart';
-
+import 'package:suyu_simple/ui/components/DraggableCard.dart';
+import 'package:suyu_simple/ui/components/UnShapedInput.dart';
+import 'package:suyu_simple/utils/loading_utils.dart';
 import 'Home.dart';
 
 class LoginPage extends StatefulWidget {
@@ -39,7 +37,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   CurvedAnimation curved_1; //曲线动画，动画插值，
   CurvedAnimation curved_2;
   Image logoImage;
-
+  bool isRegMode;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -47,15 +45,94 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     precacheImage(logoImage.image, context);
   }
 
+  Future<void> handleDoneBtn() async {
+    EasyLoading.show();
+    if (isRegMode) {
+      if (usernameController.text.isEmpty ||
+          passwordController.text.isEmpty ||
+          nicknameController.text.isEmpty) {
+        EasyLoading.showInfo("信息不能为空");
+      } else {
+        var params = new Map<String, dynamic>();
+        params["nickname"] = nicknameController.text;
+        params["username"] = usernameController.text;
+        params["password"] = passwordController.text;
+        Dio dio = new Dio();
+        try {
+          await dio
+              .post("http://192.168.43.178:8088/user/reg",
+                  queryParameters: params)
+              .then((value) {
+            print("---------");
+            if (value.data["status"] != 200) {
+              LoadingUtils.dismiss();
+              EasyLoading.showError(value.data["msg"]);
+            } else {
+              LoadingUtils.dismiss();
+
+              EasyLoading.showSuccess("注册成功");
+              handleClickChangeRegModeBtnClick();
+            }
+          });
+        } catch (e) {
+          LoadingUtils.dismiss();
+          EasyLoading.showError("服务器有问题!!");
+        }
+      }
+    } else {
+      if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
+        EasyLoading.showInfo("信息不能为空");
+      } else {
+        var params = new Map<String, dynamic>();
+        params["username"] = usernameController.text;
+        params["password"] =
+            md5.convert(utf8.encode(passwordController.text)).toString();
+        Dio dio = new Dio();
+        try {
+          await dio
+              .post("http://192.168.43.178:8088/user/loginByPwd",
+                  queryParameters: params)
+              .then((value) {
+            print("---------");
+            if (value.data["status"] != 200) {
+              LoadingUtils.dismiss();
+              EasyLoading.showError(value.data["msg"]);
+            } else {
+              LoadingUtils.dismiss();
+              EasyLoading.showSuccess("登陆成功");
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
+                return HomePage();
+              }));
+            }
+            print("---------");
+          });
+        } catch (e) {
+          LoadingUtils.dismiss();
+          EasyLoading.showError("请检查网络!!");
+        }
+      }
+    }
+  }
+
+  TextEditingController nicknameController;
+  TextEditingController usernameController;
+  TextEditingController passwordController;
+
   @override
   void initState() {
     super.initState();
+    isRegMode = false;
     logoImage = Image.asset("assets/images/logo_trans.png");
+    usernameController = new TextEditingController();
+    passwordController = new TextEditingController();
+    nicknameController = new TextEditingController();
 
     rotationController = AnimationController(
-      duration: const Duration(milliseconds: 3000),
+      duration: const Duration(milliseconds: 5000),
       vsync: this,
     );
+
     rotationController.repeat(reverse: false);
 
     curved_1 = new CurvedAnimation(
@@ -117,6 +194,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  void handleClickChangeRegModeBtnClick() {
+    nicknameController.text = "";
+    passwordController.text = "";
+    usernameController.text = "";
+    isRegMode = !isRegMode;
+    setState(() {});
+  }
+
+  void stopAndStartLogo() {
+    isStart ? rotationController.repeat() : rotationController.stop();
+    isStart = !isStart;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -134,10 +225,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               repeat: ImageRepeat.repeat,
             )),
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
+          child: Stack(
+            children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -147,11 +236,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   .isUseCustomFontFamily
                               ? Icon(Ionicons.color_palette_sharp)
                               : Icon(Ionicons.color_palette_outline),
-                      color:
-                          Provider.of<FontFamilyProvider>(context, listen: true)
-                                  .isUseCustomFontFamily
-                              ? ThemeColors.colorTheme
-                              : Colors.black,
+                      color: Theme.of(context).textSelectionColor,
                       onPressed: handleChangeFont),
                   IconButton(
                       icon: Icon(
@@ -163,257 +248,242 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   )
                 ],
               ),
-              Column(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(0.h),
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0xff000000),
-                                spreadRadius: 2.0,
-                                offset: Offset(5.0, 6.0),
-                              )
-                            ],
-                            color: ThemeColors.colorTheme,
-                            // color: Colors.orange[300],
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.elliptical(50, 23),
-                              topRight: Radius.elliptical(20, 79),
-                              bottomRight: Radius.elliptical(50, 19),
-                              bottomLeft: Radius.elliptical(30, 32),
-                            )),
-                        child: RotationTransition(
-                          turns: curved_2,
-                          child: SizedBox(
-                              height: 70.0.h,
-                              width: 70.0.h,
-                              child: GestureDetector(
-                                child: Hero(
-                                  tag: "logoImg",
-                                  child:
-                                      SizedBox(height: 80.0, child: logoImage),
-                                ),
-                                onTap: speedUp,
-                                onLongPress: speedUp,
-                              )),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SlideTransition(
-                    position: _usrOffsetAnimation,
-                    child: Container(
-                      width: 320.w,
-                      padding: EdgeInsets.only(left: 10.h),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.elliptical(50, 23),
-                          topRight: Radius.elliptical(90, 19),
-                          bottomRight: Radius.elliptical(50, 99),
-                          bottomLeft: Radius.elliptical(50, 92),
-                        ),
+              AnimatedOpacity(
+                //如果等于0，则说明没有键盘
+                opacity:
+                    MediaQuery.of(context).viewInsets.bottom == 0 ? 1.0 : 0.0,
+                duration: Duration(milliseconds: 150),
+
+                child: DraggableCard(
+                  child: Container(
+                    padding: EdgeInsets.all(0.h),
+                    decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                            color: ThemeColors.colorTheme,
-                            // color: Colors.orange[300],
+                            color: Color(0xff000000),
                             spreadRadius: 2.0,
-                            offset: Offset(3.0, 4.0),
+                            offset: Offset(5.0, 6.0),
                           )
                         ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Ionicons.person_outline,
-                            color: Colors.white,
-                            size: 16.sp,
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Container(
-                            height: 30.h,
-                            width: 280.w,
-                            child: TextFormField(
-                                style: TextStyle(color: Colors.white),
-                                maxLines: 1,
-                                cursorColor: Colors.white,
-                                cursorWidth: 2.w,
-                                cursorRadius: Radius.circular(2.w),
-                                textAlign: TextAlign.left,
-                                textAlignVertical: TextAlignVertical.bottom,
-                                decoration: InputDecoration(
-                                    hintStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: "kaitifont",
-                                    ),
-                                    isDense: true,
-                                    hintText: "username",
-                                    border: InputBorder.none)),
-                          ),
-                        ],
-                      ),
+                        color: ThemeColors.colorTheme,
+                        // color: Colors.orange[300],
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.elliptical(50, 23),
+                          topRight: Radius.elliptical(20, 79),
+                          bottomRight: Radius.elliptical(50, 19),
+                          bottomLeft: Radius.elliptical(30, 32),
+                        )),
+                    child: RotationTransition(
+                      turns: curved_2,
+                      child: SizedBox(
+                          height: 70.0.h,
+                          width: 70.0.h,
+                          child: GestureDetector(
+                            child: Hero(
+                              tag: "logoImg",
+                              child: SizedBox(height: 80.0, child: logoImage),
+                            ),
+                            onTap: stopAndStartLogo,
+                            onLongPress: stopAndStartLogo,
+                          )),
+                    ),
+                  ),
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    isRegMode ? "注册" : "登陆",
+                    style: TextStyle(
+                      color: Theme.of(context).textSelectionColor,
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.bold,
+                      decorationStyle: TextDecorationStyle.solid,
+                      // decorationStyle: TextDecorationStyle.wavy,
+                      decorationColor: ThemeColors.colorTheme,
+                      decoration: TextDecoration.underline,
+                      decorationThickness: 2,
+                      fontFamily:
+                          Provider.of<FontFamilyProvider>(context).fontFamily,
+                      // textAlign: TextAlign.center,
                     ),
                   ),
                   SizedBox(
                     height: 20.h,
                   ),
-                  SlideTransition(
-                    position: _pswOffsetAnimation,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SlideTransition(
+                        position: _usrOffsetAnimation,
+                        child: UnShapedInput(
+                          icon: isRegMode
+                              ? Ionicons.flash_outline
+                              : Ionicons.person_outline,
+                          text: isRegMode ? "昵称" : "账号",
+                          controller: isRegMode
+                              ? nicknameController
+                              : usernameController,
+                        ),
+                      ),
+                      AnimatedSize(
+                        vsync: this,
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.fastOutSlowIn,
+                        child: Container(
+                          child: Container(
+                            child: !isRegMode
+                                ? null
+                                : SizedBox(
+                                    height: 20.h,
+                                  ),
+                          ),
+                        ),
+                      ),
+                      AnimatedOpacity(
+                        opacity: isRegMode ? 1.0 : 0.0,
+                        duration: Duration(milliseconds: 300),
+                        // child: SlideTransition(
+                        // position: _pswOffsetAnimation,
+                        child: UnShapedInput(
+                          icon: Ionicons.person_outline,
+                          text: "账号",
+                          controller: usernameController,
+                        ),
+                        // ),
+                      ),
+                      AnimatedSize(
+                        vsync: this,
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.fastOutSlowIn,
+                        child: Container(
+                          child: Container(
+                            child: !isRegMode
+                                ? null
+                                : SizedBox(
+                                    height: 20.h,
+                                  ),
+                          ),
+                        ),
+                      ),
+                      SlideTransition(
+                        position: _pswOffsetAnimation,
+                        child: UnShapedInput(
+                          icon: Ionicons.lock_closed_outline,
+                          text: "密码",
+                          controller: passwordController,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                      ScaleTransition(
+                        scale:
+                            Tween(begin: 0.0, end: 1.0).animate(_usrController),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(2.h),
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      // color: Colors.orange[300],
+                                      color: ThemeColors.colorTheme,
+                                      spreadRadius: 2.0,
+                                      offset: Offset(3.0, 4.0),
+                                    )
+                                  ],
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.elliptical(20, 53),
+                                    topRight: Radius.elliptical(39, 11),
+                                    bottomRight: Radius.elliptical(50, 49),
+                                    bottomLeft: Radius.elliptical(23, 32),
+                                  )),
+                              child: IconButton(
+                                iconSize: 30,
+                                icon: Icon(
+                                  isRegMode
+                                      ? Ionicons.close_outline
+                                      : Ionicons.add_outline,
+                                  color: Colors.white,
+                                ),
+                                onPressed: handleClickChangeRegModeBtnClick,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 30.w,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(2.h),
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: ThemeColors.colorTheme,
+                                      spreadRadius: 2.0,
+                                      offset: Offset(3.0, 4.0),
+                                    )
+                                  ],
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.elliptical(20, 33),
+                                    topRight: Radius.elliptical(29, 31),
+                                    bottomRight: Radius.elliptical(50, 49),
+                                    bottomLeft: Radius.elliptical(30, 32),
+                                  )),
+                              child: IconButton(
+                                iconSize: 30,
+                                icon: Icon(
+                                  isRegMode
+                                      ? Icons.done_sharp
+                                      : Icons.arrow_right_alt_sharp,
+                                  color: Colors.white,
+                                ),
+                                onPressed: handleDoneBtn,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  AnimatedSize(
+                    vsync: this,
+                    duration: Duration(milliseconds: 150),
+                    curve: Curves.fastOutSlowIn,
                     child: Container(
-                      width: 320.w,
-                      padding: EdgeInsets.only(left: 10.h),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.elliptical(20, 13),
-                          topRight: Radius.elliptical(45, 29),
-                          bottomRight: Radius.elliptical(30, 19),
-                          bottomLeft: Radius.elliptical(30, 32),
+                      child: Container(
+                        child: SizedBox(
+                          height:
+                              MediaQuery.of(context).viewInsets.bottom * 0.8,
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            // color: Colors.orange[300],
-                            color: ThemeColors.colorTheme,
-                            spreadRadius: 1.0,
-                            offset: Offset(3.0, 4.0),
-                          )
-                        ],
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Ionicons.lock_closed_outline,
-                            color: Colors.white,
-                            size: 16.sp,
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Container(
-                            height: 30.h,
-                            width: 280.w,
-                            child: TextFormField(
-                                style: TextStyle(color: Colors.white),
-                                maxLines: 1,
-                                textAlign: TextAlign.left,
-                                cursorColor: Colors.white,
-                                cursorWidth: 2.w,
-                                cursorRadius: Radius.circular(2.w),
-                                textAlignVertical: TextAlignVertical.bottom,
-                                decoration: InputDecoration(
-                                    hintStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: "kaitifont",
-                                    ),
-                                    isDense: true,
-                                    hintText: "password",
-                                    border: InputBorder.none)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  ScaleTransition(
-                    scale: Tween(begin: 0.0, end: 1.0).animate(_usrController),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(2.h),
-                          decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  // color: Colors.orange[300],
-                                  color: ThemeColors.colorTheme,
-                                  spreadRadius: 2.0,
-                                  offset: Offset(3.0, 4.0),
-                                )
-                              ],
-                              color: Colors.black,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.elliptical(20, 53),
-                                topRight: Radius.elliptical(39, 11),
-                                bottomRight: Radius.elliptical(50, 49),
-                                bottomLeft: Radius.elliptical(23, 32),
-                              )),
-                          child: IconButton(
-                            iconSize: 30,
-                            icon: Icon(
-                              Ionicons.add_outline,
-                              color: Colors.white,
-                            ),
-                            onPressed: () => Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (context) {
-                              return HomePage();
-                            })),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 30.w,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(2.h),
-                          decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: ThemeColors.colorTheme,
-                                  spreadRadius: 2.0,
-                                  offset: Offset(3.0, 4.0),
-                                )
-                              ],
-                              color: Colors.black,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.elliptical(20, 33),
-                                topRight: Radius.elliptical(29, 31),
-                                bottomRight: Radius.elliptical(50, 49),
-                                bottomLeft: Radius.elliptical(30, 32),
-                              )),
-                          child: IconButton(
-                            iconSize: 30,
-                            icon: Icon(
-                              Icons.arrow_right_alt_sharp,
-                              color: Colors.white,
-                            ),
-                            onPressed: () => Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (context) {
-                              return HomePage();
-                            })),
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                 ],
               ),
-              SizedBox(
-                height: MediaQuery.of(context).viewInsets.bottom + 20.h,
+              Positioned(
+                bottom: 10.h,
+                width: 375.w,
+                child: Center(
+                  child: TextButton(
+                      onPressed: () => Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return HomePage();
+                          })),
+                      child: Text(
+                        "单人模式",
+                        style: TextStyle(color: Colors.black),
+                      )),
+                ),
               ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  void speedUp() {
-    isStart ? rotationController.repeat() : rotationController.stop();
-    isStart = !isStart;
-    setState(() {});
   }
 }

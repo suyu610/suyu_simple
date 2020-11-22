@@ -1,4 +1,3 @@
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
@@ -24,13 +23,6 @@ class HistoryPageState extends State<HistoryPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _getHorizantalGradientAreaChart(),
-          // Text("当前心情",
-          //     style: TextStyle(
-          //         letterSpacing: 5.w,
-          //         fontWeight: FontWeight.w900,
-          //         color: Colors.black,
-          //         fontSize: ScreenUtil().setSp(15),
-          //         fontFamily: 'myFont')),
           this.dashboard(),
         ],
       ),
@@ -58,7 +50,7 @@ class HistoryPageState extends State<HistoryPage> {
               axisLineStyle: AxisLineStyle(
                 thickness: 0.23,
                 thicknessUnit: GaugeSizeUnit.factor,
-                color: Colors.deepPurple,
+                color: Colors.grey.shade300,
               ),
 
               majorTickStyle: MajorTickStyle(
@@ -121,7 +113,7 @@ class HistoryPageState extends State<HistoryPage> {
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
                     widget: Container(
-                      child: Text("当前心情",
+                      child: Text("他现在的心情",
                           // (NumUtil.getNumByValueDouble(_value, 1))
                           //     .toStringAsFixed(2),
                           style: TextStyle(
@@ -148,14 +140,14 @@ Widget _getHorizantalGradientAreaChart() {
   return SafeArea(
     child: Container(
       decoration: ThemeFonts.lineBoxDecoration,
-      padding:
-          EdgeInsets.only(top: 10.h, bottom: 10.h, left: 20.w, right: 20.w),
+      padding: EdgeInsets.only(top: 0.h, bottom: 0.h, left: 20.w, right: 20.w),
       child: Column(
         children: <Widget>[
           GestureDetector(
             onTap: () => {},
             child: Container(
               width: 200.w,
+              margin: EdgeInsets.only(top: 20.h),
               padding: EdgeInsets.all(5.w),
               decoration: BoxDecoration(
                 color: Color.fromRGBO(254, 212, 91, 1),
@@ -198,18 +190,22 @@ Widget _getHorizantalGradientAreaChart() {
             padding: EdgeInsets.all(5.h),
           ),
           SfCartesianChart(
-            backgroundColor: ThemeColors.colorWhite,
+            backgroundColor: Colors.white,
             borderWidth: 0,
             borderColor: Colors.transparent,
-            plotAreaBorderWidth: 0,
+            plotAreaBorderWidth: 1,
             primaryXAxis: CategoryAxis(
               labelPlacement: LabelPlacement.onTicks,
               labelRotation: -45,
               axisLine: AxisLine(width: 1),
-              majorGridLines: MajorGridLines(width: 0),
+              majorGridLines: MajorGridLines(width: 1),
             ),
             tooltipBehavior: TooltipBehavior(enable: true, canShowMarker: true),
             primaryYAxis: NumericAxis(
+              majorTickLines:
+                  MajorTickLines(size: 6, width: 2, color: Colors.red),
+              isVisible: true,
+              // desiredIntervals: 1,
               interval: 2,
               minimum: 85,
               maximum: 100,
@@ -288,18 +284,18 @@ List<ChartSeries<_ChartData, String>> _getGradientAreaSeries() {
       ]),
       borderWidth: 2,
       borderColor: Color.fromRGBO(0, 0, 0, 1),
-      markerSettings: MarkerSettings(
-          isVisible: false,
-          height: 12,
-          width: 12,
-          color: Color.fromRGBO(255, 255, 255, 1),
-          borderColor: Color.fromRGBO(0, 0, 0, 0.4),
-          borderWidth: 2),
+      // markerSettings: MarkerSettings(
+      //     isVisible: false,
+      //     height: 12,
+      //     width: 12,
+      //     color: Color.fromRGBO(255, 255, 255, 1),
+      //     borderColor: Color.fromRGBO(0, 0, 0, 0.4),
+      //     borderWidth: 2),
       borderDrawMode: BorderDrawMode.all,
       dataSource: chartData,
       xValueMapper: (_ChartData sales, _) => sales.x,
       yValueMapper: (_ChartData sales, _) => sales.y,
-      name: '今日评分',
+      // name: '今日评分',
     )
   ];
 }

@@ -34,12 +34,11 @@ class _MarkPageState extends State<MarkPage> {
   }
 
   Future<void> handleResetBtnClick() async {
-    print("重置按钮被按");
     await SharePreferencesUtils.token(
       SharePreferencesUtilsWorkType.remove,
     );
-    Toast.show('重置成功', context,
-        duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+    EasyLoading.showSuccess("退出成功");
+
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return LoginPage();
     }));
@@ -89,18 +88,25 @@ class _MarkPageState extends State<MarkPage> {
         if (distance > 30) {
           _key.currentState.openDrawer();
         }
+        if (distance < -30) {
+          _key.currentState.closeDrawer();
+        }
       },
       child: Container(
         child: SliderMenu(
-          appBarPadding: EdgeInsets.only(right: 20.w, left: 3.w, top: 24),
+          appBarPadding: EdgeInsets.only(right: 15.w, left: 10.w, top: 30.h),
           key: _key,
           appBarColor: Colors.transparent,
-          trailing: GestureDetector(
-            onTap: handleSaveBtnClick,
-            child: Icon(Ionicons.settings_outline),
+          trailing: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: handleSaveBtnClick,
+                child: Icon(Ionicons.settings_outline),
+              ),
+            ],
           ),
           title: Text("10月30日周五",
-              textAlign: TextAlign.center,
               style: TextStyle(
                   fontWeight: FontWeight.w300,
                   fontSize: ScreenUtil().setSp(18),

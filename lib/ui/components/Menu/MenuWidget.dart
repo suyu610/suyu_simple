@@ -5,6 +5,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
+import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/ui/components/Menu/MenuItem.dart';
 
@@ -18,8 +19,15 @@ class MenuWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+          color: Colors.grey[900],
+          image: DecorationImage(
+            image: AssetImage("assets/images/main_bg_with_blank.png"),
+            fit: BoxFit.none,
+            repeat: ImageRepeat.repeat,
+          )),
       // color: ThemeColors.colorBlack,
-      color: Colors.grey[900],
+      // color: Colors.grey[900],
       child: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,7 +36,7 @@ class MenuWidget extends StatelessWidget {
             SizedBox(
               height: 0.h,
             ),
-            Text("隐藏功能",
+            Text("开发中的功能",
                 style: TextStyle(
                     fontSize: 24.sp,
                     fontFamily: "myFont",

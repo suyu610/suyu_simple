@@ -18,9 +18,10 @@ class TextWithUnderLine extends StatelessWidget {
           Text(
             text,
             style: TextStyle(
-              fontSize: ScreenUtil().setSp(18),
-              // decorationStyle: TextDecorationStyle.solid,
-              decorationStyle: TextDecorationStyle.wavy,
+              fontSize: 28.sp,
+              fontWeight: FontWeight.bold,
+              decorationStyle: TextDecorationStyle.solid,
+              // decorationStyle: TextDecorationStyle.wavy,
               decorationColor: ThemeColors.colorTheme,
               decoration: TextDecoration.underline,
               decorationThickness: 2,

@@ -9,9 +9,6 @@ import 'package:suyu_simple/ui/components/Mark/MarkDetailLi.dart';
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 import 'package:suyu_simple/sampleData/SampleDate.dart';
 import 'package:suyu_simple/model/DailyRecorderModel.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-
-import '../TextWithUnderLine.dart';
 import 'TotalMark.dart';
 
 class MarkMainBox extends StatefulWidget {
@@ -76,13 +73,15 @@ class _MarkMainBoxState extends State<MarkMainBox> {
                       child: Theme(
                         data: Theme.of(context)
                             .copyWith(accentColor: ThemeColors.colorWhite),
-                        child: ListView.builder(
-                            padding: const EdgeInsets.all(0),
-                            itemCount: Provider.of<DailyMarkProvider>(context)
-                                .getLength(), //.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return MarkDetailLi(index);
-                            }),
+                        child: Center(
+                          child: ListView.builder(
+                              padding: const EdgeInsets.all(0),
+                              itemCount: Provider.of<DailyMarkProvider>(context)
+                                  .getLength(), //.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return MarkDetailLi(index);
+                              }),
+                        ),
                       ),
                     )),
                 // Column(children: <Widget>[
