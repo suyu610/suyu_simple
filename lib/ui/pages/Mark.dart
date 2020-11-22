@@ -12,7 +12,6 @@ import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 import 'package:suyu_simple/ui/components/Menu/MenuWidget.dart';
 import 'package:suyu_simple/ui/components/Menu/SliderMenuContainer.dart';
-import 'package:toast/toast.dart';
 
 import 'Login.dart';
 
@@ -27,10 +26,11 @@ class _MarkPageState extends State<MarkPage> {
   Future<void> handleSubmitBtnClick() async {
     print("提交按钮被按");
     var token = "123456";
-    bool saveScuess = await SharePreferencesUtils.token(
+    bool saveSuccess = await SharePreferencesUtils.token(
         SharePreferencesUtilsWorkType.save,
         value: token);
-    saveScuess ? print('token 保存成功') : print('token 保存失败');
+
+    saveSuccess ? print('token 保存成功') : print('token 保存失败');
   }
 
   Future<void> handleResetBtnClick() async {

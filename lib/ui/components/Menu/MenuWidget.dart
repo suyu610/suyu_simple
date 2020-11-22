@@ -5,7 +5,6 @@ import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/ui/components/Menu/MenuItem.dart';
 

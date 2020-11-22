@@ -1,5 +1,6 @@
 // import 'package:dio/dio.dart';
 import 'dart:async';
+
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/animation.dart';
@@ -11,9 +12,15 @@ import 'package:crypto/crypto.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
+import 'package:suyu_simple/common/ThemeFonts.dart';
+import 'package:suyu_simple/model/SuyuUserVO.dart';
+import 'package:suyu_simple/net/http_manager.dart';
+import 'package:suyu_simple/net/result_data.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/common/MyTheme.dart';
 import 'package:suyu_simple/provider/ThemeProvider.dart';
+import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
+// import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 import 'package:suyu_simple/ui/components/DraggableCard.dart';
 import 'package:suyu_simple/ui/components/UnShapedInput.dart';
 import 'package:suyu_simple/utils/loading_utils.dart';
@@ -87,32 +94,45 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         params["username"] = usernameController.text;
         params["password"] =
             md5.convert(utf8.encode(passwordController.text)).toString();
-        Dio dio = new Dio();
+        HttpManager dio = HttpManager.getInstance();
+        ResultData resultData;
         try {
-          await dio
-              .post("http://192.168.43.178:8088/user/loginByPwd",
-                  queryParameters: params)
-              .then((value) {
-            print("---------");
-            if (value.data["status"] != 200) {
-              LoadingUtils.dismiss();
-              EasyLoading.showError(value.data["msg"]);
-            } else {
-              LoadingUtils.dismiss();
-              EasyLoading.showSuccess("登陆成功");
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) {
-                return HomePage();
-              }));
-            }
-            print("---------");
-          });
+          resultData = await dio.post("/user/loginByPwd", params: params);
+          if (resultData.status == 200) {
+            // 登陆成功
+
+            handleLoginSusscess(resultData.data);
+          } else if (resultData.status == 505) {
+            EasyLoading.showError(resultData.msg);
+          } else {
+            EasyLoading.showError("服务器出问题了~叹气");
+          }
         } catch (e) {
-          LoadingUtils.dismiss();
-          EasyLoading.showError("请检查网络!!");
+          print(e);
+          EasyLoading.showError("请检查网络");
         }
       }
     }
+  }
+
+  void handleLoginSusscess(ResultData resultData) async {
+    // {id: 40058, username: uuorb, faceImage: https://file.suyu.cool/group1/M00/00/00/rBAACF-2J42AJnTEAAABq0MgYKM485.png, faceImageBig: https://file.suyu.cool/group1/M00/00/00/rBAACF-2J42AJnTEAAABq0MgYKM485.png, nickname: hpy, qrcode: https://file.suyu.cool/group1/M00/00/00/rBAACF-2J42AJnTEAAABq0MgYKM485.png, token: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3Y2JlZTdkOS1mMjg3LTRkZmUtYWZmNC0xYjUwMzNkODI3ZTEiLCJpYXQiOjE2MDYwNDc0NjgsImV4cCI6MTYwNjA1MTA2OCwicm9sZXMiOiJ1c2VyIiwiaWQiOiI0MDA1OCIsInVzZXJuYW1lIjoidXVvcmIifQ.Cpvz7KDJzpX7vAqTxpeYdJbzsvXWrUq2E7bDoxMbjFM}
+    // 显示登陆成功
+    EasyLoading.showSuccess("欢迎回来~\n${resultData.data["nickname"]}");
+
+    // var user = new UserVo.fromJson(resultData.data);
+    print(resultData.data.toString());
+    SuyuUserVO suyuUserVo = SuyuUserVO.fromJson(resultData.data);
+    print(suyuUserVo.toString());
+    // 保存token
+    await SharePreferencesUtils.token(SharePreferencesUtilsWorkType.save,
+            value: resultData.data["token"])
+        .then((_) {
+      //跳转
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return HomePage();
+      }));
+    });
   }
 
   TextEditingController nicknameController;
@@ -217,13 +237,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).backgroundColor,
-            image: DecorationImage(
-              image: AssetImage("assets/images/main_bg_with_blank.png"),
-              fit: BoxFit.none,
-              repeat: ImageRepeat.repeat,
-            )),
+        decoration: ThemeFonts.lineBoxDecoration,
         child: SafeArea(
           child: Stack(
             children: [
@@ -249,7 +263,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 ],
               ),
               AnimatedOpacity(
-                //如果等于0，则说明没有键盘
+                //如果等于0，则说明键盘没有弹起
                 opacity:
                     MediaQuery.of(context).viewInsets.bottom == 0 ? 1.0 : 0.0,
                 duration: Duration(milliseconds: 150),

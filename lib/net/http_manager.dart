@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:suyu_simple/net/code.dart';
 import 'package:suyu_simple/net/pretty_dio_logger.dart';
 import 'package:suyu_simple/net/response_interceptor.dart';
@@ -22,9 +23,9 @@ class HttpManager {
   HttpManager._internal({String baseUrl}) {
     if (null == _dio) {
       _dio = new Dio(new BaseOptions(
-          baseUrl: Address.BASE_URL,
-          connectTimeout: 15000,
-          contentType: "application/x-www-form-urlencoded"));
+        baseUrl: Address.BASE_URL,
+        connectTimeout: 3000,
+      ));
       _dio.interceptors.add(new DioLogInterceptor());
       _dio.interceptors.add(new PrettyDioLogger());
       _dio.interceptors.add(new ResponseInterceptors());
@@ -70,14 +71,12 @@ class HttpManager {
         LoadingUtils.dismiss();
       }
     } on DioError catch (e) {
-      if (withLoading) {
-        LoadingUtils.dismiss();
-      }
-      return resultError(e);
+      throw e;
     }
 
     if (response.data is DioError) {
-      return resultError(response.data['code']);
+      throw DioError;
+      // return resultError(response.data['code']);
     }
 
     return response.data;
@@ -88,25 +87,22 @@ class HttpManager {
     if (withLoading) {
       LoadingUtils.show();
     }
-
     Response response;
-
     try {
-      response = await _dio.post(api, data: params);
-      if (withLoading) {
-        LoadingUtils.dismiss();
-      }
+      response = await _dio.post(api, queryParameters: params);
     } on DioError catch (e) {
       if (withLoading) {
         LoadingUtils.dismiss();
+        EasyLoading.showError("请检查网络!!");
       }
       return resultError(e);
     }
 
     if (response.data is DioError) {
+      LoadingUtils.dismiss();
       return resultError(response.data['code']);
     }
-
+    print("!!!");
     return response.data;
   }
 }
@@ -122,6 +118,13 @@ ResultData resultError(DioError e) {
       e.type == DioErrorType.RECEIVE_TIMEOUT) {
     errorResponse.statusCode = Code.NETWORK_TIMEOUT;
   }
+
+  // dynamic data;
+  // String msg;
+  // String status;
+  // bool isOk;
   return new ResultData(
-      errorResponse.statusMessage, false, errorResponse.statusCode);
+      data: errorResponse.data,
+      msg: errorResponse.statusMessage,
+      status: errorResponse.statusCode);
 }

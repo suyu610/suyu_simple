@@ -4,33 +4,23 @@ import 'result_data.dart';
 class ResponseInterceptors extends InterceptorsWrapper {
   @override
   onResponse(Response response) async {
-    RequestOptions option = response.request;
+    // RequestOptions option = response.request;
     try {
-
-      if (option.contentType != null && option.contentType.contains("text")) {
-        return new ResultData(response.data, true, 200);
-      }
-
-      ///一般只需要处理200的情况，300、400、500保留错误信息，外层为http协议定义的响应码
+      //response.statusCode为http协议定义的响应码
       if (response.statusCode == 200 || response.statusCode == 201) {
-        ///内层需要根据公司实际返回结构解析，一般会有code，data，msg字段
-        int code = response.data["code"];
-        if (code == 0) {
-          return new ResultData(response.data, true, 200,
-              headers: response.headers);
-        } else {
-          return new ResultData(response.data, false, 200,
-              headers: response.headers);
-        }
+        //   ///内层需要根据公司实际返回结构解析，一般会有code，data，msg字段
+        int status = response.data["status"];
+        String msg = response.data["msg"];
+        dynamic data = response.data["data"];
+
+        return new ResultData(status: status, msg: msg, data: data);
       }
     } catch (e) {
-      print(e.toString() + option.path);
-
-      return new ResultData(response.data, false, response.statusCode,
-          headers: response.headers);
+      print(e);
+      print(e.toString() + response.request.path);
+      return new ResultData(
+          data: null, status: -1, msg: response.statusMessage);
     }
-
-    return new ResultData(response.data, false, response.statusCode,
-        headers: response.headers);
+    return new ResultData(data: null, status: -1, msg: response.statusMessage);
   }
 }
