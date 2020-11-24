@@ -96,10 +96,9 @@ class _MarkDetailLiState extends State<MarkDetailLi> {
   _getDslDecoration() {
     return BoxDecoration(
       // color: ThemeColors.colorTheme,
-
       border: BorderDirectional(
-        bottom: BorderSide(width: 2, color: ThemeColors.colorWhite),
-        top: BorderSide(width: 2, color: ThemeColors.colorWhite),
+        bottom: BorderSide(width: 2, color: ThemeColors.colorBlack),
+        top: BorderSide(width: 2, color: ThemeColors.colorBlack),
       ),
     );
   }

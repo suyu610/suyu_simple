@@ -11,9 +11,12 @@ import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/provider/UserProvider.dart';
+import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 import 'package:suyu_simple/tools/StrUtil.dart';
 import 'package:suyu_simple/ui/components/AboutDialog.dart';
 import 'package:suyu_simple/ui/components/MyButton.dart';
+
+import 'Login.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key}) : super(key: key);
@@ -53,6 +56,16 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   var errorController;
+  Future<void> handleResetBtnClick() async {
+    await SharePreferencesUtils.token(
+      SharePreferencesUtilsWorkType.remove,
+    );
+    EasyLoading.showSuccess("退出成功");
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return LoginPage();
+    }));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,26 +106,27 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   )),
                   GestureDetector(
+                      onTap: handleResetBtnClick,
                       child: Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.exit_to_app_outlined,
-                          color: Colors.black,
-                          size: 28.sp,
+                        padding: EdgeInsets.all(8),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.exit_to_app_outlined,
+                              color: Colors.black,
+                              size: 28.sp,
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            Text(
+                              "退出",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Text(
-                          "退出",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  )),
+                      )),
                 ],
               ),
             ));
@@ -241,6 +255,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 10.h,
                     ),
                     Scratcher(
+                      image: Image.asset('assets/images/lucky.png'),
                       accuracy: ScratchAccuracy.low,
                       brushSize: 15,
                       threshold: 40,

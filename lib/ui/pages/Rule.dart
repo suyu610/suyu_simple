@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:scratcher/widgets.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 // import 'package:slimy_card/slimy_card.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
@@ -38,8 +40,6 @@ class _RulePageState extends State<RulePage> {
   }
 
   void onPageChanged(int index, CarouselPageChangedReason b) {
-    // print(a);
-    // print(b);
     _currentIndex = index;
     print(_currentIndex);
     setState(() {});
@@ -175,6 +175,8 @@ class _RulePageState extends State<RulePage> {
                   height: 10.h,
                 ),
                 this.renderCustomCarousel(),
+
+                // 底下的角标
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: SampleDate.CardList.map((url) {
@@ -220,7 +222,7 @@ Widget topCardWidget(int index, String imagePath) {
       ),
       SizedBox(height: 15),
       Text(
-        'He asks, what your name is. But!',
+        '卡片介绍!',
         style: TextStyle(
             color: Colors.black.withOpacity(0.8),
             fontSize: 12,

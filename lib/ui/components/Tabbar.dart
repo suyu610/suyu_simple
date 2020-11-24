@@ -75,12 +75,13 @@ class _TabbarComponentState extends State<TabbarComponent> {
                   ],
                   selectedIndex: _selectedIndex,
                   onTabChange: (index) {
+                    if(_selectedIndex != index){
                     Provider.of<TabbarProvider>(context, listen: false)
                         .changeIndex(index);
                     setState(() {
                       _selectedIndex = index;
                     });
-                  }),
+                  }}),
             ),
           ),
         ));

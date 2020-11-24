@@ -16,5 +16,5 @@ class ThemeProvider with ChangeNotifier {
 
   final GlobalKey<InnerDrawerState> innerDrawerKey =
       GlobalKey<InnerDrawerState>();
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 }

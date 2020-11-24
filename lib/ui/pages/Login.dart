@@ -18,6 +18,7 @@ import 'package:suyu_simple/net/http_manager.dart';
 import 'package:suyu_simple/net/result_data.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/common/MyTheme.dart';
+import 'package:suyu_simple/provider/TabbarProvider.dart';
 import 'package:suyu_simple/provider/ThemeProvider.dart';
 import 'package:suyu_simple/provider/UserProvider.dart';
 import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
@@ -26,6 +27,7 @@ import 'package:suyu_simple/ui/components/DraggableCard.dart';
 import 'package:suyu_simple/ui/components/UnShapedInput.dart';
 import 'package:suyu_simple/utils/loading_utils.dart';
 import 'Home.dart';
+import 'dart:convert';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -46,6 +48,32 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   CurvedAnimation curved_2;
   Image logoImage;
   bool isRegMode;
+
+  Future<void> handleSingleModeBtnClick() async {
+    String jsonStr = '''
+    {"id":"88888","username":"","faceImageBig":"https://file.suyu.cool/group1/M00/00/00/rBAACF-2J42AJnTEAAABq0MgYKM485.png", "nickname": "你", "qrcode": "https://file.suyu.cool/group1/M00/00/00/rBAACF-2J42AJnTEAAABq0MgYKM485.png", "token": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkNzFmMzhhZS1jOWYwLTQ5ZWUtYjZhOC0yYmJmYjRjMDAxMDQiLCJpYXQiOjE2MDYxMzQxMTgsImV4cCI6MTYwNjEzNzcxOCwicm9sZXMiOiJ1c2VyIiwiaWQiOiI0MDA1OCIsInVzZXJuYW1lIjoidXVvcmIifQ.Cnr3jxJCkmMfMx-3lHx1J10qZYp4iryIlI2SHFMDyr8",
+"friendVO": {"friendUserId": "63589", "friendUsername": "sususu", "friendFaceImage": "https://file.suyu.cool/group1/M00/00/00/rBAACF-4CoeAMkcRAAABnJUkP7g219.png", "friendNickname": "大猪蹄子"}}
+        ''';
+    SuyuUserVO userVO = SuyuUserVO.fromJson(json.decode(jsonStr));
+    print(userVO.toJson());
+    // 保存token
+    await SharePreferencesUtils.token(SharePreferencesUtilsWorkType.save,
+            value: "SingleModeToken")
+        .then((_) async {
+      await (SharePreferencesUtils.suyuUserVo(
+              SharePreferencesUtilsWorkType.save,
+              value: json))
+          .then((_) {
+        Provider.of<UserProvider>(context, listen: false).setUserVO(userVO);
+      });
+    });
+    // 跳转
+    Provider.of<TabbarProvider>(context, listen: false).currentIndex = 0;
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return HomePage();
+    }));
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -489,13 +517,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 width: 375.w,
                 child: Center(
                   child: TextButton(
-                      onPressed: () => Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) {
-                            return HomePage();
-                          })),
+                      onPressed: handleSingleModeBtnClick,
                       child: Text(
-                        "单人模式",
-                        style: TextStyle(color: Colors.black),
+                        "先随便看看",
+                        style: TextStyle(color: Colors.grey),
                       )),
                 ),
               ),

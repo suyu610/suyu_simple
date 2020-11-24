@@ -95,36 +95,7 @@ class _AnimatedSplashState extends State<AnimatedSplash>
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "素",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 36,
-                        fontFamily: 'logoFont',
-                      ),
-                    ),
-                    Text(
-                      "语",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 36,
-                        fontFamily: 'logoFont',
-                      ),
-                    ),
-                    Text(
-                      "评",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w300,
-                          fontSize: 36,
-                          fontFamily: 'logoFont'),
-                    ),
-                    Text(
-                      "分",
+                      "素\n语\n评\n分",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,

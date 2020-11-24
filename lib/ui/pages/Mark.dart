@@ -32,16 +32,7 @@ class _MarkPageState extends State<MarkPage> {
         value: token);
   }
 
-  Future<void> handleResetBtnClick() async {
-    await SharePreferencesUtils.token(
-      SharePreferencesUtilsWorkType.remove,
-    );
-    EasyLoading.showSuccess("退出成功");
-
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return LoginPage();
-    }));
-  }
+  Future<void> handlePerfectBtnClick() async {}
 
   void _toggle(DragEndDetails details) {
     Provider.of<ThemeProvider>(context, listen: false)
@@ -83,17 +74,15 @@ class _MarkPageState extends State<MarkPage> {
       colorTransitionScaffold: Colors.white70, // default Color.black54
 
       //When setting the vertical offset, be sure to use only top or bottom
-      offset: IDOffset.only(bottom: 0, right: 0, left: 1),
+      offset: IDOffset.only(bottom: 0, right: 0, left: 0.6),
 
       // scale: IDOffset.horizontal(1), // set the offset in both directions
 
       proportionalChildArea: true, // default true
       borderRadius: 0, // default 0
       leftAnimationType: InnerDrawerAnimation.linear, // default static
-      backgroundDecoration: BoxDecoration(
-          color:
-              Colors.grey[900]), // default  Theme.of(context).backgroundColor
-
+      backgroundDecoration: BoxDecoration(color: Colors.grey[900]),
+      // default  Theme.of(context).backgroundColor
       //when a pointer that is in contact with the screen and moves to the right or left
       // onDragUpdate: (double val, InnerDrawerDirection direction) {
       //   // return values between 1 and 0
@@ -166,7 +155,7 @@ class _MarkPageState extends State<MarkPage> {
                                   "完美",
                                   width: 120,
                                   isYellow: true,
-                                  tapAction: handleResetBtnClick,
+                                  tapAction: handlePerfectBtnClick,
                                 ),
                                 MyButton("提交",
                                     width: 170,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 
 final ThemeData lightTheme = ThemeData(
-  scaffoldBackgroundColor: ThemeColors.colorTheme,
+  scaffoldBackgroundColor: ThemeColors.colorWhite,
   backgroundColor: ThemeColors.colorWhite,
   dialogBackgroundColor: ThemeColors.colorTheme,
   primaryColor: ThemeColors.colorTheme,

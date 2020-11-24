@@ -17,15 +17,16 @@ class MenuItem extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.only(top: 12.h, bottom: 12.h),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 icon,
                 color: Colors.white,
                 size: 16.sp,
               ),
+              SizedBox(width: 30.w),
               SizedBox(
-                width: 70.w,
+                width: 60.w,
                 child: Text(
                   title,
                   textAlign: TextAlign.left,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 import 'package:suyu_simple/ui/pages/Home.dart';
 import 'package:suyu_simple/ui/pages/Login.dart';
 
@@ -13,8 +14,8 @@ class _MainState extends State<Main> {
   var loginState;
   Future checkLogin() async {
     Future<dynamic> token = Future(() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      return prefs.getString("token");
+      return SharePreferencesUtils.suyuUserVo(
+          SharePreferencesUtilsWorkType.get);
     });
 
     token.then((value) {

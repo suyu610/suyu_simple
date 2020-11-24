@@ -20,7 +20,7 @@ class HistoryPageState extends State<HistoryPage> {
     return Container(
       decoration: ThemeFonts.lineBoxDecoration,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _getHorizantalGradientAreaChart(),
           this.dashboard(),
@@ -53,12 +53,6 @@ class HistoryPageState extends State<HistoryPage> {
                 color: Colors.grey.shade300,
               ),
 
-              majorTickStyle: MajorTickStyle(
-                  length: 0.15, lengthUnit: GaugeSizeUnit.factor, thickness: 0),
-              minorTicksPerInterval: 0, labelOffset: 15,
-
-              minorTickStyle: MinorTickStyle(
-                  length: 0.04, lengthUnit: GaugeSizeUnit.factor, thickness: 1),
               ranges: <GaugeRange>[
                 GaugeRange(
                     startValue: 0,
@@ -67,27 +61,16 @@ class HistoryPageState extends State<HistoryPage> {
                     sizeUnit: GaugeSizeUnit.factor,
                     startWidth: 0.23,
                     endWidth: 0.23),
-                // GaugeRange(
-                //     startValue: 35,
-                //     endValue: 70,
-                //     sizeUnit: GaugeSizeUnit.factor,
-                //     color: Color(0xFFffad40),
-                //     startWidth: 0.23,
-                //     endWidth: 0.23),
-                // GaugeRange(
-                //     startValue: 70,
-                //     endValue: 100,
-                //     sizeUnit: GaugeSizeUnit.factor,
-                //     color: Color(0xffff9200), //Color(ThemeColors.colorTheme),
-                //     startWidth: 0.23,
-                //     endWidth: 0.23),
               ],
 
               pointers: <GaugePointer>[
                 RangePointer(
+                    sizeUnit: GaugeSizeUnit.factor,
                     value: _value,
-                    width: 5,
+                    width: 0.23,
                     enableAnimation: true,
+                    animationDuration: 1200,
+                    animationType: AnimationType.ease,
                     color: Color(0xffff7471),
                     enableDragging: true,
                     onValueChanging: onValueChanging,
@@ -137,104 +120,101 @@ class HistoryPageState extends State<HistoryPage> {
 
 ///  /// Return the circular chart with horizontal gradient.
 Widget _getHorizantalGradientAreaChart() {
-  return SafeArea(
-    child: Container(
-      decoration: ThemeFonts.lineBoxDecoration,
-      padding: EdgeInsets.only(top: 0.h, bottom: 0.h, left: 20.w, right: 20.w),
-      child: Column(
-        children: <Widget>[
-          GestureDetector(
-            onTap: () => {},
-            child: Container(
-              width: 200.w,
-              margin: EdgeInsets.only(top: 20.h),
-              padding: EdgeInsets.all(5.w),
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(254, 212, 91, 1),
-                boxShadow: [
-                  new BoxShadow(
-                      color: Color.fromRGBO(173, 179, 191, 0.3),
-                      blurRadius: 1.0,
-                      offset: new Offset(0, 0))
-                ],
-                border: Border.merge(
-                  new Border(left: BorderSide(color: Colors.black, width: 5)),
-                  new Border(right: BorderSide(color: Colors.black, width: 5)),
+  return Container(
+    padding: EdgeInsets.only(top: 0.h, bottom: 10.h, left: 20.w, right: 20.w),
+    child: Column(
+      children: <Widget>[
+        GestureDetector(
+          onTap: () => {},
+          child: Container(
+            width: 200.w,
+            margin: EdgeInsets.only(top: 20.h),
+            padding: EdgeInsets.all(5.w),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(254, 212, 91, 1),
+              boxShadow: [
+                new BoxShadow(
+                    color: Color.fromRGBO(173, 179, 191, 0.3),
+                    blurRadius: 1.0,
+                    offset: new Offset(0, 0))
+              ],
+              border: Border.merge(
+                new Border(left: BorderSide(color: Colors.black, width: 5)),
+                new Border(right: BorderSide(color: Colors.black, width: 5)),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.calendar_today_outlined,
+                  color: Colors.black,
+                  size: 18.sp,
                 ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.calendar_today_outlined,
-                    color: Colors.black,
-                    size: 18.sp,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 5.w),
-                  ),
-                  Text(
-                    "十一月记录",
-                    style: TextStyle(
-                        letterSpacing: 5.w,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.black,
-                        fontSize: ScreenUtil().setSp(15),
-                        fontFamily: 'myFont'),
-                  ),
-                ],
-              ),
+                Padding(
+                  padding: EdgeInsets.only(right: 5.w),
+                ),
+                Text(
+                  "十一月记录",
+                  style: TextStyle(
+                      letterSpacing: 5.w,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black,
+                      fontSize: ScreenUtil().setSp(15),
+                      fontFamily: 'myFont'),
+                ),
+              ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(5.h),
+        ),
+        Padding(
+          padding: EdgeInsets.all(5.h),
+        ),
+        SfCartesianChart(
+          backgroundColor: Colors.white,
+          borderWidth: 0,
+          borderColor: Colors.transparent,
+          plotAreaBorderWidth: 1,
+          primaryXAxis: CategoryAxis(
+            labelPlacement: LabelPlacement.onTicks,
+            labelRotation: -45,
+            axisLine: AxisLine(width: 1),
+            majorGridLines: MajorGridLines(width: 1),
           ),
-          SfCartesianChart(
-            backgroundColor: Colors.white,
-            borderWidth: 0,
-            borderColor: Colors.transparent,
-            plotAreaBorderWidth: 1,
-            primaryXAxis: CategoryAxis(
-              labelPlacement: LabelPlacement.onTicks,
-              labelRotation: -45,
-              axisLine: AxisLine(width: 1),
-              majorGridLines: MajorGridLines(width: 1),
-            ),
-            tooltipBehavior: TooltipBehavior(enable: true, canShowMarker: true),
-            primaryYAxis: NumericAxis(
-              majorTickLines:
-                  MajorTickLines(size: 6, width: 2, color: Colors.red),
-              isVisible: true,
-              // desiredIntervals: 1,
-              interval: 2,
-              minimum: 85,
-              maximum: 100,
-              labelFormat: '{value}分',
-              axisLine: AxisLine(width: 1),
-            ),
-            series: _getGradientAreaSeries(),
-            onMarkerRender: (MarkerRenderArgs args) {
-              if (args.pointIndex == 0) {
-                args.color = const Color.fromRGBO(207, 124, 168, 1);
-              } else if (args.pointIndex == 1) {
-                args.color = const Color.fromRGBO(210, 133, 167, 1);
-              } else if (args.pointIndex == 2) {
-                args.color = const Color.fromRGBO(219, 128, 161, 1);
-              } else if (args.pointIndex == 3) {
-                args.color = const Color.fromRGBO(213, 143, 151, 1);
-              } else if (args.pointIndex == 4) {
-                args.color = const Color.fromRGBO(226, 157, 126, 1);
-              } else if (args.pointIndex == 5) {
-                args.color = const Color.fromRGBO(220, 169, 122, 1);
-              } else if (args.pointIndex == 6) {
-                args.color = const Color.fromRGBO(221, 176, 108, 1);
-              } else if (args.pointIndex == 7) {
-                args.color = const Color.fromRGBO(222, 187, 97, 1);
-              }
-            },
+          tooltipBehavior: TooltipBehavior(enable: true, canShowMarker: true),
+          primaryYAxis: NumericAxis(
+            majorTickLines:
+                MajorTickLines(size: 6, width: 2, color: Colors.red),
+            isVisible: true,
+            // desiredIntervals: 1,
+            interval: 2,
+            minimum: 85,
+            maximum: 100,
+            labelFormat: '{value}分',
+            axisLine: AxisLine(width: 1),
           ),
-        ],
-      ),
+          series: _getGradientAreaSeries(),
+          onMarkerRender: (MarkerRenderArgs args) {
+            if (args.pointIndex == 0) {
+              args.color = const Color.fromRGBO(207, 124, 168, 1);
+            } else if (args.pointIndex == 1) {
+              args.color = const Color.fromRGBO(210, 133, 167, 1);
+            } else if (args.pointIndex == 2) {
+              args.color = const Color.fromRGBO(219, 128, 161, 1);
+            } else if (args.pointIndex == 3) {
+              args.color = const Color.fromRGBO(213, 143, 151, 1);
+            } else if (args.pointIndex == 4) {
+              args.color = const Color.fromRGBO(226, 157, 126, 1);
+            } else if (args.pointIndex == 5) {
+              args.color = const Color.fromRGBO(220, 169, 122, 1);
+            } else if (args.pointIndex == 6) {
+              args.color = const Color.fromRGBO(221, 176, 108, 1);
+            } else if (args.pointIndex == 7) {
+              args.color = const Color.fromRGBO(222, 187, 97, 1);
+            }
+          },
+        ),
+      ],
     ),
   );
 }
