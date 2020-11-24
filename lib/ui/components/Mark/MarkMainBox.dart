@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
+import 'package:suyu_simple/provider/UserProvider.dart';
 import 'package:suyu_simple/ui/components/Mark/MarkDetailLi.dart';
 
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
@@ -50,7 +51,7 @@ class _MarkMainBoxState extends State<MarkMainBox> {
                   children: <Widget>[
                     Center(
                       child: Text(
-                        "他今天表现怎么样",
+                        "${Provider.of<UserProvider>(context).getUser().nickname}今天表现怎么样",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: ScreenUtil().setSp(18),
@@ -66,22 +67,17 @@ class _MarkMainBoxState extends State<MarkMainBox> {
                 ),
                 Container(
                     height: 285.h,
-                    child: RefreshIndicator(
-                      onRefresh: _onRefresh,
-                      backgroundColor: ThemeColors.colorTheme,
-                      color: ThemeColors.colorBlack,
-                      child: Theme(
-                        data: Theme.of(context)
-                            .copyWith(accentColor: ThemeColors.colorWhite),
-                        child: Center(
-                          child: ListView.builder(
-                              padding: const EdgeInsets.all(0),
-                              itemCount: Provider.of<DailyMarkProvider>(context)
-                                  .getLength(), //.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return MarkDetailLi(index);
-                              }),
-                        ),
+                    child: Theme(
+                      data: Theme.of(context)
+                          .copyWith(accentColor: ThemeColors.colorWhite),
+                      child: Center(
+                        child: ListView.builder(
+                            padding: const EdgeInsets.all(0),
+                            itemCount: Provider.of<DailyMarkProvider>(context)
+                                .getLength(), //.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return MarkDetailLi(index);
+                            }),
                       ),
                     )),
                 // Column(children: <Widget>[

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:suyu_simple/dao/ChatDao.dart';
-import 'package:suyu_simple/data/ChatStream.dart';
+import 'package:suyu_simple/net/ChatStream.dart';
 import 'package:suyu_simple/model/ChatMessage.dart';
 
 class ChatProvider with ChangeNotifier {
@@ -49,7 +49,6 @@ class ChatProvider with ChangeNotifier {
   }
 
   void initList(dynamic newList) {
-    print(newList.runtimeType);
     if (newList == null) {
       _list = List<ChatMessage>();
       print("空白数据");
@@ -60,7 +59,6 @@ class ChatProvider with ChangeNotifier {
 
     if (newList is List) {
       _list = newList;
-      print("有数据");
     } else {
       EasyLoading.showToast("成功连接服务器!!!!!!!",
           duration: Duration(seconds: 1),
@@ -77,7 +75,6 @@ class ChatProvider with ChangeNotifier {
     }
 
     this._list.clear();
-
     //初始化DAO
     ChatDAO dao = new ChatDAO();
     await dao.deleteAllMsg();

@@ -36,8 +36,10 @@ dependencies:
   pin_code_fields: 
   liquid_pull_to_refresh: ^2.0.0
   json_annotation: ^3.0.1
+  # 画图
   syncfusion_flutter_charts: ^18.3.44
   bubble: ^1.1.9+1
+
   image_picker: ^0.6.7+12
   path_provider: ^1.6.22
   lottie: ^0.7.0+1
@@ -47,16 +49,22 @@ dependencies:
   extended_image: ^1.3.0
   ionicons: ^0.0.3
   syncfusion_flutter_calendar: ^18.3.47
-  # flutter_slider_drawer: ^1.0.3
   slimy_card: ^1.0.4
   # 刮刮乐
   scratcher: "^1.4.0"
   # 左右翻动
   flutter_mobile_carousel: ^1.0.3
+  carousel_slider: ^2.3.1
   # 仪表
   syncfusion_flutter_gauges: ^18.3.50
   # 超级强大的功能
   common_utils: ^1.2.1
+  loading_indicator_view: ^1.1.0
+  # 快速选择
+  direct_select_flutter: ^1.0.6
+
+  # 侧边栏
+  flutter_inner_drawer: "^0.5.7+2"
 
 dev_dependencies:
   flutter_test:
@@ -89,7 +97,12 @@ flutter:
   fonts:
     - family: myFont
       fonts:
-        - asset: assets/fonts/106.ttf
+        - asset: assets/fonts/numbers.ttf
+
+    - family: logoFont
+      fonts:
+        - asset: assets/fonts/logoFont.ttf
+
     - family: kaitiFont
       fonts:
-      - asset: assets/fonts/kaiti.ttf
+      - asset: assets/fonts/numbers.ttf

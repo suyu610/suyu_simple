@@ -109,30 +109,28 @@ class ChatMsgContent extends StatelessWidget {
                   ? Text('${item.content}')
                   : FullScreenWidget(
                       backgroundColor: Colors.white,
-                      child: Center(
-                        child: Hero(
-                          tag: imageFile.uri,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: ExtendedImage.file(
-                              imageFile,
-                              fit: BoxFit.contain,
-                              //enableLoadState: false,
-                              mode: ExtendedImageMode.gesture,
-                              initGestureConfigHandler: (state) {
-                                return GestureConfig(
-                                  minScale: 1.0,
-                                  animationMinScale: 0.7,
-                                  maxScale: 3.0,
-                                  animationMaxScale: 3.5,
-                                  speed: 1.0,
-                                  inertialSpeed: 100.0,
-                                  initialScale: 1.0,
-                                  inPageView: false,
-                                  initialAlignment: InitialAlignment.center,
-                                );
-                              },
-                            ),
+                      child: Hero(
+                        tag: imageFile.uri,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: ExtendedImage.file(
+                            imageFile,
+                            fit: BoxFit.contain,
+                            //enableLoadState: false,
+                            mode: ExtendedImageMode.gesture,
+                            initGestureConfigHandler: (state) {
+                              return GestureConfig(
+                                minScale: 1.0,
+                                animationMinScale: 0.7,
+                                maxScale: 3.0,
+                                animationMaxScale: 3.5,
+                                speed: 1.0,
+                                inertialSpeed: 100.0,
+                                initialScale: 1.0,
+                                inPageView: false,
+                                initialAlignment: InitialAlignment.center,
+                              );
+                            },
                           ),
                         ),
                       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_inner_drawer/inner_drawer.dart';
 
 class ThemeProvider with ChangeNotifier {
   ThemeData _currentTheme;
@@ -12,4 +13,8 @@ class ThemeProvider with ChangeNotifier {
     _currentTheme = themeData;
     notifyListeners();
   }
+
+  final GlobalKey<InnerDrawerState> innerDrawerKey =
+      GlobalKey<InnerDrawerState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 }

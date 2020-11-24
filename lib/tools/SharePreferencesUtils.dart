@@ -23,8 +23,6 @@ class SharePreferencesUtils {
       String jsonEncodestr = jsonEncode(value);
       prefs.setString(key, jsonEncodestr);
       com.complete(true);
-      print('======= json序列化的待存储字符串 ======== :  ' + jsonEncodestr);
-      print(' save  is  ok ,,,,,');
     } catch (err) {
       com.complete(false);
       print(' save  is  err ,,,,,');
@@ -43,10 +41,8 @@ class SharePreferencesUtils {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.remove(key);
       com.complete(true);
-      print(' delete  is  ok ,,,,,');
     } catch (err) {
       com.complete(false);
-      print(' delete  is  err ,,,,,');
       print(err.toString());
     }
     return future;
@@ -78,6 +74,21 @@ class SharePreferencesUtils {
   /// [SharePreferencesUtilsWorkType] 指定操作模式
   static token(SharePreferencesUtilsWorkType type, {dynamic value}) {
     String key = 'token';
+    if (type == SharePreferencesUtilsWorkType.save) {
+      return _saveToLocalMap(key, value);
+    }
+    if (type == SharePreferencesUtilsWorkType.remove) {
+      return _deleteFromLocalMap(key);
+    }
+    if (type == SharePreferencesUtilsWorkType.get) {
+      return _readFromLocalMap(key);
+    }
+  }
+
+  /// 存取删tokey
+  /// [SharePreferencesUtilsWorkType] 指定操作模式
+  static suyuUserVo(SharePreferencesUtilsWorkType type, {dynamic value}) {
+    String key = 'user';
     if (type == SharePreferencesUtilsWorkType.save) {
       return _saveToLocalMap(key, value);
     }

@@ -1,4 +1,5 @@
 enum MsgType {
   Text,
-  Pic
+  Pic,
+  Mic,
 }

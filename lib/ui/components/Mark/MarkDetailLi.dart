@@ -4,9 +4,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
+import 'package:suyu_simple/provider/ThemeProvider.dart';
 import 'package:suyu_simple/ui/Components/MyMarkButton.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
+import 'package:direct_select_flutter/direct_select_container.dart';
+import 'package:direct_select_flutter/direct_select_item.dart';
+import 'package:direct_select_flutter/direct_select_list.dart';
 
 class MarkDetailLi extends StatefulWidget {
   final int index;
@@ -18,9 +22,17 @@ class MarkDetailLi extends StatefulWidget {
 class _MarkDetailLiState extends State<MarkDetailLi> {
   _MarkDetailLiState(this.index);
   final int index;
+  int selectedFoodVariants = 0;
+  int selectedPortionCounts = 0;
+  int selectedPortionSize = 0;
 
   void handleAddBtnClick() {
     Provider.of<DailyMarkProvider>(context, listen: false).increment(index);
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   void handleMinusBtnClick() {
@@ -30,6 +42,66 @@ class _MarkDetailLiState extends State<MarkDetailLi> {
         toastPosition: EasyLoadingToastPosition.top);
 
     Provider.of<DailyMarkProvider>(context, listen: false).decrement(index);
+  }
+
+  void _showScaffold() {
+    final snackBar = SnackBar(content: Text('可以按住拖动'));
+    Provider.of<ThemeProvider>(context, listen: false)
+        .scaffoldKey
+        .currentState
+        .showSnackBar(snackBar);
+  }
+
+  DirectSelectItem<int> getDropDownMenuItem(int value) {
+    return DirectSelectItem<int>(
+        itemHeight: 56,
+        value: value,
+        itemBuilder: (context, value) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: 20.w,
+                child: Text(
+                  value.toString(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily:
+                          Provider.of<FontFamilyProvider>(context).fontFamily,
+                      fontSize: ScreenUtil().setSp(16),
+                      fontWeight: FontWeight.w700),
+                ),
+              ),
+              Opacity(opacity: 0.5, child: Text(" / ")),
+              Opacity(
+                opacity: 0.5,
+                child: Text(
+                  Provider.of<DailyMarkProvider>(context)
+                      .getMaxValue(index)
+                      .toString(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily:
+                          Provider.of<FontFamilyProvider>(context).fontFamily,
+                      color: ThemeColors.colorBlack,
+                      fontSize: ScreenUtil().setSp(14),
+                      fontWeight: FontWeight.w100),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  _getDslDecoration() {
+    return BoxDecoration(
+      // color: ThemeColors.colorTheme,
+
+      border: BorderDirectional(
+        bottom: BorderSide(width: 2, color: ThemeColors.colorWhite),
+        top: BorderSide(width: 2, color: ThemeColors.colorWhite),
+      ),
+    );
   }
 
   @override
@@ -69,37 +141,26 @@ class _MarkDetailLiState extends State<MarkDetailLi> {
               ),
             ),
             width: ScreenUtil().setWidth(60),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  Provider.of<DailyMarkProvider>(context)
-                      .getCurrentValue(index)
-                      .toString(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily:
-                          Provider.of<FontFamilyProvider>(context).fontFamily,
-                      fontSize: ScreenUtil().setSp(16),
-                      fontWeight: FontWeight.w700),
-                ),
-                Opacity(opacity: 0.5, child: Text(" / ")),
-                Opacity(
-                  opacity: 0.5,
-                  child: Text(
-                    Provider.of<DailyMarkProvider>(context)
-                        .getMaxValue(index)
-                        .toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily:
-                            Provider.of<FontFamilyProvider>(context).fontFamily,
-                        color: ThemeColors.colorBlack,
-                        fontSize: ScreenUtil().setSp(14),
-                        fontWeight: FontWeight.w100),
-                  ),
-                ),
-              ],
+            child: DirectSelectList<int>(
+              onUserTappedListener: () {
+                _showScaffold();
+              },
+              values: List.generate(
+                  Provider.of<DailyMarkProvider>(context, listen: false)
+                          .getMaxValue(index) +
+                      1,
+                  (i) => i),
+              defaultItemIndex:
+                  Provider.of<DailyMarkProvider>(context, listen: false)
+                      .getCurrentValue(index),
+              itemBuilder: (int value) => getDropDownMenuItem(value),
+              focusedItemDecoration: _getDslDecoration(),
+              onItemSelectedListener: (item, _index, context) {
+                setState(() {
+                  Provider.of<DailyMarkProvider>(context, listen: false)
+                      .setValue(index, _index);
+                });
+              },
             ),
           ),
           MyMarkButton(

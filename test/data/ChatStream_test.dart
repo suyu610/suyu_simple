@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:suyu_simple/data/ChatStream.dart';
+import 'package:suyu_simple/net/ChatStream.dart';
 
 void main() {
   testWidgets('ChatStream ...', (tester) async {

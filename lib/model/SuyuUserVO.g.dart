@@ -14,6 +14,9 @@ SuyuUserVO _$SuyuUserVOFromJson(Map<String, dynamic> json) {
     faceImageBig: json['faceImageBig'] as String,
     nickname: json['nickname'] as String,
     qrcode: json['qrcode'] as String,
+    friendVO: json['friendVO'] == null
+        ? null
+        : FriendVO.fromJson(json['friendVO'] as Map<String, dynamic>),
     token: json['token'] as String,
   );
 }
@@ -27,4 +30,5 @@ Map<String, dynamic> _$SuyuUserVOToJson(SuyuUserVO instance) =>
       'nickname': instance.nickname,
       'qrcode': instance.qrcode,
       'token': instance.token,
+      'friendVO': instance.friendVO,
     };

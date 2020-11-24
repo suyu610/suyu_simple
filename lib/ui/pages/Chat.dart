@@ -163,6 +163,7 @@ class _ChatPageState extends State<ChatPage> {
         },
         child: Stack(children: <Widget>[
           Container(
+            decoration: ThemeFonts.lineBoxDecoration,
             padding: EdgeInsets.fromLTRB(5.h, 10, 10, 65.h),
             child: StreamBuilder(
                 stream: Provider.of<ChatProvider>(context).streamList,

@@ -2,6 +2,7 @@ library animated_splash;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:loading_indicator_view/loading_indicator_view.dart';
 
 Widget _home;
 Function _customFunction;
@@ -100,7 +101,7 @@ class _AnimatedSplashState extends State<AnimatedSplash>
                         color: Colors.black,
                         fontWeight: FontWeight.w300,
                         fontSize: 36,
-                        fontFamily: 'kaitiFont',
+                        fontFamily: 'logoFont',
                       ),
                     ),
                     Text(
@@ -110,7 +111,7 @@ class _AnimatedSplashState extends State<AnimatedSplash>
                         color: Colors.black,
                         fontWeight: FontWeight.w300,
                         fontSize: 36,
-                        fontFamily: 'kaitiFont',
+                        fontFamily: 'logoFont',
                       ),
                     ),
                     Text(
@@ -120,7 +121,7 @@ class _AnimatedSplashState extends State<AnimatedSplash>
                           color: Colors.black,
                           fontWeight: FontWeight.w300,
                           fontSize: 36,
-                          fontFamily: 'kaitiFont'),
+                          fontFamily: 'logoFont'),
                     ),
                     Text(
                       "分",
@@ -129,11 +130,26 @@ class _AnimatedSplashState extends State<AnimatedSplash>
                         color: Colors.black,
                         fontWeight: FontWeight.w300,
                         fontSize: 36,
-                        fontFamily: 'kaitiFont',
+                        fontFamily: 'logoFont',
+                      ),
+                    ),
+                    Text(
+                      "v0.1",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 16,
+                        fontFamily: 'logoFont',
                       ),
                     ),
                   ],
                 ),
+              ),
+              SizedBox(height: 20),
+              PacmanIndicator(
+                radius: 12,
+                color: Colors.black,
               ),
             ],
           ),

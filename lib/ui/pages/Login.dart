@@ -19,6 +19,7 @@ import 'package:suyu_simple/net/result_data.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/common/MyTheme.dart';
 import 'package:suyu_simple/provider/ThemeProvider.dart';
+import 'package:suyu_simple/provider/UserProvider.dart';
 import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 // import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 import 'package:suyu_simple/ui/components/DraggableCard.dart';
@@ -100,8 +101,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           resultData = await dio.post("/user/loginByPwd", params: params);
           if (resultData.status == 200) {
             // 登陆成功
-
-            handleLoginSusscess(resultData.data);
+            handleLoginSusscess(resultData);
           } else if (resultData.status == 505) {
             EasyLoading.showError(resultData.msg);
           } else {
@@ -120,18 +120,23 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     // 显示登陆成功
     EasyLoading.showSuccess("欢迎回来~\n${resultData.data["nickname"]}");
 
-    // var user = new UserVo.fromJson(resultData.data);
-    print(resultData.data.toString());
     SuyuUserVO suyuUserVo = SuyuUserVO.fromJson(resultData.data);
-    print(suyuUserVo.toString());
+
     // 保存token
     await SharePreferencesUtils.token(SharePreferencesUtilsWorkType.save,
             value: resultData.data["token"])
-        .then((_) {
-      //跳转
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return HomePage();
-      }));
+        .then((_) async {
+      await (SharePreferencesUtils.suyuUserVo(
+              SharePreferencesUtilsWorkType.save,
+              value: resultData.data))
+          .then((_) {
+        Provider.of<UserProvider>(context, listen: false).setUserVO(suyuUserVo);
+        // 跳转
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
+          return HomePage();
+        }));
+      });
     });
   }
 

@@ -28,7 +28,7 @@ class DailyMarkProvider with ChangeNotifier {
   }
 
   void setValue(index, value) {
-    print(value);
+    // print(value);
     todayRecorder.list.elementAt(index).currentScore = value;
     notifyListeners();
   }

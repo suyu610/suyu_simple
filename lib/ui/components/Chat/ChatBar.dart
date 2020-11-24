@@ -5,6 +5,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/provider/ChatProvider.dart';
+import 'package:suyu_simple/provider/UserProvider.dart';
 
 class ChatBar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -38,14 +39,22 @@ class ChatBar extends StatelessWidget implements PreferredSizeWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      "当前在线人数",
+                      Provider.of<UserProvider>(context, listen: false)
+                                  .getUser()
+                                  .friendVO !=
+                              null
+                          ? Provider.of<UserProvider>(context, listen: false)
+                              .getUser()
+                              .friendVO
+                              .friendNickname
+                          : "你没对象",
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                     SizedBox(
                       height: 6.h,
                     ),
                     Text(
-                      "17人",
+                      "在线",
                       style: TextStyle(color: Colors.green, fontSize: 12.sp),
                     ),
                   ],

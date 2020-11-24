@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suyu_simple/common/MyTheme.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/data/ChatStream.dart';
+import 'package:suyu_simple/net/ChatStream.dart';
 // import 'package:suyu_simple/common/ThemeFonts.dart';
 // import 'package:suyu_simple/tools/MainUtil.dart';
 // import 'package:suyu_simple/ui/pages/Home.dart';
@@ -21,6 +21,7 @@ import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/provider/TabbarProvider.dart';
 import 'package:suyu_simple/provider/ChatProvider.dart';
+import 'package:suyu_simple/provider/UserProvider.dart';
 
 import 'package:suyu_simple/tools/InitUtils.dart';
 import 'package:suyu_simple/ui/components/Splash.dart';
@@ -34,6 +35,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Global.init().then((e) => runApp(
         MultiProvider(providers: [
+          ListenableProvider<UserProvider>(create: (_) => UserProvider()),
           ListenableProvider<FontFamilyProvider>(
               create: (_) => FontFamilyProvider()),
           ListenableProvider<ThemeProvider>(
@@ -57,6 +59,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     EasyLoading.instance.toastPosition = EasyLoadingToastPosition.bottom;
     precacheImage(Image.asset("assets/images/logo_trans.png").image, context);
     precacheImage(Image.asset("assets/images/logo.png").image, context);
@@ -64,6 +67,7 @@ class _MyAppState extends State<MyApp> {
           (data) =>
               Provider.of<ChatProvider>(context, listen: false).initList(data),
         );
+    Provider.of<UserProvider>(context, listen: false).init();
   }
 
   @override
@@ -84,7 +88,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: AnimatedSplash(
         color: ThemeColors.colorTheme,
-        duration: 0,
+        duration: 2000,
         home: Main(),
       ),
     );

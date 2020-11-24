@@ -86,7 +86,7 @@ class HistoryPageState extends State<HistoryPage> {
               pointers: <GaugePointer>[
                 RangePointer(
                     value: _value,
-                    width: 35.w,
+                    width: 5,
                     enableAnimation: true,
                     color: Color(0xffff7471),
                     enableDragging: true,

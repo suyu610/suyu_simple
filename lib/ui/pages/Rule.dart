@@ -1,12 +1,14 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:slimy_card/slimy_card.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
-import 'package:suyu_simple/ui/components/Carousel.dart';
+import 'package:suyu_simple/sampleData/SampleDate.dart';
 import 'package:suyu_simple/ui/components/MyButton.dart';
-// import 'package:slimy_card/slimy_card.dart';
+import 'package:suyu_simple/ui/components/Slimy_card.dart';
 
 class RulePage extends StatefulWidget {
   RulePage({Key key}) : super(key: key);
@@ -17,7 +19,7 @@ class RulePage extends StatefulWidget {
 
 class _RulePageState extends State<RulePage> {
   final TextEditingController inputController = TextEditingController();
-  List<String> items = new List<String>.from(["亲亲卡", "抱抱卡", "亲耳朵卡"]);
+
   @override
   void initState() {
     super.initState();
@@ -35,160 +37,209 @@ class _RulePageState extends State<RulePage> {
     inputController.dispose();
   }
 
+  void onPageChanged(int index, CarouselPageChangedReason b) {
+    // print(a);
+    // print(b);
+    _currentIndex = index;
+    print(_currentIndex);
+    setState(() {});
+  }
+
   renderCustomCarousel() {
-    return Column(
-      children: <Widget>[
-        Carousel(
-          rowCount: 1,
-          onDragStart: (DragStartDetails details) {},
-          onDrag: (DragUpdateDetails details) {},
-          onDragEnd: (DragEndDetails details) {},
-          children: this.items.map((String itemText) {
-            return Padding(
-                padding: const EdgeInsets.only(
-                    bottom: 0, top: 10.0, left: 0, right: 0),
-                child: Container(
-                  margin: const EdgeInsets.only(
-                      top: 10.0, bottom: 30.0, left: 65, right: 65),
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 2),
-                    color: ThemeColors.colorTheme,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(19),
-                      // topLeft: Radius.elliptical(30, 50),
-                      // topRight: Radius.elliptical(90, 50),
-                      // bottomRight: Radius.elliptical(50, 99),
-                      // bottomLeft: Radius.elliptical(50, 92),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        // color: ThemeColors.colorTheme,
-                        color: Colors.black,
-                        spreadRadius: 0.0,
-                        offset: Offset(7.0, 7.0),
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        itemText,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10.h,
-                      ),
-                      Image.asset(
-                        'assets/images/logo.png',
-                        width: 100.0,
-                        height: 100.0,
-                        fit: BoxFit.contain,
-                      ),
-                    ],
-                  ),
-                ));
-          }).toList(),
-        ),
-      ],
+    return CarouselSlider(
+      options: CarouselOptions(
+        height: 445.h,
+        aspectRatio: 0.4,
+        viewportFraction: 0.70,
+        initialPage: 0,
+        enableInfiniteScroll: true,
+        reverse: false,
+        autoPlay: false,
+        // autoPlayInterval: Duration(seconds: 8),
+        // autoPlayAnimationDuration: Duration(milliseconds: 800),
+        // autoPlayCurve: Curves.fastOutSlowIn,
+        enlargeCenterPage: true,
+        onPageChanged: onPageChanged,
+        scrollDirection: Axis.horizontal,
+      ),
+      // items: cardList,
+      items: SampleDate.CardList.map((String itemText) {
+        return Column(
+          children: [
+            SlimyCard(
+              bottomCardHeight: 100,
+              color: ThemeColors.colorTheme,
+              // In topCardWidget below, imagePath changes according to the
+              // status of the SlimyCard(snapshot.data).
+              topCardWidget:
+                  topCardWidget(_currentIndex, 'assets/images/logo.png'),
+              bottomCardWidget: bottomCardWidget(),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            MyButton(
+              "使用",
+              tapAction: () => print(_currentIndex),
+              height: 32,
+            ),
+          ],
+        );
+      }).toList(),
     );
   }
 
+  int _currentIndex = 0;
+  int _totalIndex = SampleDate.CardList.length;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-            decoration: ThemeFonts.lineBoxDecoration,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Container(
+        decoration: ThemeFonts.lineBoxDecoration,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            SizedBox(height: 10.h),
+            Column(
               children: [
-                Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () => {},
-                      child: Container(
-                        width: 150.w,
-                        padding: EdgeInsets.all(5.w),
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(254, 212, 91, 1),
-                          boxShadow: [
-                            new BoxShadow(
-                                color: Color.fromRGBO(173, 179, 191, 0.3),
-                                blurRadius: 1.0,
-                                offset: new Offset(0, 0))
-                          ],
-                          border: Border.merge(
-                            new Border(
-                                left:
-                                    BorderSide(color: Colors.black, width: 5)),
-                            new Border(
-                                right:
-                                    BorderSide(color: Colors.black, width: 5)),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "当前拥有",
-                              style: TextStyle(
-                                  letterSpacing: 5.w,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.black,
-                                  fontSize: ScreenUtil().setSp(15),
-                                  fontFamily: 'myFont'),
-                            ),
-                          ],
-                        ),
+                GestureDetector(
+                  onTap: () => {},
+                  child: Container(
+                    width: 150.w,
+                    padding: EdgeInsets.all(5.w),
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(254, 212, 91, 1),
+                      boxShadow: [
+                        new BoxShadow(
+                            color: Color.fromRGBO(173, 179, 191, 0.3),
+                            blurRadius: 1.0,
+                            offset: new Offset(0, 0))
+                      ],
+                      border: Border.merge(
+                        new Border(
+                            left: BorderSide(color: Colors.black, width: 5)),
+                        new Border(
+                            right: BorderSide(color: Colors.black, width: 5)),
                       ),
                     ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Text(
-                      " 10 朵小红花",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      " 3 张卡片",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
                         Text(
-                          "1 / 3",
-                          textAlign: TextAlign.end,
+                          "当前拥有",
                           style: TextStyle(
-                              fontSize: 22.sp, color: Colors.grey.shade200),
+                              letterSpacing: 5.w,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.black,
+                              fontSize: ScreenUtil().setSp(15),
+                              fontFamily: 'myFont'),
                         ),
-                        SizedBox(
-                          width: 50.w,
-                        )
                       ],
                     ),
-                    this.renderCustomCarousel(),
-                    MyButton(
-                      "使用",
-                      isYellow: true,
+                  ),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Text(
+                  " ${SampleDate.CardList.length / 2} 朵小红花",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  " ${SampleDate.CardList.length} 张卡片",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "${_currentIndex + 1} / $_totalIndex",
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                          fontSize: 22.sp, color: Colors.grey.shade200),
                     ),
+                    SizedBox(
+                      width: 60.w,
+                      height: 20.h,
+                    )
                   ],
                 ),
                 SizedBox(
-                  height: 20.h,
-                )
+                  height: 10.h,
+                ),
+                this.renderCustomCarousel(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: SampleDate.CardList.map((url) {
+                    int index = SampleDate.CardList.indexOf(url);
+                    return Container(
+                      width: 8.0,
+                      height: 8.0,
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _currentIndex == index
+                              ? ThemeColors.colorTheme
+                              : Colors.black),
+                    );
+                  }).toList(),
+                ),
               ],
-            )),
-      ),
-    );
+            ),
+          ],
+        ));
   }
+}
+
+// This widget will be passed as Top Card's Widget.
+Widget topCardWidget(int index, String imagePath) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: <Widget>[
+      Container(
+        height: 70,
+        width: 70,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          image: DecorationImage(image: AssetImage(imagePath)),
+        ),
+      ),
+      SizedBox(height: 15),
+      Text(
+        SampleDate.CardList[index],
+        style: TextStyle(color: Colors.black, fontSize: 20),
+      ),
+      SizedBox(height: 15),
+      Text(
+        'He asks, what your name is. But!',
+        style: TextStyle(
+            color: Colors.black.withOpacity(0.8),
+            fontSize: 12,
+            fontWeight: FontWeight.w500),
+      ),
+      SizedBox(height: 10),
+    ],
+  );
+}
+
+// This widget will be passed as Bottom Card's Widget.
+Widget bottomCardWidget() {
+  return Text(
+    '赠送时间 \n 2020-11-24',
+    style: TextStyle(
+      color: Colors.black,
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+    ),
+    textAlign: TextAlign.center,
+  );
 }
