@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:suyu_simple/model/ChatMessage.dart';
-import 'package:suyu_simple/model/MsgType.dart';
+import 'package:suyu_simple/model/enum/MsgType.dart';
 
 class RandomUtil {
   static final _random = new Random();

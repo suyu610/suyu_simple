@@ -1,22 +1,37 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:suyu_simple/model/enum/MsgStatus.dart';
+import 'package:suyu_simple/model/enum/MsgType.dart';
 // xxx.g.dart 将在我们运行生成命令后自动生成,xxx文件名要相同
 
 part 'ChatMessage.g.dart'; //login_info此名字需与文件名相同
 
+/// 服务器的chat bean
+/*
+  private String id;
+  private String sendUserId;
+  private String acceptUserId;
+  private String msg;
+  private Integer signFlag;
+  private ChatType chatType;
+  private Date createTime;
+*/
+
 @JsonSerializable()
 class ChatMessage {
-  int msgId;
-  int isSend;
+  // 与后端id保持一致
+  String msgId;
+  // 消息的状态
+  MsgStatus msgStatus;
   int direct;
+  // 内容要不然就是文本内容，要不然就是url
   String content;
   String createID;
   String createName;
   String createTime;
   String headUrl;
-  String microGroupID;
   String path;
   String obj;
-  int type;
+  MsgType type;
   String localPath;
   String hasPlayed;
   int isCrowd;

@@ -10,7 +10,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/model/ChatMessage.dart';
 
-import 'package:suyu_simple/model/MsgType.dart';
+import 'package:suyu_simple/model/enum/MsgType.dart';
 import 'package:suyu_simple/ui/components/Image/FullScreenWidget.dart';
 
 // ignore: non_constant_identifier_names
