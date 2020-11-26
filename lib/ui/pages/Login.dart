@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +22,13 @@ import 'package:suyu_simple/common/MyTheme.dart';
 import 'package:suyu_simple/provider/TabbarProvider.dart';
 import 'package:suyu_simple/provider/ThemeProvider.dart';
 import 'package:suyu_simple/provider/UserProvider.dart';
+import 'package:suyu_simple/route/RouterHelper.dart';
 import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 // import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 import 'package:suyu_simple/ui/components/DraggableCard.dart';
 import 'package:suyu_simple/ui/components/UnShapedInput.dart';
 import 'package:suyu_simple/utils/loading_utils.dart';
 import 'Home.dart';
-import 'dart:convert';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -65,13 +66,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               value: json))
           .then((_) {
         Provider.of<UserProvider>(context, listen: false).setUserVO(userVO);
+        Provider.of<TabbarProvider>(context, listen: false).currentIndex = 0;
+        // 跳转
+        RouterHelper.router.navigateTo(context, "/home",
+            transition: TransitionType.native, clearStack: true);
       });
     });
-    // 跳转
-    Provider.of<TabbarProvider>(context, listen: false).currentIndex = 0;
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return HomePage();
-    }));
   }
 
   @override

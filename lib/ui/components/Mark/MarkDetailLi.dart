@@ -8,7 +8,6 @@ import 'package:suyu_simple/provider/ThemeProvider.dart';
 import 'package:suyu_simple/ui/Components/MyMarkButton.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
-import 'package:direct_select_flutter/direct_select_container.dart';
 import 'package:direct_select_flutter/direct_select_item.dart';
 import 'package:direct_select_flutter/direct_select_list.dart';
 

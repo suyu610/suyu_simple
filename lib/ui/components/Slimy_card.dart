@@ -3,9 +3,6 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:ionicons/ionicons.dart';
 import 'dart:async';
 
-import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/ui/components/MyButton.dart';
-
 /// Global variable to access the status of the card.
 StatusBloc slimyCard = StatusBloc();
 
@@ -43,14 +40,14 @@ class SlimyCard extends StatefulWidget {
     this.color = const Color(0xff5858FF),
     this.width = 300,
     this.topCardHeight = 300,
-    this.bottomCardHeight = 150,
-    this.borderRadius = 25,
+    this.bottomCardHeight = 100,
+    this.borderRadius = 15,
     this.topCardWidget,
     this.bottomCardWidget,
     this.slimeEnabled = true,
   })  : assert(topCardHeight >= 150, 'Height of Top Card must be atleast 150.'),
-        assert(bottomCardHeight >= 100,
-            'Height of Bottom Card must be atleast 100.'),
+        // assert(bottomCardHeight >= 100,
+        //     'Height of Bottom Card must be atleast 100.'),
         assert(width >= 100, 'Width must be atleast 100.'),
         assert(borderRadius <= 30 && borderRadius >= 0,
             'Border Radius must neither exceed 30 nor be negative');

@@ -7,15 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/provider/ThemeProvider.dart';
 import 'package:suyu_simple/ui/Components/Mark/MarkMainBox.dart';
 import 'package:suyu_simple/ui/Components/MyButton.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 import 'package:suyu_simple/ui/components/Menu/MenuWidget.dart';
-
-import 'Login.dart';
 
 class MarkPage extends StatefulWidget {
   MarkPage({Key key}) : super(key: key);
@@ -62,6 +59,12 @@ class _MarkPageState extends State<MarkPage> {
     //     border: Border.all(
     //       width: 2,
     //     ));
+  }
+
+  @override
+  void dispose() {
+    print('移除时：dispose');
+    super.dispose();
   }
 
   @override

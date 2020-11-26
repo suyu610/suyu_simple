@@ -1,6 +1,7 @@
 // import 'dart:async';
 // import 'dart:io';
 
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 // import 'package:flutter/services.dart';
@@ -21,10 +22,13 @@ import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/provider/TabbarProvider.dart';
 import 'package:suyu_simple/provider/ChatProvider.dart';
+import 'package:suyu_simple/provider/UserPictureProvider.dart';
 import 'package:suyu_simple/provider/UserProvider.dart';
+import 'package:suyu_simple/route/RouterConfig.dart';
+import 'package:suyu_simple/route/RouterHelper.dart';
 
 import 'package:suyu_simple/tools/InitUtils.dart';
-import 'package:suyu_simple/ui/components/Splash.dart';
+import 'package:suyu_simple/ui/pages/Splash.dart';
 import 'package:suyu_simple/ui/pages/Main.dart';
 
 import 'common/Global.dart';
@@ -35,6 +39,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Global.init().then((e) => runApp(
         MultiProvider(providers: [
+          ListenableProvider<UserPictureProvider>(
+              create: (_) => UserPictureProvider()),
           ListenableProvider<UserProvider>(create: (_) => UserProvider()),
           ListenableProvider<FontFamilyProvider>(
               create: (_) => FontFamilyProvider()),
@@ -56,6 +62,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  _MyAppState() {
+    final router = FluroRouter();
+    RouterConfig.configureRoutes(router);
+    RouterHelper.router = router;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -74,6 +86,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final themeNotifier = Provider.of<ThemeProvider>(context, listen: true);
     return MaterialApp(
+      //启动页面
+      home: AnimatedSplash(
+        color: ThemeColors.colorTheme,
+        duration: 2000,
+        home: Main(),
+      ),
+
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -84,13 +103,9 @@ class _MyAppState extends State<MyApp> {
       ],
       locale: Locale('zh'),
       builder: EasyLoadingInit(),
+      // 当前主体
       theme: themeNotifier.getTheme(),
       debugShowCheckedModeBanner: false,
-      home: AnimatedSplash(
-        color: ThemeColors.colorTheme,
-        duration: 2000,
-        home: Main(),
-      ),
     );
   }
 }

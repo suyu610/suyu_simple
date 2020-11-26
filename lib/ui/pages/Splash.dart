@@ -83,6 +83,7 @@ class _AnimatedSplashState extends State<AnimatedSplash>
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              Spacer(),
               Container(
                 margin: EdgeInsets.only(top: 10, bottom: 10),
                 padding:
@@ -90,38 +91,41 @@ class _AnimatedSplashState extends State<AnimatedSplash>
                 decoration: BoxDecoration(
                     // color: Colors.black,
                     ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "素\n语\n评\n分",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 36,
-                        fontFamily: 'logoFont',
-                      ),
-                    ),
-                    Text(
-                      "v0.1",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 16,
-                        fontFamily: 'logoFont',
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  "素\n语\n评\n分",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w300,
+                    fontSize: 36,
+                    fontFamily: 'logoFont',
+                  ),
                 ),
               ),
               SizedBox(height: 20),
-              PacmanIndicator(
-                radius: 12,
+
+              BallClipRotateMultipleIndicator(
+                minRadius: 8,
+                maxRadius: 15,
                 color: Colors.black,
+                duration: const Duration(milliseconds: 600),
               ),
+              // PacmanIndicator(
+              //   radius: 12,
+              //   color: Colors.black,
+              // ),
+              Spacer(),
+              Text(
+                "v0.1",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black.withAlpha(100),
+                  fontWeight: FontWeight.w300,
+                  fontSize: 16,
+                  fontFamily: 'logoFont',
+                ),
+              ),
+              SizedBox(height: 20),
             ],
           ),
         ));

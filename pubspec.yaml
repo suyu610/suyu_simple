@@ -38,8 +38,9 @@ dependencies:
   json_annotation: ^3.0.1
   # 画图
   syncfusion_flutter_charts: ^18.3.44
+  flutter_svg: ^0.18.1
   bubble: ^1.1.9+1
-
+  hand_signature: ^0.6.0
   image_picker: ^0.6.7+12
   path_provider: ^1.6.22
   lottie: ^0.7.0+1
@@ -64,7 +65,12 @@ dependencies:
   direct_select_flutter: ^1.0.6
   # 列表下面的角标
   smooth_page_indicator: ^0.2.0
-
+  # 路由
+  fluro: ^1.7.8
+  # 锁屏
+  passcode_screen: ^1.2.2+1
+  # 反面
+  flip_card: ^0.4.4
 
   # 侧边栏
   flutter_inner_drawer: "^0.5.7+2"

@@ -1,3 +1,4 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -11,12 +12,13 @@ import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/provider/UserProvider.dart';
+import 'package:suyu_simple/route/RouterHelper.dart';
 import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 import 'package:suyu_simple/tools/StrUtil.dart';
 import 'package:suyu_simple/ui/components/AboutDialog.dart';
+import 'package:suyu_simple/ui/components/DraggableCard.dart';
 import 'package:suyu_simple/ui/components/MyButton.dart';
 
-import 'Login.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key}) : super(key: key);
@@ -43,6 +45,11 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
 
+    print("------------");
+    print(
+      Provider.of<UserProvider>(context, listen: false).getUser().faceImageBig,
+    );
+    print("------------");
     hasFriend =
         Provider.of<UserProvider>(context, listen: false).getUser().friendVO !=
             null;
@@ -61,10 +68,8 @@ class _ProfilePageState extends State<ProfilePage> {
       SharePreferencesUtilsWorkType.remove,
     );
     EasyLoading.showSuccess("退出成功");
-
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return LoginPage();
-    }));
+    RouterHelper.router.navigateTo(context, "/login",
+        transition: TransitionType.fadeIn, clearStack: true);
   }
 
   @override
@@ -172,16 +177,19 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               Column(
                 children: <Widget>[
-                  Text(
-                    "你的ID是",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        fontSize: ScreenUtil().setSp(20),
-                        fontFamily: Provider.of<FontFamilyProvider>(context)
-                            .fontFamily),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10.w),
+                  // SizedBox(
+                  //   height: 10.w,
+                  // ),
+                  // Text(
+                  //   "姓名 : ${Provider.of<UserProvider>(context, listen: false).getUser().nickname}",
+                  //   style: TextStyle(
+                  //       fontWeight: FontWeight.w300,
+                  //       fontSize: ScreenUtil().setSp(20),
+                  //       fontFamily: Provider.of<FontFamilyProvider>(context)
+                  //           .fontFamily),
+                  // ),
+                  SizedBox(
+                    height: 30.w,
                   ),
                   GestureDetector(
                     onTap: handleNameTap,
@@ -238,19 +246,90 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DraggableCard(
+                    child: Container(
+                      width: 50.0.w,
+                      height: 50.0.w,
+                      decoration: new BoxDecoration(
+                        color: Colors.transparent,
+                        image: new DecorationImage(
+                          image: AssetImage("assets/images/girl.png"),
+
+                          // new NetworkImage(
+                          //   Provider.of<UserProvider>(context, listen: false)
+                          //       .getUser()
+                          //       .faceImageBig,
+                          // ),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius:
+                            new BorderRadius.all(new Radius.circular(30.0)),
+                        border: new Border.all(
+                          color: Colors.transparent,
+                          width: 0.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 16.w,
+                  ),
+                  Icon(
+                    Ionicons.heart,
+                    color: Color(0xffff7471),
+                    size: 24.sp,
+                  ),
+                  SizedBox(
+                    width: 16.w,
+                  ),
+                  DraggableCard(
+                    child: Icon(
+                      Icons.face,
+                      color: nameIsTap ? Colors.white : Colors.black,
+                      size: 50.w,
+                    ),
+                  ),
+                  // new Container(
+                  //   width: 40.0.w,
+                  //   height: 40.0.w,
+                  //   decoration: new BoxDecoration(
+                  //     color: Colors.transparent,
+                  //     image: new DecorationImage(
+                  //       image: AssetImage("assets/images/girl.png"),
+
+                  //       // new NetworkImage(
+                  //       //   Provider.of<UserProvider>(context, listen: false)
+                  //       //       .getUser()
+                  //       //       .faceImageBig,
+                  //       // ),
+                  //       fit: BoxFit.cover,
+                  //     ),
+                  //     borderRadius:
+                  //         new BorderRadius.all(new Radius.circular(30.0)),
+                  //     border: new Border.all(
+                  //       color: Colors.transparent,
+                  //       width: 0.0,
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
               Visibility(
                 visible: hasFriend,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "他自称",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w300,
-                          fontSize: ScreenUtil().setSp(20),
-                          fontFamily: Provider.of<FontFamilyProvider>(context)
-                              .fontFamily),
-                    ),
+                    // Text(
+                    //   "他",
+                    //   style: TextStyle(
+                    //       fontWeight: FontWeight.w300,
+                    //       fontSize: ScreenUtil().setSp(20),
+                    //       fontFamily: Provider.of<FontFamilyProvider>(context)
+                    //           .fontFamily),
+                    // ),
                     SizedBox(
                       height: 10.h,
                     ),

@@ -6,8 +6,6 @@ class TabbarProvider with ChangeNotifier {
 
   void changeIndex(int index) {
     currentIndex = index;
-
-    print(currentIndex);
     EasyLoading.dismiss();
     notifyListeners();
   }

@@ -1,3 +1,4 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +7,7 @@ import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
+import 'package:suyu_simple/route/RouterHelper.dart';
 import 'package:suyu_simple/ui/components/Menu/MenuItem.dart';
 
 import '../AboutDialog.dart';
@@ -47,14 +49,25 @@ class MenuWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   MenuItem(
-                      title: "玩游戏",
+                      title: "答题",
                       icon: Ionicons.game_controller_outline,
+                      tapAction: () => RouterHelper.router.navigateTo(
+                            context,
+                            "/quiz",
+                            transition: TransitionType.native,
+                          )),
+                  MenuItem(
+                      title: "相册",
+                      icon: Ionicons.images_outline,
                       tapAction: () => {}),
                   MenuItem(
-                    title: "相册",
-                    icon: Ionicons.images_outline,
-                    tapAction: () => print("xixi"),
-                  ),
+                      title: "签名",
+                      icon: Ionicons.images_outline,
+                      tapAction: () => RouterHelper.router.navigateTo(
+                            context,
+                            "/paint",
+                            transition: TransitionType.native,
+                          )),
                   MenuItem(
                       title: "唱歌",
                       icon: Ionicons.musical_note_outline,

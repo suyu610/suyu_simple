@@ -3,14 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:scratcher/widgets.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hand_signature/signature.dart';
+
+import 'package:provider/provider.dart';
 // import 'package:slimy_card/slimy_card.dart';
 import 'package:suyu_simple/common/ThemeColor.dart';
 import 'package:suyu_simple/common/ThemeFonts.dart';
+import 'package:suyu_simple/provider/UserPictureProvider.dart';
 import 'package:suyu_simple/sampleData/SampleDate.dart';
 import 'package:suyu_simple/ui/components/MyButton.dart';
 import 'package:suyu_simple/ui/components/Slimy_card.dart';
+import 'package:flip_card/flip_card.dart';
 
 class RulePage extends StatefulWidget {
   RulePage({Key key}) : super(key: key);
@@ -25,6 +29,7 @@ class _RulePageState extends State<RulePage> {
   @override
   void initState() {
     super.initState();
+
     // this.items = new List<String>.generate(10, (int index) => "Item: $index");
   }
 
@@ -66,14 +71,22 @@ class _RulePageState extends State<RulePage> {
       items: SampleDate.CardList.map((String itemText) {
         return Column(
           children: [
-            SlimyCard(
-              bottomCardHeight: 100,
-              color: ThemeColors.colorTheme,
-              // In topCardWidget below, imagePath changes according to the
-              // status of the SlimyCard(snapshot.data).
-              topCardWidget:
-                  topCardWidget(_currentIndex, 'assets/images/logo.png'),
-              bottomCardWidget: bottomCardWidget(),
+            FlipCard(
+              direction: FlipDirection.VERTICAL,
+              speed: 500,
+              back: SlimyCard(
+                bottomCardHeight: 70.h,
+                color: ThemeColors.colorTheme,
+                topCardWidget: topCardWidgetBack(_currentIndex),
+                bottomCardWidget: bottomCardWidgetBack(context),
+              ),
+              front: SlimyCard(
+                bottomCardHeight: 70.h,
+                color: ThemeColors.colorTheme,
+                topCardWidget:
+                    topCardWidgetFront(_currentIndex, 'assets/images/logo.png'),
+                bottomCardWidget: bottomCardWidgetFront(context),
+              ),
             ),
             SizedBox(
               height: 20.h,
@@ -201,8 +214,32 @@ class _RulePageState extends State<RulePage> {
   }
 }
 
+Widget topCardWidgetBack(int index) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          SampleDate.CardList[index],
+          style: TextStyle(color: Colors.black, fontSize: 20),
+        ),
+        SizedBox(height: 15),
+        Text(
+          '在文字录入比赛（打字比赛）中，最公平的比赛用文本就是随机文本，这个随机汉字生成器便是为此所作。普通人的汉字录入速度一般是每分钟几十个到一百多个，我们可以生成一两千字的随机汉字文本，让比赛者录入完这些汉字，依据他们的比赛用时和正确率判断名次。生成随机汉字的原始文字一般选择常用汉字，经过随机排列之后只能一个字!',
+          style: TextStyle(
+              color: Colors.black.withOpacity(0.8),
+              fontSize: 12,
+              fontWeight: FontWeight.w500),
+        ),
+        SizedBox(height: 10),
+      ],
+    ),
+  );
+}
+
 // This widget will be passed as Top Card's Widget.
-Widget topCardWidget(int index, String imagePath) {
+Widget topCardWidgetFront(int index, String imagePath) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: <Widget>[
@@ -234,7 +271,28 @@ Widget topCardWidget(int index, String imagePath) {
 }
 
 // This widget will be passed as Bottom Card's Widget.
-Widget bottomCardWidget() {
+Widget bottomCardWidgetBack(BuildContext context) {
+  if (Provider.of<UserPictureProvider>(context, listen: false).readSvgStr() !=
+      "") {
+    return HandSignatureView.svg(
+      data:
+          Provider.of<UserPictureProvider>(context, listen: false).readSvgStr(),
+      placeholder: Container(
+        color: ThemeColors.colorTheme,
+        child: Center(
+          child: Text(
+            '还没有写东西',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+          ),
+        ),
+      ),
+    );
+  } else {
+    return Text("无签名");
+  }
+}
+
+Widget bottomCardWidgetFront(BuildContext context) {
   return Text(
     '赠送时间 \n 2020-11-24',
     style: TextStyle(
