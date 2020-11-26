@@ -52,7 +52,7 @@ class _PaintState extends State<Paint> {
             children: [
               // 预览区
               Container(
-                height: 100.w,
+                height: 90.w,
                 width: 300.h,
                 decoration: BoxDecoration(
                   border: Border(
@@ -86,7 +86,7 @@ class _PaintState extends State<Paint> {
 
               // 右下角的操作区
               Container(
-                height: 100.w,
+                height: 90.w,
                 width: 367.h,
                 decoration: BoxDecoration(
                   border: Border(
@@ -208,7 +208,7 @@ class _PaintState extends State<Paint> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                 ),
-                height: (375 - 100).w,
+                height: (375 - 90).w,
                 width: 675.h,
                 child: HandSignaturePainterView(
                   control: control,
