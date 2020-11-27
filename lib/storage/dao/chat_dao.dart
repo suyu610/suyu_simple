@@ -1,6 +1,6 @@
 import 'package:sqflite/sqlite_api.dart';
-import 'package:suyu_simple/db/db_provider.dart';
 import 'package:suyu_simple/model/chat_message.dart';
+import 'package:suyu_simple/storage/db/db_provider.dart';
 
 class ChatDAO extends BaseDBProvider {
   //表名

@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:sqflite/sqlite_api.dart';
-import 'package:suyu_simple/db/db_manager.dart';
+
+import 'db_manager.dart';
 
 abstract class BaseDBProvider {
   bool isTableExists = false;
   tableSqlString();
   tableName();
-  
 
   Future<Database> getDataBase() async {
     return await open();

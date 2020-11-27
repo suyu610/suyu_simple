@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:suyu_simple/dao/chat_dao.dart';
 import 'package:suyu_simple/net/address.dart';
+import 'package:suyu_simple/storage/dao/chat_dao.dart';
 import 'package:web_socket_channel/io.dart';
 
 class ChatStream {

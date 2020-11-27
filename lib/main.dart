@@ -10,11 +10,11 @@ import 'package:suyu_simple/provider/theme_provider.dart';
 import 'package:suyu_simple/provider/user_provider.dart';
 import 'package:suyu_simple/route/RouterConfig.dart';
 import 'package:suyu_simple/route/RouterHelper.dart';
-import 'package:suyu_simple/tools/init_utils.dart';
 import 'package:suyu_simple/ui/pages/Splash.dart';
 import 'package:suyu_simple/ui/pages/Main.dart';
 
 import 'config/Global.dart';
+import 'config/init_utils.dart';
 import 'constant/theme_color.dart';
 
 void main() {
