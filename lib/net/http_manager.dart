@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:suyu_simple/model/result_data.dart';
 import 'package:suyu_simple/net/code.dart';
 import 'package:suyu_simple/net/pretty_dio_logger.dart';
 import 'package:suyu_simple/net/response_interceptor.dart';
 
 import 'package:suyu_simple/utils/loading_utils.dart';
 import 'dio_log_interceptor.dart';
-import 'result_data.dart';
 import 'address.dart';
 
 class HttpManager {

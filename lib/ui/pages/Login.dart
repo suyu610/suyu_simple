@@ -1,6 +1,4 @@
-// import 'package:dio/dio.dart';
 import 'dart:async';
-
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fluro/fluro.dart';
@@ -15,9 +13,9 @@ import 'package:provider/provider.dart';
 import 'package:suyu_simple/constant/my_theme.dart';
 import 'package:suyu_simple/constant/theme_color.dart';
 import 'package:suyu_simple/constant/theme_fonts.dart';
+import 'package:suyu_simple/model/result_data.dart';
 import 'package:suyu_simple/model/user.dart';
 import 'package:suyu_simple/net/http_manager.dart';
-import 'package:suyu_simple/net/result_data.dart';
 import 'package:suyu_simple/provider/font_family_provider.dart';
 import 'package:suyu_simple/provider/tabbar_provider.dart';
 import 'package:suyu_simple/provider/theme_provider.dart';
