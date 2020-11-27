@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:suyu_simple/tools/share_preferences_utils.dart';
 
 class Global {
   static String userID;

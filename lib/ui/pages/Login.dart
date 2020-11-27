@@ -12,21 +12,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:crypto/crypto.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/constant/ThemeColor.dart';
-import 'package:suyu_simple/constant/ThemeFonts.dart';
+import 'package:suyu_simple/constant/my_theme.dart';
+import 'package:suyu_simple/constant/theme_color.dart';
+import 'package:suyu_simple/constant/theme_fonts.dart';
 import 'package:suyu_simple/model/user.dart';
 import 'package:suyu_simple/net/http_manager.dart';
 import 'package:suyu_simple/net/result_data.dart';
-import 'package:suyu_simple/provider/FontFamilyProvider.dart';
-import 'package:suyu_simple/constant/MyTheme.dart';
-import 'package:suyu_simple/provider/TabbarProvider.dart';
-import 'package:suyu_simple/provider/ThemeProvider.dart';
-import 'package:suyu_simple/provider/UserProvider.dart';
+import 'package:suyu_simple/provider/font_family_provider.dart';
+import 'package:suyu_simple/provider/tabbar_provider.dart';
+import 'package:suyu_simple/provider/theme_provider.dart';
+import 'package:suyu_simple/provider/user_provider.dart';
 import 'package:suyu_simple/route/RouterHelper.dart';
-import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
+import 'package:suyu_simple/tools/share_preferences_utils.dart';
+import 'package:suyu_simple/ui/components/draggable_card.dart';
+import 'package:suyu_simple/ui/components/unshaped_input.dart';
 // import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
-import 'package:suyu_simple/ui/components/DraggableCard.dart';
-import 'package:suyu_simple/ui/components/UnShapedInput.dart';
 import 'package:suyu_simple/utils/loading_utils.dart';
 import 'Home.dart';
 
@@ -234,7 +234,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   void changeTheme() {
     Provider.of<ThemeProvider>(context, listen: false)
-        .changeTheme(isDarkMode ? lightTheme : darkTheme);
+        .changeTheme(isDarkMode ? LIGHT : DARK);
     isDarkMode = !isDarkMode;
     setState(() {});
   }

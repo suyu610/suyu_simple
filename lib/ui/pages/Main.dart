@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
+import 'package:suyu_simple/tools/share_preferences_utils.dart';
 import 'package:suyu_simple/ui/pages/Home.dart';
-// import 'package:suyu_simple/ui/pages/Login.dart';
 import 'package:suyu_simple/ui/test/login_view.dart';
 
 class Main extends StatefulWidget {

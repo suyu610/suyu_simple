@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
+import 'package:suyu_simple/tools/share_preferences_utils.dart';
 
 class UserPictureProvider with ChangeNotifier {
   String signSvgStr = "";

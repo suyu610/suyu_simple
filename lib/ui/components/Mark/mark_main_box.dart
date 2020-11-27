@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/constant/ThemeColor.dart';
-
-import 'package:suyu_simple/provider/FontFamilyProvider.dart';
-import 'package:suyu_simple/provider/UserProvider.dart';
-import 'package:suyu_simple/ui/components/Mark/MarkDetailLi.dart';
-
-import 'package:suyu_simple/provider/DailyMarkProvider.dart';
-import 'package:suyu_simple/sampleData/SampleDate.dart';
+import 'package:suyu_simple/constant/theme_color.dart';
 import 'package:suyu_simple/model/daily_recorder.dart';
-import 'TotalMark.dart';
+import 'package:suyu_simple/provider/daily_mark_provider.dart';
+import 'package:suyu_simple/provider/font_family_provider.dart';
+import 'package:suyu_simple/provider/user_provider.dart';
+import 'package:suyu_simple/sampleData/sample_date.dart';
+import 'package:suyu_simple/ui/components/Mark/total_mark.dart';
+
+import 'mark_detail_li.dart';
 
 class MarkMainBox extends StatefulWidget {
   MarkMainBox({Key key}) : super(key: key);
@@ -25,16 +24,6 @@ class _MarkMainBoxState extends State<MarkMainBox> {
   initState() {
     super.initState();
     dailyRecorder = SampleDate.todayRecorder;
-  }
-
-  ///下拉刷新方法,为list重新赋值
-  ///
-  Future<Null> _onRefresh() async {
-    await Future.delayed(Duration(seconds: 1), () {
-      // IMP: 刷新获取的数据
-      print('refresh');
-      setState(() {});
-    });
   }
 
   @override

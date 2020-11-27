@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:suyu_simple/constant/MsgStatus.dart';
-import 'package:suyu_simple/constant/MsgType.dart';
+import 'package:suyu_simple/constant/msg_status.dart';
+import 'package:suyu_simple/constant/msg_type.dart';
 // xxx.g.dart 将在我们运行生成命令后自动生成,xxx文件名要相同
 
 part 'chat_message.g.dart'; //login_info此名字需与文件名相同

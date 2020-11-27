@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/provider/FontFamilyProvider.dart';
-import 'package:suyu_simple/provider/ThemeProvider.dart';
+import 'package:suyu_simple/constant/theme_color.dart';
+import 'package:suyu_simple/provider/daily_mark_provider.dart';
+import 'package:suyu_simple/provider/font_family_provider.dart';
+import 'package:suyu_simple/provider/theme_provider.dart';
 import 'package:suyu_simple/ui/Components/MyMarkButton.dart';
-import 'package:suyu_simple/constant/ThemeColor.dart';
-import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 import 'package:direct_select_flutter/direct_select_item.dart';
 import 'package:direct_select_flutter/direct_select_list.dart';
 

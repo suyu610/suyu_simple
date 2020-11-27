@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:suyu_simple/constant/ThemeColor.dart';
+import 'package:suyu_simple/constant/theme_color.dart';
 
-final ThemeData lightTheme = ThemeData(
+// ignore: non_constant_identifier_names
+final ThemeData LIGHT = ThemeData(
   scaffoldBackgroundColor: ThemeColors.colorWhite,
   backgroundColor: ThemeColors.colorWhite,
   dialogBackgroundColor: ThemeColors.colorTheme,
@@ -11,7 +12,8 @@ final ThemeData lightTheme = ThemeData(
   hintColor: Colors.black,
 );
 
-final ThemeData darkTheme = ThemeData(
+// ignore: non_constant_identifier_names
+final ThemeData DARK = ThemeData(
   primaryColor: ThemeColors.colorWhite,
   dialogBackgroundColor: Colors.black,
   backgroundColor: ThemeColors.colorBlack,

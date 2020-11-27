@@ -7,12 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/provider/ThemeProvider.dart';
-import 'package:suyu_simple/ui/Components/Mark/MarkMainBox.dart';
-import 'package:suyu_simple/ui/Components/MyButton.dart';
-import 'package:suyu_simple/constant/ThemeFonts.dart';
-import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
-import 'package:suyu_simple/ui/components/Menu/MenuWidget.dart';
+import 'package:suyu_simple/constant/theme_fonts.dart';
+import 'package:suyu_simple/provider/theme_provider.dart';
+import 'package:suyu_simple/tools/share_preferences_utils.dart';
+import 'package:suyu_simple/ui/components/Mark/mark_main_box.dart';
+import 'package:suyu_simple/ui/components/Menu/menu_widget.dart';
+import 'package:suyu_simple/ui/components/my_button.dart';
 
 class MarkPage extends StatefulWidget {
   MarkPage({Key key}) : super(key: key);

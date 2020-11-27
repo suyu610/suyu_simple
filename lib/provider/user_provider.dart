@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:suyu_simple/model/user.dart';
-import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
+import 'package:suyu_simple/tools/share_preferences_utils.dart';
 
 class UserProvider with ChangeNotifier {
   User _user;

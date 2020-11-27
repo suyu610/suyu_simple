@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
+import 'package:suyu_simple/constant/theme_color.dart';
+import 'package:suyu_simple/provider/font_family_provider.dart';
 // import 'package:provider/provider.dart';
-import 'package:suyu_simple/constant/ThemeColor.dart';
-import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/route/RouterHelper.dart';
-import 'package:suyu_simple/ui/components/Menu/MenuItem.dart';
+import 'package:suyu_simple/ui/components/about_dialog.dart';
 
-import '../AboutDialog.dart';
-// import 'package:suyu_simple/common/ThemeFonts.dart';
-// import 'package:suyu_simple/provider/FontFamilyProvider.dart';
+import 'menu_item.dart';
 
 class MenuWidget extends StatelessWidget {
   const MenuWidget({Key key}) : super(key: key);

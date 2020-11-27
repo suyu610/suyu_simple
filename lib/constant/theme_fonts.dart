@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:suyu_simple/constant/ThemeColor.dart';
+import 'package:suyu_simple/constant/theme_color.dart';
 
 class ThemeFonts {
   static TextStyle titleFont = TextStyle(

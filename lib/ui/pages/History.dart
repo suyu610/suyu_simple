@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:suyu_simple/constant/ThemeColor.dart';
-import 'package:suyu_simple/constant/ThemeFonts.dart';
+import 'package:suyu_simple/constant/theme_color.dart';
+import 'package:suyu_simple/constant/theme_fonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 

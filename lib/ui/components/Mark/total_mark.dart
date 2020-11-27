@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/constant/ThemeColor.dart';
+import 'package:suyu_simple/constant/theme_color.dart';
 import 'package:suyu_simple/model/mark_item.dart';
-import 'package:suyu_simple/provider/DailyMarkProvider.dart';
-import 'package:suyu_simple/provider/FontFamilyProvider.dart';
+import 'package:suyu_simple/provider/daily_mark_provider.dart';
+import 'package:suyu_simple/provider/font_family_provider.dart';
 
 class TotalMark extends StatefulWidget {
   final List<MarkItemModel> markItemModellist;

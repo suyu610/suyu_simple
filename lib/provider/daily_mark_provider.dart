@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:suyu_simple/sampleData/SampleDate.dart';
 import 'package:suyu_simple/model/daily_recorder.dart';
+import 'package:suyu_simple/sampleData/sample_date.dart';
 
 class DailyMarkProvider with ChangeNotifier {
   DailyRecorder todayRecorder = SampleDate.todayRecorder;

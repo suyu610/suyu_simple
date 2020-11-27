@@ -9,12 +9,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/constant/ThemeColor.dart';
-import 'package:suyu_simple/constant/ThemeFonts.dart';
-import 'package:suyu_simple/ui/components/Chat/ChatBar.dart';
-// import 'package:suyu_simple/ui/components/Chat/ChatMsg.dart';
-import 'package:suyu_simple/provider/ChatProvider.dart';
-import 'package:suyu_simple/ui/components/Chat/ChatMsg.dart';
+import 'package:suyu_simple/constant/theme_color.dart';
+import 'package:suyu_simple/constant/theme_fonts.dart';
+import 'package:suyu_simple/provider/chat_provider.dart';
+import 'package:suyu_simple/ui/components/Chat/chat_bar.dart';
+import 'package:suyu_simple/ui/components/Chat/chag_msg.dart';
 
 class ChatPage extends StatefulWidget {
   ChatPage({Key key}) : super(key: key);

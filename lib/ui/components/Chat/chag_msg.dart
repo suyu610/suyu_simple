@@ -7,11 +7,11 @@ import 'package:flutter/widgets.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:suyu_simple/constant/ThemeColor.dart';
+import 'package:suyu_simple/constant/msg_type.dart';
+import 'package:suyu_simple/constant/theme_color.dart';
 import 'package:suyu_simple/model/chat_message.dart';
 
-import 'package:suyu_simple/constant/MsgType.dart';
-import 'package:suyu_simple/ui/components/Image/FullScreenWidget.dart';
+import 'package:suyu_simple/ui/components/Image/full_screen_widget.dart';
 
 // ignore: non_constant_identifier_names
 Widget ChatMsg(BuildContext context, int index, animation,

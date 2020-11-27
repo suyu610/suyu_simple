@@ -1,35 +1,21 @@
-// import 'dart:async';
-// import 'dart:io';
-
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-// import 'package:flutter/services.dart';
-// import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-import 'package:suyu_simple/constant/ThemeColor.dart';
 import 'package:suyu_simple/config/provider_setup.dart';
 import 'package:suyu_simple/net/chat_stream.dart';
-// import 'package:suyu_simple/common/ThemeFonts.dart';
-// import 'package:suyu_simple/tools/MainUtil.dart';
-// import 'package:suyu_simple/ui/pages/Home.dart';
-// import 'package:suyu_simple/ui/pages/Login.dart';
-import 'package:suyu_simple/provider/ChatProvider.dart';
-import 'package:suyu_simple/provider/UserProvider.dart';
+import 'package:suyu_simple/provider/chat_provider.dart';
+import 'package:suyu_simple/provider/theme_provider.dart';
+import 'package:suyu_simple/provider/user_provider.dart';
 import 'package:suyu_simple/route/RouterConfig.dart';
 import 'package:suyu_simple/route/RouterHelper.dart';
-
-import 'package:suyu_simple/tools/InitUtils.dart';
+import 'package:suyu_simple/tools/init_utils.dart';
 import 'package:suyu_simple/ui/pages/Splash.dart';
 import 'package:suyu_simple/ui/pages/Main.dart';
 
 import 'config/Global.dart';
-// import 'common/ThemeColor.dart';
-import 'provider/ThemeProvider.dart';
+import 'constant/theme_color.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

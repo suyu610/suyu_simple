@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
+import 'package:suyu_simple/tools/share_preferences_utils.dart';
 
 void main() async {
   // 请求前, 获取一下token塞进报文headers

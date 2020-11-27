@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/provider/UserPictureProvider.dart';
-import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
+import 'package:suyu_simple/provider/tabbar_provider.dart';
+import 'package:suyu_simple/provider/user_picture_provider.dart';
+import 'package:suyu_simple/tools/share_preferences_utils.dart';
 import 'package:suyu_simple/ui/Components/Tabbar.dart';
 import 'package:suyu_simple/ui/pages/Chat.dart';
-import 'package:suyu_simple/provider/TabbarProvider.dart';
 
 import 'History.dart';
 import 'Mark.dart';

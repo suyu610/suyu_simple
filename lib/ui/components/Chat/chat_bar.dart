@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/constant/ThemeColor.dart';
-import 'package:suyu_simple/provider/ChatProvider.dart';
-import 'package:suyu_simple/provider/UserProvider.dart';
+import 'package:suyu_simple/constant/theme_color.dart';
+import 'package:suyu_simple/provider/chat_provider.dart';
+import 'package:suyu_simple/provider/user_provider.dart';
 
 class ChatBar extends StatelessWidget implements PreferredSizeWidget {
   @override

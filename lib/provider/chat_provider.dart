@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:suyu_simple/dao/ChatDao.dart';
+import 'package:suyu_simple/dao/chat_dao.dart';
 import 'package:suyu_simple/net/chat_stream.dart';
 import 'package:suyu_simple/model/chat_message.dart';
 
