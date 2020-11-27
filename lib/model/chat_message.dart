@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:suyu_simple/model/enum/MsgStatus.dart';
-import 'package:suyu_simple/model/enum/MsgType.dart';
+import 'package:suyu_simple/constant/MsgStatus.dart';
+import 'package:suyu_simple/constant/MsgType.dart';
 // xxx.g.dart 将在我们运行生成命令后自动生成,xxx文件名要相同
 
-part 'ChatMessage.g.dart'; //login_info此名字需与文件名相同
+part 'chat_message.g.dart'; //login_info此名字需与文件名相同
 
 /// 服务器的chat bean
 /*
@@ -20,39 +20,37 @@ part 'ChatMessage.g.dart'; //login_info此名字需与文件名相同
 class ChatMessage {
   // 与后端id保持一致
   String msgId;
+
+  MsgType type;
+
   // 消息的状态
   MsgStatus msgStatus;
+  // 收到的消息为【1】
+  // 发出去的消息为【0】
   int direct;
-  // 内容要不然就是文本内容，要不然就是url
+  // 内容是文本内容，或者是url
   String content;
-  String createID;
-  String createName;
+  //
   String createTime;
-  String headUrl;
-  String path;
-  String obj;
-  MsgType type;
+
   String localPath;
-  String hasPlayed;
-  int isCrowd;
+
+  //针对type = mic的消息，其他消息不具备此属性
+  //如果没有播放，则这个属性为0
+  //如果播放了，则为1
+  int hasPlayed;
+
   int isDownload;
+
   int isPlaying;
 
   ChatMessage(
       {this.msgId,
-      this.isSend,
       this.direct,
       this.content,
-      this.createID,
-      this.createName,
       this.createTime,
-      this.microGroupID,
-      this.headUrl,
-      this.path,
-      this.obj,
       this.type,
       this.hasPlayed,
-      this.isCrowd,
       this.isDownload,
       this.isPlaying,
       this.localPath});

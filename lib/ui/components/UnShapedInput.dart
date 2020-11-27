@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:suyu_simple/common/ThemeColor.dart';
+import 'package:suyu_simple/constant/ThemeColor.dart';
 
 class UnShapedInput extends StatelessWidget {
   final String text;

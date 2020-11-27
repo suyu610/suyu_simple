@@ -9,13 +9,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/common/ThemeFonts.dart';
+import 'package:suyu_simple/constant/ThemeColor.dart';
+import 'package:suyu_simple/constant/ThemeFonts.dart';
 import 'package:suyu_simple/ui/components/Chat/ChatBar.dart';
 // import 'package:suyu_simple/ui/components/Chat/ChatMsg.dart';
-import 'package:suyu_simple/model/ChatMessage.dart';
 import 'package:suyu_simple/provider/ChatProvider.dart';
-import 'package:suyu_simple/tools/RandomUtils.dart';
 import 'package:suyu_simple/ui/components/Chat/ChatMsg.dart';
 
 class ChatPage extends StatefulWidget {
@@ -34,6 +32,12 @@ class _ChatPageState extends State<ChatPage> {
     Provider.of<ChatProvider>(context, listen: false).setListKey(_listKey);
   }
 
+  @override
+  void dispose() {
+    FocusScope.of(context).requestFocus(FocusNode());
+    super.dispose();
+  }
+
   void handle(msg) async {
     Provider.of<ChatProvider>(context, listen: false).sendNewMsg(msg);
 
@@ -50,7 +54,7 @@ class _ChatPageState extends State<ChatPage> {
   Future _userAddImg(File img) async {
     // 将相片存到本地
     // 获取本地链接
-    RandomUtil.getRandomMsgPicWithPic(img).then((msg) => handle(msg));
+    // RandomUtil.getRandomMsgPicWithPic(img).then((msg) => handle(msg));
   }
 
   // from 0 自己的
@@ -64,10 +68,10 @@ class _ChatPageState extends State<ChatPage> {
 
     //定义实体
 
-    ChatMessage msg = RandomUtil.getUserRandomMsg(text, from);
+    // ChatMessage msg = RandomUtil.getUserRandomMsg(text, from);
 
     //保存在provider的list中
-    Provider.of<ChatProvider>(context, listen: false).sendNewMsg(msg);
+    // Provider.of<ChatProvider>(context, listen: false).sendNewMsg(msg);
 
     _listKey.currentState
         .insertItem(0, duration: const Duration(milliseconds: 500));

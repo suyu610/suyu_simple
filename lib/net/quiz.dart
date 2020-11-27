@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:suyu_simple/ui/pages/quiz/models/question.dart';
+import 'package:suyu_simple/model/quiz/question.dart';
 
 String url =
     "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple";

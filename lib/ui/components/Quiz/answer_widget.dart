@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:suyu_simple/ui/pages/quiz/models/answer.dart';
-import 'package:suyu_simple/ui/pages/quiz/widgets/option_widget.dart';
+import 'package:suyu_simple/model/quiz/answer.dart';
+
+import 'option_widget.dart';
 
 class AnswerWidget extends StatefulWidget {
   final AnswerType type;

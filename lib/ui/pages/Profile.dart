@@ -8,8 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:scratcher/widgets.dart';
 
-import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/common/ThemeFonts.dart';
+import 'package:suyu_simple/constant/ThemeColor.dart';
+import 'package:suyu_simple/constant/ThemeFonts.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/provider/UserProvider.dart';
 import 'package:suyu_simple/route/RouterHelper.dart';
@@ -18,7 +18,6 @@ import 'package:suyu_simple/tools/StrUtil.dart';
 import 'package:suyu_simple/ui/components/AboutDialog.dart';
 import 'package:suyu_simple/ui/components/DraggableCard.dart';
 import 'package:suyu_simple/ui/components/MyButton.dart';
-
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key}) : super(key: key);
@@ -51,13 +50,13 @@ class _ProfilePageState extends State<ProfilePage> {
     );
     print("------------");
     hasFriend =
-        Provider.of<UserProvider>(context, listen: false).getUser().friendVO !=
+        Provider.of<UserProvider>(context, listen: false).getUser().friend !=
             null;
     friendName = "";
     if (hasFriend) {
       friendName = Provider.of<UserProvider>(context, listen: false)
           .getUser()
-          .friendVO
+          .friend
           .friendNickname;
     }
   }

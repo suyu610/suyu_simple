@@ -12,13 +12,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:crypto/crypto.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/common/ThemeFonts.dart';
-import 'package:suyu_simple/model/SuyuUserVO.dart';
+import 'package:suyu_simple/constant/ThemeColor.dart';
+import 'package:suyu_simple/constant/ThemeFonts.dart';
+import 'package:suyu_simple/model/user.dart';
 import 'package:suyu_simple/net/http_manager.dart';
 import 'package:suyu_simple/net/result_data.dart';
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
-import 'package:suyu_simple/common/MyTheme.dart';
+import 'package:suyu_simple/constant/MyTheme.dart';
 import 'package:suyu_simple/provider/TabbarProvider.dart';
 import 'package:suyu_simple/provider/ThemeProvider.dart';
 import 'package:suyu_simple/provider/UserProvider.dart';
@@ -55,17 +55,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     {"id":"88888","username":"","faceImageBig":"https://file.suyu.cool/group1/M00/00/00/rBAACF-2J42AJnTEAAABq0MgYKM485.png", "nickname": "你", "qrcode": "https://file.suyu.cool/group1/M00/00/00/rBAACF-2J42AJnTEAAABq0MgYKM485.png", "token": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkNzFmMzhhZS1jOWYwLTQ5ZWUtYjZhOC0yYmJmYjRjMDAxMDQiLCJpYXQiOjE2MDYxMzQxMTgsImV4cCI6MTYwNjEzNzcxOCwicm9sZXMiOiJ1c2VyIiwiaWQiOiI0MDA1OCIsInVzZXJuYW1lIjoidXVvcmIifQ.Cnr3jxJCkmMfMx-3lHx1J10qZYp4iryIlI2SHFMDyr8",
 "friendVO": {"friendUserId": "63589", "friendUsername": "sususu", "friendFaceImage": "https://file.suyu.cool/group1/M00/00/00/rBAACF-4CoeAMkcRAAABnJUkP7g219.png", "friendNickname": "大猪蹄子"}}
         ''';
-    SuyuUserVO userVO = SuyuUserVO.fromJson(json.decode(jsonStr));
-    print(userVO.toJson());
+    User user = User.fromJson(json.decode(jsonStr));
+    print(user.toJson());
     // 保存token
     await SharePreferencesUtils.token(SharePreferencesUtilsWorkType.save,
             value: "SingleModeToken")
         .then((_) async {
-      await (SharePreferencesUtils.suyuUserVo(
-              SharePreferencesUtilsWorkType.save,
+      await (SharePreferencesUtils.user(SharePreferencesUtilsWorkType.save,
               value: json))
           .then((_) {
-        Provider.of<UserProvider>(context, listen: false).setUserVO(userVO);
+        Provider.of<UserProvider>(context, listen: false).setUser(user);
         Provider.of<TabbarProvider>(context, listen: false).currentIndex = 0;
         // 跳转
         RouterHelper.router.navigateTo(context, "/home",
@@ -148,17 +147,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     // 显示登陆成功
     EasyLoading.showSuccess("欢迎回来~\n${resultData.data["nickname"]}");
 
-    SuyuUserVO suyuUserVo = SuyuUserVO.fromJson(resultData.data);
+    User user = User.fromJson(resultData.data);
 
     // 保存token
     await SharePreferencesUtils.token(SharePreferencesUtilsWorkType.save,
             value: resultData.data["token"])
         .then((_) async {
-      await (SharePreferencesUtils.suyuUserVo(
-              SharePreferencesUtilsWorkType.save,
+      await (SharePreferencesUtils.user(SharePreferencesUtilsWorkType.save,
               value: resultData.data))
           .then((_) {
-        Provider.of<UserProvider>(context, listen: false).setUserVO(suyuUserVo);
+        Provider.of<UserProvider>(context, listen: false).setUser(user);
         // 跳转
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) {
@@ -263,268 +261,270 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        // 触摸收起键盘
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
-      child: Container(
-        decoration: ThemeFonts.lineBoxDecoration,
-        child: SafeArea(
-          child: Stack(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                      icon:
-                          Provider.of<FontFamilyProvider>(context, listen: true)
-                                  .isUseCustomFontFamily
-                              ? Icon(Ionicons.color_palette_sharp)
-                              : Icon(Ionicons.color_palette_outline),
-                      color: Theme.of(context).textSelectionColor,
-                      onPressed: handleChangeFont),
-                  IconButton(
-                      icon: Icon(
-                          isDarkMode ? Ionicons.moon_sharp : Ionicons.sunny),
-                      color: Theme.of(context).textSelectionColor,
-                      onPressed: changeTheme),
-                  SizedBox(
-                    width: 10.w,
-                  )
-                ],
-              ),
-              AnimatedOpacity(
-                //如果等于0，则说明键盘没有弹起
-                opacity:
-                    MediaQuery.of(context).viewInsets.bottom == 0 ? 1.0 : 0.0,
-                duration: Duration(milliseconds: 150),
+    return MaterialApp(
+      home: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          // 触摸收起键盘
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Container(
+          decoration: ThemeFonts.lineBoxDecoration,
+          child: SafeArea(
+            child: Stack(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                        icon: Provider.of<FontFamilyProvider>(context,
+                                    listen: true)
+                                .isUseCustomFontFamily
+                            ? Icon(Ionicons.color_palette_sharp)
+                            : Icon(Ionicons.color_palette_outline),
+                        color: Theme.of(context).textSelectionColor,
+                        onPressed: handleChangeFont),
+                    IconButton(
+                        icon: Icon(
+                            isDarkMode ? Ionicons.moon_sharp : Ionicons.sunny),
+                        color: Theme.of(context).textSelectionColor,
+                        onPressed: changeTheme),
+                    SizedBox(
+                      width: 10.w,
+                    )
+                  ],
+                ),
+                AnimatedOpacity(
+                  //如果等于0，则说明键盘没有弹起
+                  opacity:
+                      MediaQuery.of(context).viewInsets.bottom == 0 ? 1.0 : 0.0,
+                  duration: Duration(milliseconds: 150),
 
-                child: DraggableCard(
-                  child: Container(
-                    padding: EdgeInsets.all(0.h),
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000),
-                            spreadRadius: 2.0,
-                            offset: Offset(5.0, 6.0),
-                          )
-                        ],
-                        color: ThemeColors.colorTheme,
-                        // color: Colors.orange[300],
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.elliptical(50, 23),
-                          topRight: Radius.elliptical(20, 79),
-                          bottomRight: Radius.elliptical(50, 19),
-                          bottomLeft: Radius.elliptical(30, 32),
-                        )),
-                    child: RotationTransition(
-                      turns: curved_2,
-                      child: SizedBox(
-                          height: 70.0.h,
-                          width: 70.0.h,
-                          child: GestureDetector(
-                            child: Hero(
-                              tag: "logoImg",
-                              child: SizedBox(height: 80.0, child: logoImage),
-                            ),
-                            onTap: stopAndStartLogo,
-                            onLongPress: stopAndStartLogo,
-                          )),
-                    ),
-                  ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    isRegMode ? "注册" : "登陆",
-                    style: TextStyle(
-                      color: Theme.of(context).textSelectionColor,
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.bold,
-                      decorationStyle: TextDecorationStyle.solid,
-                      // decorationStyle: TextDecorationStyle.wavy,
-                      decorationColor: ThemeColors.colorTheme,
-                      decoration: TextDecoration.underline,
-                      decorationThickness: 2,
-                      fontFamily:
-                          Provider.of<FontFamilyProvider>(context).fontFamily,
-                      // textAlign: TextAlign.center,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SlideTransition(
-                        position: _usrOffsetAnimation,
-                        child: UnShapedInput(
-                          icon: isRegMode
-                              ? Ionicons.flash_outline
-                              : Ionicons.person_outline,
-                          text: isRegMode ? "昵称" : "账号",
-                          controller: isRegMode
-                              ? nicknameController
-                              : usernameController,
-                        ),
-                      ),
-                      AnimatedSize(
-                        vsync: this,
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.fastOutSlowIn,
-                        child: Container(
-                          child: Container(
-                            child: !isRegMode
-                                ? null
-                                : SizedBox(
-                                    height: 20.h,
-                                  ),
-                          ),
-                        ),
-                      ),
-                      AnimatedOpacity(
-                        opacity: isRegMode ? 1.0 : 0.0,
-                        duration: Duration(milliseconds: 300),
-                        // child: SlideTransition(
-                        // position: _pswOffsetAnimation,
-                        child: UnShapedInput(
-                          icon: Ionicons.person_outline,
-                          text: "账号",
-                          controller: usernameController,
-                        ),
-                        // ),
-                      ),
-                      AnimatedSize(
-                        vsync: this,
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.fastOutSlowIn,
-                        child: Container(
-                          child: Container(
-                            child: !isRegMode
-                                ? null
-                                : SizedBox(
-                                    height: 20.h,
-                                  ),
-                          ),
-                        ),
-                      ),
-                      SlideTransition(
-                        position: _pswOffsetAnimation,
-                        child: UnShapedInput(
-                          icon: Ionicons.lock_closed_outline,
-                          text: "密码",
-                          controller: passwordController,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 30.h,
-                      ),
-                      ScaleTransition(
-                        scale:
-                            Tween(begin: 0.0, end: 1.0).animate(_usrController),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(2.h),
-                              decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      // color: Colors.orange[300],
-                                      color: ThemeColors.colorTheme,
-                                      spreadRadius: 2.0,
-                                      offset: Offset(3.0, 4.0),
-                                    )
-                                  ],
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.elliptical(20, 53),
-                                    topRight: Radius.elliptical(39, 11),
-                                    bottomRight: Radius.elliptical(50, 49),
-                                    bottomLeft: Radius.elliptical(23, 32),
-                                  )),
-                              child: IconButton(
-                                iconSize: 30,
-                                icon: Icon(
-                                  isRegMode
-                                      ? Ionicons.close_outline
-                                      : Ionicons.add_outline,
-                                  color: Colors.white,
-                                ),
-                                onPressed: handleClickChangeRegModeBtnClick,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 30.w,
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(2.h),
-                              decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: ThemeColors.colorTheme,
-                                      spreadRadius: 2.0,
-                                      offset: Offset(3.0, 4.0),
-                                    )
-                                  ],
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.elliptical(20, 33),
-                                    topRight: Radius.elliptical(29, 31),
-                                    bottomRight: Radius.elliptical(50, 49),
-                                    bottomLeft: Radius.elliptical(30, 32),
-                                  )),
-                              child: IconButton(
-                                iconSize: 30,
-                                icon: Icon(
-                                  isRegMode
-                                      ? Icons.done_sharp
-                                      : Icons.arrow_right_alt_sharp,
-                                  color: Colors.white,
-                                ),
-                                onPressed: handleDoneBtn,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  AnimatedSize(
-                    vsync: this,
-                    duration: Duration(milliseconds: 150),
-                    curve: Curves.fastOutSlowIn,
+                  child: DraggableCard(
                     child: Container(
-                      child: Container(
+                      padding: EdgeInsets.all(0.h),
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xff000000),
+                              spreadRadius: 2.0,
+                              offset: Offset(5.0, 6.0),
+                            )
+                          ],
+                          color: ThemeColors.colorTheme,
+                          // color: Colors.orange[300],
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.elliptical(50, 23),
+                            topRight: Radius.elliptical(20, 79),
+                            bottomRight: Radius.elliptical(50, 19),
+                            bottomLeft: Radius.elliptical(30, 32),
+                          )),
+                      child: RotationTransition(
+                        turns: curved_2,
                         child: SizedBox(
-                          height:
-                              MediaQuery.of(context).viewInsets.bottom * 0.8,
-                        ),
+                            height: 70.0.h,
+                            width: 70.0.h,
+                            child: GestureDetector(
+                              child: Hero(
+                                tag: "logoImg",
+                                child: SizedBox(height: 80.0, child: logoImage),
+                              ),
+                              onTap: stopAndStartLogo,
+                              onLongPress: stopAndStartLogo,
+                            )),
                       ),
                     ),
                   ),
-                ],
-              ),
-              Positioned(
-                bottom: 10.h,
-                width: 375.w,
-                child: Center(
-                  child: TextButton(
-                      onPressed: handleSingleModeBtnClick,
-                      child: Text(
-                        "先随便看看",
-                        style: TextStyle(color: Colors.grey),
-                      )),
                 ),
-              ),
-            ],
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      isRegMode ? "注册" : "登陆",
+                      style: TextStyle(
+                        color: Theme.of(context).textSelectionColor,
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.bold,
+                        decorationStyle: TextDecorationStyle.solid,
+                        // decorationStyle: TextDecorationStyle.wavy,
+                        decorationColor: ThemeColors.colorTheme,
+                        decoration: TextDecoration.underline,
+                        decorationThickness: 2,
+                        fontFamily:
+                            Provider.of<FontFamilyProvider>(context).fontFamily,
+                        // textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SlideTransition(
+                          position: _usrOffsetAnimation,
+                          child: UnShapedInput(
+                            icon: isRegMode
+                                ? Ionicons.flash_outline
+                                : Ionicons.person_outline,
+                            text: isRegMode ? "昵称" : "账号",
+                            controller: isRegMode
+                                ? nicknameController
+                                : usernameController,
+                          ),
+                        ),
+                        AnimatedSize(
+                          vsync: this,
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.fastOutSlowIn,
+                          child: Container(
+                            child: Container(
+                              child: !isRegMode
+                                  ? null
+                                  : SizedBox(
+                                      height: 20.h,
+                                    ),
+                            ),
+                          ),
+                        ),
+                        AnimatedOpacity(
+                          opacity: isRegMode ? 1.0 : 0.0,
+                          duration: Duration(milliseconds: 300),
+                          // child: SlideTransition(
+                          // position: _pswOffsetAnimation,
+                          child: UnShapedInput(
+                            icon: Ionicons.person_outline,
+                            text: "账号",
+                            controller: usernameController,
+                          ),
+                          // ),
+                        ),
+                        AnimatedSize(
+                          vsync: this,
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.fastOutSlowIn,
+                          child: Container(
+                            child: Container(
+                              child: !isRegMode
+                                  ? null
+                                  : SizedBox(
+                                      height: 20.h,
+                                    ),
+                            ),
+                          ),
+                        ),
+                        SlideTransition(
+                          position: _pswOffsetAnimation,
+                          child: UnShapedInput(
+                            icon: Ionicons.lock_closed_outline,
+                            text: "密码",
+                            controller: passwordController,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30.h,
+                        ),
+                        ScaleTransition(
+                          scale: Tween(begin: 0.0, end: 1.0)
+                              .animate(_usrController),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(2.h),
+                                decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        // color: Colors.orange[300],
+                                        color: ThemeColors.colorTheme,
+                                        spreadRadius: 2.0,
+                                        offset: Offset(3.0, 4.0),
+                                      )
+                                    ],
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.elliptical(20, 53),
+                                      topRight: Radius.elliptical(39, 11),
+                                      bottomRight: Radius.elliptical(50, 49),
+                                      bottomLeft: Radius.elliptical(23, 32),
+                                    )),
+                                child: IconButton(
+                                  iconSize: 30,
+                                  icon: Icon(
+                                    isRegMode
+                                        ? Ionicons.close_outline
+                                        : Ionicons.add_outline,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: handleClickChangeRegModeBtnClick,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 30.w,
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(2.h),
+                                decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: ThemeColors.colorTheme,
+                                        spreadRadius: 2.0,
+                                        offset: Offset(3.0, 4.0),
+                                      )
+                                    ],
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.elliptical(20, 33),
+                                      topRight: Radius.elliptical(29, 31),
+                                      bottomRight: Radius.elliptical(50, 49),
+                                      bottomLeft: Radius.elliptical(30, 32),
+                                    )),
+                                child: IconButton(
+                                  iconSize: 30,
+                                  icon: Icon(
+                                    isRegMode
+                                        ? Icons.done_sharp
+                                        : Icons.arrow_right_alt_sharp,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: handleDoneBtn,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    AnimatedSize(
+                      vsync: this,
+                      duration: Duration(milliseconds: 150),
+                      curve: Curves.fastOutSlowIn,
+                      child: Container(
+                        child: Container(
+                          child: SizedBox(
+                            height:
+                                MediaQuery.of(context).viewInsets.bottom * 0.8,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  bottom: 10.h,
+                  width: 375.w,
+                  child: Center(
+                    child: TextButton(
+                        onPressed: handleSingleModeBtnClick,
+                        child: Text(
+                          "先随便看看",
+                          style: TextStyle(color: Colors.grey),
+                        )),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

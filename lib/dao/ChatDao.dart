@@ -1,6 +1,6 @@
 import 'package:sqflite/sqlite_api.dart';
 import 'package:suyu_simple/db/db_provider.dart';
-import 'package:suyu_simple/model/ChatMessage.dart';
+import 'package:suyu_simple/model/chat_message.dart';
 
 class ChatDAO extends BaseDBProvider {
   //表名
@@ -74,20 +74,18 @@ class ChatDAO extends BaseDBProvider {
   Map<String, dynamic> toMap(ChatMessage msg) {
     Map<String, dynamic> map = {
       "content": msg.content,
-      "createId": msg.createID,
-      "createName": msg.createName,
+
       "createTime": msg.createTime,
-      "headUrl": msg.headUrl,
-      "microGroupId": msg.microGroupID,
-      "path": msg.path,
-      "obj": msg.obj,
+
+      // "path": msg.path,
+      // "obj": msg.obj,
       "localPath": msg.localPath,
       "type": msg.type,
       "hasPlayed": msg.hasPlayed,
-      " isCrowd": msg.isCrowd,
+
       " isDownload": msg.isDownload,
       "isPlaying": msg.isPlaying,
-      "isSend": msg.isSend,
+      // "isSend": msg.isSend,
       "direct": msg.direct,
     };
     return map;

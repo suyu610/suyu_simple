@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:suyu_simple/common/ThemeColor.dart';
+import 'package:suyu_simple/constant/ThemeColor.dart';
 
 final ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: ThemeColors.colorWhite,

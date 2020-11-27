@@ -7,10 +7,10 @@ import 'package:flutter/widgets.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/model/ChatMessage.dart';
+import 'package:suyu_simple/constant/ThemeColor.dart';
+import 'package:suyu_simple/model/chat_message.dart';
 
-import 'package:suyu_simple/model/enum/MsgType.dart';
+import 'package:suyu_simple/constant/MsgType.dart';
 import 'package:suyu_simple/ui/components/Image/FullScreenWidget.dart';
 
 // ignore: non_constant_identifier_names
@@ -22,7 +22,7 @@ Widget ChatMsg(BuildContext context, int index, animation,
     return SlideTransition(
         position: Tween<Offset>(
           //让他从底下出来
-          begin: item.type == MsgType.Pic.index ? Offset(1, 0) : Offset(0, 1),
+          begin: item.type == MsgType.Pic ? Offset(1, 0) : Offset(0, 1),
           end: const Offset(0, 0),
         ).chain(CurveTween(curve: Curves.ease)).animate(animation),
         child: ChatMsgContent(item));
@@ -37,8 +37,8 @@ class ChatMsgContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     File imageFile;
-    if (item.type == MsgType.Pic.index) {
-      imageFile = File(item.path);
+    if (item.type == MsgType.Pic) {
+      imageFile = File(item.localPath);
     }
     return GestureDetector(
         onLongPress: () => showModalBottomSheet(
@@ -105,7 +105,7 @@ class ChatMsgContent extends StatelessWidget {
                     )),
             title: Bubble(
               style: item.direct == 0 ? styleMe : styleSomebody, //:,
-              child: item.type == MsgType.Text.index
+              child: item.type == MsgType.Text
                   ? Text('${item.content}')
                   : FullScreenWidget(
                       backgroundColor: Colors.white,

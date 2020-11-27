@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:suyu_simple/common/ThemeColor.dart';
+import 'package:suyu_simple/constant/ThemeColor.dart';
 
 // ignore: non_constant_identifier_names
 TransitionBuilder EasyLoadingInit() {

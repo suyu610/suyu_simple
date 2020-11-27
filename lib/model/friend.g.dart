@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'FriendVO.dart';
+part of 'friend.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-FriendVO _$FriendVOFromJson(Map<String, dynamic> json) {
-  return FriendVO(
+Friend _$FriendFromJson(Map<String, dynamic> json) {
+  return Friend(
     friendUserId: json['friendUserId'] as String,
     friendUsername: json['friendUsername'] as String,
     friendFaceImage: json['friendFaceImage'] as String,
@@ -15,7 +15,7 @@ FriendVO _$FriendVOFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$FriendVOToJson(FriendVO instance) => <String, dynamic>{
+Map<String, dynamic> _$FriendToJson(Friend instance) => <String, dynamic>{
       'friendUserId': instance.friendUserId,
       'friendUsername': instance.friendUsername,
       'friendFaceImage': instance.friendFaceImage,

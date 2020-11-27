@@ -11,18 +11,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 // import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
-import 'package:suyu_simple/common/MyTheme.dart';
-import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/net/ChatStream.dart';
+import 'package:suyu_simple/constant/ThemeColor.dart';
+import 'package:suyu_simple/config/provider_setup.dart';
+import 'package:suyu_simple/net/chat_stream.dart';
 // import 'package:suyu_simple/common/ThemeFonts.dart';
 // import 'package:suyu_simple/tools/MainUtil.dart';
 // import 'package:suyu_simple/ui/pages/Home.dart';
 // import 'package:suyu_simple/ui/pages/Login.dart';
-import 'package:suyu_simple/provider/DailyMarkProvider.dart';
-import 'package:suyu_simple/provider/FontFamilyProvider.dart';
-import 'package:suyu_simple/provider/TabbarProvider.dart';
 import 'package:suyu_simple/provider/ChatProvider.dart';
-import 'package:suyu_simple/provider/UserPictureProvider.dart';
 import 'package:suyu_simple/provider/UserProvider.dart';
 import 'package:suyu_simple/route/RouterConfig.dart';
 import 'package:suyu_simple/route/RouterHelper.dart';
@@ -31,26 +27,14 @@ import 'package:suyu_simple/tools/InitUtils.dart';
 import 'package:suyu_simple/ui/pages/Splash.dart';
 import 'package:suyu_simple/ui/pages/Main.dart';
 
-import 'common/Global.dart';
+import 'config/Global.dart';
 // import 'common/ThemeColor.dart';
 import 'provider/ThemeProvider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Global.init().then((e) => runApp(
-        MultiProvider(providers: [
-          ListenableProvider<UserPictureProvider>(
-              create: (_) => UserPictureProvider()),
-          ListenableProvider<UserProvider>(create: (_) => UserProvider()),
-          ListenableProvider<FontFamilyProvider>(
-              create: (_) => FontFamilyProvider()),
-          ListenableProvider<ThemeProvider>(
-              create: (_) => ThemeProvider(lightTheme)),
-          ListenableProvider<ChatProvider>(create: (_) => ChatProvider()),
-          ListenableProvider<DailyMarkProvider>(
-              create: (_) => DailyMarkProvider()),
-          ListenableProvider<TabbarProvider>(create: (_) => TabbarProvider()),
-        ], child: MyApp()),
+        MultiProvider(providers: providers, child: MyApp()),
       ));
 }
 

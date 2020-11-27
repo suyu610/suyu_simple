@@ -6,7 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hand_signature/signature.dart';
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/common/ThemeColor.dart';
+import 'package:suyu_simple/constant/ThemeColor.dart';
 import 'package:suyu_simple/provider/UserPictureProvider.dart';
 import 'package:suyu_simple/route/RouterHelper.dart';
 

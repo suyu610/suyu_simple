@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:suyu_simple/ui/pages/quiz/utils/networking.dart' as network;
-import 'package:suyu_simple/ui/pages/quiz/models/question.dart';
-import 'package:suyu_simple/ui/pages/quiz/screens/quiz_screen.dart';
-import 'package:suyu_simple/ui/pages/quiz/utils/default_gradient.dart';
-import 'package:suyu_simple/ui/pages/quiz/widgets/bouncing_widget.dart';
-import 'package:suyu_simple/ui/pages/quiz/widgets/number_timer.dart';
+import 'package:suyu_simple/model/quiz/question.dart';
+import 'package:suyu_simple/net/quiz.dart' as network;
+import 'package:suyu_simple/ui/components/Quiz/bouncing_widget.dart';
+import 'package:suyu_simple/ui/components/Quiz/number_timer.dart';
+import 'package:suyu_simple/ui/pages/quiz/quiz_screen.dart';
+import 'package:suyu_simple/constant/default_gradient.dart';
 
 class ChallengeThreeScreen extends StatefulWidget {
   @override

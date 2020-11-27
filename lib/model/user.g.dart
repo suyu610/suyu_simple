@@ -1,28 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'SuyuUserVO.dart';
+part of 'user.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SuyuUserVO _$SuyuUserVOFromJson(Map<String, dynamic> json) {
-  return SuyuUserVO(
+User _$UserFromJson(Map<String, dynamic> json) {
+  return User(
     id: json['id'] as String,
     username: json['username'] as String,
     faceImage: json['faceImage'] as String,
     faceImageBig: json['faceImageBig'] as String,
     nickname: json['nickname'] as String,
     qrcode: json['qrcode'] as String,
-    friendVO: json['friendVO'] == null
+    friend: json['friend'] == null
         ? null
-        : FriendVO.fromJson(json['friendVO'] as Map<String, dynamic>),
+        : Friend.fromJson(json['friend'] as Map<String, dynamic>),
     token: json['token'] as String,
   );
 }
 
-Map<String, dynamic> _$SuyuUserVOToJson(SuyuUserVO instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
       'username': instance.username,
       'faceImage': instance.faceImage,
@@ -30,5 +29,5 @@ Map<String, dynamic> _$SuyuUserVOToJson(SuyuUserVO instance) =>
       'nickname': instance.nickname,
       'qrcode': instance.qrcode,
       'token': instance.token,
-      'friendVO': instance.friendVO,
+      'friend': instance.friend,
     };

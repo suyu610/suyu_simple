@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:suyu_simple/common/ThemeColor.dart';
+import 'package:suyu_simple/constant/ThemeColor.dart';
+
 import 'package:suyu_simple/provider/FontFamilyProvider.dart';
 import 'package:suyu_simple/provider/UserProvider.dart';
 import 'package:suyu_simple/ui/components/Mark/MarkDetailLi.dart';
 
 import 'package:suyu_simple/provider/DailyMarkProvider.dart';
 import 'package:suyu_simple/sampleData/SampleDate.dart';
-import 'package:suyu_simple/model/DailyRecorderModel.dart';
+import 'package:suyu_simple/model/daily_recorder.dart';
 import 'TotalMark.dart';
 
 class MarkMainBox extends StatefulWidget {
@@ -20,10 +21,10 @@ class MarkMainBox extends StatefulWidget {
 }
 
 class _MarkMainBoxState extends State<MarkMainBox> {
-  DailyRecorderModel dailyRecorderModel;
+  DailyRecorder dailyRecorder;
   initState() {
     super.initState();
-    dailyRecorderModel = SampleDate.todayRecorder;
+    dailyRecorder = SampleDate.todayRecorder;
   }
 
   ///下拉刷新方法,为list重新赋值
@@ -84,7 +85,7 @@ class _MarkMainBoxState extends State<MarkMainBox> {
                 // ]),
               ],
             ),
-            TotalMark(dailyRecorderModel.list),
+            TotalMark(dailyRecorder.list),
           ],
         ),
       ),

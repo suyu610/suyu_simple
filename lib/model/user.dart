@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:suyu_simple/model/FriendVO.dart';
-part 'SuyuUserVO.g.dart';
+import 'package:suyu_simple/model/friend.dart';
+part 'user.g.dart';
 
 @JsonSerializable()
-class SuyuUserVO {
+class User {
   String id;
   String username;
   String faceImage;
@@ -11,20 +11,19 @@ class SuyuUserVO {
   String nickname;
   String qrcode;
   String token;
-  FriendVO friendVO;
+  Friend friend;
 
-  SuyuUserVO(
+  User(
       {this.id,
       this.username,
       this.faceImage,
       this.faceImageBig,
       this.nickname,
       this.qrcode,
-      this.friendVO,
+      this.friend,
       this.token});
 
-  factory SuyuUserVO.fromJson(Map<String, dynamic> json) =>
-      _$SuyuUserVOFromJson(json);
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SuyuUserVOToJson(this);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }

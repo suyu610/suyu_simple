@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:suyu_simple/ui/pages/quiz/models/answer.dart';
-import 'package:suyu_simple/ui/pages/quiz/models/question.dart';
+import 'package:suyu_simple/model/quiz/answer.dart';
+import 'package:suyu_simple/model/quiz/question.dart';
 
 import 'answer_widget.dart';
 import 'option_widget.dart';

@@ -1,8 +1,8 @@
-import 'package:suyu_simple/model/DailyRecorderModel.dart';
-import 'package:suyu_simple/model/MarkItemModel.dart';
+import 'package:suyu_simple/model/daily_recorder.dart';
+import 'package:suyu_simple/model/mark_item.dart';
 
 class SampleDate {
-  static DailyRecorderModel todayRecorder = new DailyRecorderModel([
+  static DailyRecorder todayRecorder = new DailyRecorder([
     MarkItemModel("准时", "按时打卡上班", 40, 25),
     MarkItemModel("嘴甜", "嘴甜不甜", 20, 20),
     MarkItemModel("锻炼", "今天锻炼了吗", 20, 20),

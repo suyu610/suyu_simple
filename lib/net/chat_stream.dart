@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:suyu_simple/dao/ChatDao.dart';
 import 'package:suyu_simple/net/address.dart';
-import 'package:suyu_simple/tools/RandomUtils.dart';
 import 'package:web_socket_channel/io.dart';
 
 class ChatStream {
@@ -22,9 +21,9 @@ class ChatStream {
   StreamController<dynamic> _chatMsgStreamController;
 
   ChatStream._internal() {
-    final String userName =
-        RandomUtil.getRandomStrNoMoreThan(RandomUtil.numberScope(4, 11));
-    print("用户名是$userName");
+    // final String userName =
+    //     RandomUtil.getRandomStrNoMoreThan(RandomUtil.numberScope(4, 11));
+    // print("用户名是$userName");
     webSocketChannel = new IOWebSocketChannel.connect(Address.CHAT_WS_API);
     // ChatStream.instance.websocket.sink.add("");
     // 初始化

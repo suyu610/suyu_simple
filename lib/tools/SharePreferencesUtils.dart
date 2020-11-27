@@ -101,7 +101,7 @@ class SharePreferencesUtils {
 
   /// 存取删user
   /// [SharePreferencesUtilsWorkType] 指定操作模式
-  static suyuUserVo(SharePreferencesUtilsWorkType type, {dynamic value}) {
+  static user(SharePreferencesUtilsWorkType type, {dynamic value}) {
     String key = 'user';
     if (type == SharePreferencesUtilsWorkType.save) {
       return _saveToLocalMap(key, value);

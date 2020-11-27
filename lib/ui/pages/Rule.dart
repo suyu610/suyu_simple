@@ -3,13 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hand_signature/signature.dart';
 
 import 'package:provider/provider.dart';
 // import 'package:slimy_card/slimy_card.dart';
-import 'package:suyu_simple/common/ThemeColor.dart';
-import 'package:suyu_simple/common/ThemeFonts.dart';
+import 'package:suyu_simple/constant/ThemeColor.dart';
+import 'package:suyu_simple/constant/ThemeFonts.dart';
 import 'package:suyu_simple/provider/UserPictureProvider.dart';
 import 'package:suyu_simple/sampleData/SampleDate.dart';
 import 'package:suyu_simple/ui/components/MyButton.dart';

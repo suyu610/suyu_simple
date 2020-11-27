@@ -1,6 +1,6 @@
-import 'package:suyu_simple/model/MarkItemModel.dart';
+import 'package:suyu_simple/model/mark_item.dart';
 
-class DailyRecorderModel {
+class DailyRecorder {
   List<MarkItemModel> list;
   DateTime modifyDate;
   bool isSubmit; //是否已经提交
@@ -9,7 +9,7 @@ class DailyRecorderModel {
   int badScore; //不及格的分数线
   int totalScore;
 
-  DailyRecorderModel(this.list, this.modifyDate, this.isUpdate, this.isSubmit,
+  DailyRecorder(this.list, this.modifyDate, this.isUpdate, this.isSubmit,
       this.goodScore, this.badScore) {
     totalScore = 0;
     list.forEach((element) {

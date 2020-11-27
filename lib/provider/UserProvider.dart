@@ -1,22 +1,21 @@
 import 'package:flutter/foundation.dart';
-import 'package:suyu_simple/model/SuyuUserVO.dart';
+import 'package:suyu_simple/model/user.dart';
 import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 
 class UserProvider with ChangeNotifier {
-  SuyuUserVO _suyuUserVO;
+  User _user;
   String _token;
 
-  SuyuUserVO getUser() {
-    return _suyuUserVO;
+  User getUser() {
+    return _user;
   }
 
   void init() {
     // 从本地读
-    SharePreferencesUtils.suyuUserVo(SharePreferencesUtilsWorkType.get)
-        .then((value) {
-      _suyuUserVO = SuyuUserVO.fromJson(value);
-      setToken(_suyuUserVO.token);
-      return _suyuUserVO;
+    SharePreferencesUtils.user(SharePreferencesUtilsWorkType.get).then((value) {
+      _user = User.fromJson(value);
+      setToken(_user.token);
+      return _user;
     });
   }
 
@@ -31,7 +30,7 @@ class UserProvider with ChangeNotifier {
     _token = token;
   }
 
-  void setUserVO(SuyuUserVO suyuUserVO) {
-    _suyuUserVO = suyuUserVO;
+  void setUser(User user) {
+    _user = user;
   }
 }

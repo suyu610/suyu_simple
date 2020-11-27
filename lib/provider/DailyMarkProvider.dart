@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:suyu_simple/sampleData/SampleDate.dart';
-import 'package:suyu_simple/model/DailyRecorderModel.dart';
+import 'package:suyu_simple/model/daily_recorder.dart';
 
 class DailyMarkProvider with ChangeNotifier {
-  DailyRecorderModel todayRecorder = SampleDate.todayRecorder;
+  DailyRecorder todayRecorder = SampleDate.todayRecorder;
 
   void increment(index) {
     if (todayRecorder.list.elementAt(index).currentScore <

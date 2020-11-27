@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:suyu_simple/ui/pages/quiz/utils/default_gradient.dart';
-import 'package:suyu_simple/ui/pages/quiz/widgets/radial_seek_bar.dart';
+import 'package:suyu_simple/constant/default_gradient.dart';
+import 'package:suyu_simple/ui/components/Quiz/radial_seek_bar.dart';
 
 import 'alert_widget.dart';
 

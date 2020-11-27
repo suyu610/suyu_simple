@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:suyu_simple/provider/ThemeProvider.dart';
 import 'package:suyu_simple/ui/Components/Mark/MarkMainBox.dart';
 import 'package:suyu_simple/ui/Components/MyButton.dart';
-import 'package:suyu_simple/common/ThemeFonts.dart';
+import 'package:suyu_simple/constant/ThemeFonts.dart';
 import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 import 'package:suyu_simple/ui/components/Menu/MenuWidget.dart';
 

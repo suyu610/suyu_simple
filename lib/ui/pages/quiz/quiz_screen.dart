@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:suyu_simple/ui/pages/quiz/models/question.dart';
-import 'package:suyu_simple/ui/pages/quiz/widgets/alert_widget.dart';
-import 'package:suyu_simple/ui/pages/quiz/widgets/bouncing_widget.dart';
-import 'package:suyu_simple/ui/pages/quiz/widgets/question_widget.dart';
-import 'package:suyu_simple/ui/pages/quiz/widgets/quiz_timer.dart';
+import 'package:suyu_simple/model/quiz/question.dart';
+import 'package:suyu_simple/ui/components/Quiz/alert_widget.dart';
+import 'package:suyu_simple/ui/components/Quiz/bouncing_widget.dart';
+import 'package:suyu_simple/ui/components/Quiz/question_widget.dart';
+import 'package:suyu_simple/ui/components/Quiz/quiz_timer.dart';
 
 class QuizScreen extends StatefulWidget {
   final Question question;

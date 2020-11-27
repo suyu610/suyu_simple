@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:suyu_simple/provider/UserPictureProvider.dart';
 import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 import 'package:suyu_simple/ui/Components/Tabbar.dart';

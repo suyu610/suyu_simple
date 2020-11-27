@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:suyu_simple/tools/SharePreferencesUtils.dart';
 import 'package:suyu_simple/ui/pages/Home.dart';
-import 'package:suyu_simple/ui/pages/Login.dart';
+// import 'package:suyu_simple/ui/pages/Login.dart';
+import 'package:suyu_simple/ui/test/login_view.dart';
 
 class Main extends StatefulWidget {
   @override
@@ -11,9 +12,11 @@ class Main extends StatefulWidget {
 
 class _MainState extends State<Main> {
   var loginState;
+
+  // 判断是否已经登陆
   Future checkLogin() async {
     Future<dynamic> token = Future(() async {
-      return SharePreferencesUtils.suyuUserVo(
+      return SharePreferencesUtils.user(
           SharePreferencesUtilsWorkType.get);
     });
 
@@ -42,7 +45,7 @@ class _MainState extends State<Main> {
     ScreenUtil.init(context,
         designSize: Size(375, 667), allowFontScaling: true);
     if (loginState == 0) {
-      return LoginPage();
+      return LoginView();
     } else {
       return HomePage();
     }
