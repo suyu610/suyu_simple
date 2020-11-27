@@ -7,23 +7,23 @@ class UserProvider with ChangeNotifier {
   String _token;
 
   User getUser() {
+    print(_user);
     return _user;
   }
 
   void init() {
     // 从本地读
     SharePreferencesUtils.user(SharePreferencesUtilsWorkType.get).then((value) {
-      _user = User.fromJson(value);
-      setToken(_user.token);
-      return _user;
+      if (value != null) {
+        _user = User.fromJson(value);
+        setToken(_user.token);
+        return _user;
+      }
     });
   }
 
   String readToken() {
-    if (_token != null) {
-      return _token;
-    }
-    return null;
+    return _token;
   }
 
   void setToken(String token) {

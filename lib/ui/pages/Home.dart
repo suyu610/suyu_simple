@@ -38,6 +38,11 @@ class _HomePageState extends State<HomePage> {
     sign.then((value) =>
         Provider.of<UserPictureProvider>(context, listen: false).signSvgStr =
             value);
+
+    // ChatStream.instance.getStream().listen(
+    //       (data) =>
+    //           Provider.of<ChatProvider>(context, listen: false).initList(data),
+    //     );
   }
 
   @override

@@ -18,7 +18,6 @@ import 'package:suyu_simple/ui/components/about_dialog.dart';
 import 'package:suyu_simple/ui/components/draggable_card.dart';
 import 'package:suyu_simple/ui/components/my_button.dart';
 
-
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key}) : super(key: key);
 
@@ -44,11 +43,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
 
-    print("------------");
-    print(
-      Provider.of<UserProvider>(context, listen: false).getUser().faceImageBig,
-    );
-    print("------------");
     hasFriend =
         Provider.of<UserProvider>(context, listen: false).getUser().friend !=
             null;
@@ -276,11 +270,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     width: 16.w,
                   ),
-                  Icon(
-                    Ionicons.heart,
-                    color: Color(0xffff7471),
-                    size: 24.sp,
+                  GestureDetector(
+                    child: Icon(
+                      Ionicons.heart,
+                      color: Color(0xffff7471),
+                      size: 24.sp,
+                    ),
+                    onTap: () => RouterHelper.router.navigateTo(
+                        context, "/break_game",
+                        transition: TransitionType.native),
                   ),
+
                   SizedBox(
                     width: 16.w,
                   ),

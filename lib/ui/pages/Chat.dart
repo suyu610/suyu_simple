@@ -33,7 +33,6 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void dispose() {
-    FocusScope.of(context).requestFocus(FocusNode());
     super.dispose();
   }
 

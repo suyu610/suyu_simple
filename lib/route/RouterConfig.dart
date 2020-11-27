@@ -3,8 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:suyu_simple/ui/pages/Home.dart';
 import 'package:suyu_simple/ui/pages/Login.dart';
 import 'package:suyu_simple/ui/pages/Paint.dart';
+import 'package:suyu_simple/ui/pages/game/break_game.dart';
 import 'package:suyu_simple/ui/pages/quiz/challenge_three_screen.dart';
-import 'package:suyu_simple/ui/test/login_view.dart';
+import 'package:suyu_simple/ui/test/test_login_view.dart';
 
 class RouterConfig {
   static void configureRoutes(FluroRouter router) {
@@ -30,11 +31,16 @@ class RouterConfig {
         handlerFunc: (BuildContext context, Map<String, dynamic> params) {
       return LoginView();
     });
+    var breakGameHandler = Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return BreakGame();
+    });
 
     router.define("/login", handler: loginPageHandler);
     router.define("/home", handler: homePageHandler);
     router.define("/quiz", handler: quizHandler);
     router.define("/paint", handler: paintHandler);
     router.define("/test_login", handler: testloginHandler);
+    router.define("/break_game", handler: breakGameHandler);
   }
 }

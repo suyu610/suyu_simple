@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/route/RouterHelper.dart';
-import 'package:suyu_simple/viewmodels/login_viewmodel.dart';
+import 'package:suyu_simple/viewmodels/test_login_viewmodel.dart';
 
 import '../base_view.dart';
 

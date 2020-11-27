@@ -2,6 +2,7 @@ library animated_splash;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:loading_indicator_view/loading_indicator_view.dart';
 
 Widget _home;
@@ -62,10 +63,11 @@ class _AnimatedSplashState extends State<AnimatedSplash>
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context,
+        designSize: Size(375, 667), allowFontScaling: true);
     _runfor == AnimatedSplashType.BackgroundProcess
         ? Future.delayed(Duration.zero).then((value) {
             var res = _customFunction();
-            //print("$res+${_outputAndHome[res]}");
             Future.delayed(Duration(milliseconds: _duration)).then((value) {
               Navigator.of(context).pushReplacement(CupertinoPageRoute(
                   builder: (BuildContext context) => _outputAndHome[res]));

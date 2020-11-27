@@ -31,7 +31,17 @@ dependencies:
   sqflite: ^1.3.0  
   dio: ^3.0.8
   toast: ^0.1.5
+  flame: ^0.28.0
   flutter_easyloading: ^2.0.0  
+  ###### 不知道干什么的
+  equatable: ^1.2.3
+  http: ^0.12.2
+  stack: ^0.1.0
+  universal_io: ^1.0.1
+  # 通知
+  flutter_beautiful_popup: ^1.5.0
+
+  ######
   # 验证码
   pin_code_fields: 
   liquid_pull_to_refresh: ^2.0.0

@@ -51,9 +51,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   Future<void> handleSingleModeBtnClick() async {
     String jsonStr = '''
     {"id":"88888","username":"","faceImageBig":"https://file.suyu.cool/group1/M00/00/00/rBAACF-2J42AJnTEAAABq0MgYKM485.png", "nickname": "你", "qrcode": "https://file.suyu.cool/group1/M00/00/00/rBAACF-2J42AJnTEAAABq0MgYKM485.png", "token": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkNzFmMzhhZS1jOWYwLTQ5ZWUtYjZhOC0yYmJmYjRjMDAxMDQiLCJpYXQiOjE2MDYxMzQxMTgsImV4cCI6MTYwNjEzNzcxOCwicm9sZXMiOiJ1c2VyIiwiaWQiOiI0MDA1OCIsInVzZXJuYW1lIjoidXVvcmIifQ.Cnr3jxJCkmMfMx-3lHx1J10qZYp4iryIlI2SHFMDyr8",
-"friendVO": {"friendUserId": "63589", "friendUsername": "sususu", "friendFaceImage": "https://file.suyu.cool/group1/M00/00/00/rBAACF-4CoeAMkcRAAABnJUkP7g219.png", "friendNickname": "大猪蹄子"}}
+"friend": {"friendUserId": "63589", "friendUsername": "sususu", "friendFaceImage": "https://file.suyu.cool/group1/M00/00/00/rBAACF-4CoeAMkcRAAABnJUkP7g219.png", "friendNickname": "大猪蹄子"}}
         ''';
     User user = User.fromJson(json.decode(jsonStr));
+
     print(user.toJson());
     // 保存token
     await SharePreferencesUtils.token(SharePreferencesUtilsWorkType.save,
@@ -259,8 +260,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: GestureDetector(
+    return Scaffold(
+      body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
           // 触摸收起键盘
