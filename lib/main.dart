@@ -14,7 +14,8 @@ import 'package:suyu_simple/ui/pages/Splash.dart';
 import 'package:suyu_simple/ui/pages/Main.dart';
 
 import 'config/Global.dart';
-import 'config/init_utils.dart';
+
+import 'config/init.dart';
 import 'constant/theme_color.dart';
 
 void main() {
