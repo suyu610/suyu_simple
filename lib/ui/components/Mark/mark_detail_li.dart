@@ -7,9 +7,10 @@ import 'package:suyu_simple/constant/theme_color.dart';
 import 'package:suyu_simple/provider/daily_mark_provider.dart';
 import 'package:suyu_simple/provider/font_family_provider.dart';
 import 'package:suyu_simple/provider/theme_provider.dart';
-import 'package:suyu_simple/ui/Components/MyMarkButton.dart';
 import 'package:direct_select_flutter/direct_select_item.dart';
 import 'package:direct_select_flutter/direct_select_list.dart';
+
+import '../my_mark_button.dart';
 
 class MarkDetailLi extends StatefulWidget {
   final int index;
