@@ -1,14 +1,11 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/constant/theme_color.dart';
 import 'package:suyu_simple/provider/font_family_provider.dart';
-import 'package:suyu_simple/provider/theme_provider.dart';
-// import 'package:provider/provider.dart';
 import 'package:suyu_simple/route/RouterHelper.dart';
 import 'package:suyu_simple/ui/components/about_dialog.dart';
 

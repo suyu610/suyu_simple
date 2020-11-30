@@ -1,5 +1,4 @@
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -13,7 +12,6 @@ import 'package:suyu_simple/constant/theme_fonts.dart';
 import 'package:suyu_simple/provider/font_family_provider.dart';
 import 'package:suyu_simple/provider/user_provider.dart';
 import 'package:suyu_simple/ui/components/about_dialog.dart';
-import 'package:suyu_simple/ui/components/draggable_card.dart';
 import 'package:suyu_simple/ui/components/my_button.dart';
 import 'package:suyu_simple/viewmodels/profile_viewmodel.dart';
 

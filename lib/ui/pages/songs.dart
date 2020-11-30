@@ -112,7 +112,6 @@ class _SongPageState extends State<SongPage> with TickerProviderStateMixin {
   bool isPlaying = false;
 
   Timer _countdownTimer;
-  int _countdownNum = 3000000;
   Duration start = new Duration(seconds: 0);
 
   @override
