@@ -17,6 +17,7 @@ import 'maze_painter.dart';
 
 GlobalKey<_MazeState> childKey = GlobalKey();
 
+// ignore: must_be_immutable
 class Maze extends StatefulWidget {
   ///List of checkpoints
   final List<MazeItem> checkpoints;

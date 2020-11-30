@@ -1,18 +1,24 @@
 import 'package:direct_select_flutter/direct_select_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'dart:ui';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
+import 'package:suyu_simple/constant/theme_color.dart';
 import 'package:suyu_simple/constant/theme_fonts.dart';
+import 'package:suyu_simple/provider/daily_mark_provider.dart';
+import 'package:suyu_simple/provider/font_family_provider.dart';
 import 'package:suyu_simple/provider/theme_provider.dart';
-import 'package:suyu_simple/tools/share_preferences_utils.dart';
-import 'package:suyu_simple/ui/components/Mark/mark_main_box.dart';
+
+import 'package:suyu_simple/ui/components/Mark/mark_detail_li.dart';
+import 'package:suyu_simple/ui/components/Mark/total_mark.dart';
 import 'package:suyu_simple/ui/components/Menu/menu_widget.dart';
 import 'package:suyu_simple/ui/components/my_button.dart';
+import 'package:suyu_simple/viewmodels/mark_viewmodel.dart';
+
+import '../base_view.dart';
 
 class MarkPage extends StatefulWidget {
   MarkPage({Key key}) : super(key: key);
@@ -22,170 +28,182 @@ class MarkPage extends StatefulWidget {
 }
 
 class _MarkPageState extends State<MarkPage> {
-  Future<void> handleSubmitBtnClick() async {
-    print("提交按钮被按");
-    var token = "123456";
-    await SharePreferencesUtils.token(SharePreferencesUtilsWorkType.save,
-        value: token);
-  }
-
-  Future<void> handlePerfectBtnClick() async {}
-
-  void _toggle(DragEndDetails details) {
-    Provider.of<ThemeProvider>(context, listen: false)
-        .innerDrawerKey
-        .currentState
-        .toggle(
-            // direction is optional
-            // if not set, the last direction will be used
-            //InnerDrawerDirection.start OR InnerDrawerDirection.end
-            direction: InnerDrawerDirection.start);
-  }
-
-  void handleSaveBtnClick() {
-    EasyLoading.show();
-    Future.delayed(Duration(seconds: 1), () {
-      // EasyLoading.dismiss();
-      EasyLoading.show(status: "已保存", indicator: Icon(Icons.swap_vert));
-    });
-    Future.delayed(Duration(milliseconds: 1500), () {
-      EasyLoading.dismiss();
-    });
-    // Toast.show("已保存", context,
-    //     gravity: Toast.TOP,
-    //     backgroundColor: ThemeColors.colorTheme,
-    //     textColor: ThemeColors.colorBlack,
-    //     backgroundRadius: 8,
-    //     border: Border.all(
-    //       width: 2,
-    //     ));
-  }
-
-  @override
-  void dispose() {
-    print('移除时：dispose');
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return InnerDrawer(
-      key: Provider.of<ThemeProvider>(context, listen: false).innerDrawerKey,
-      onTapClose: true, // default false
-      swipe: true, // default true
-      colorTransitionChild: Colors.grey[900], // default Color.black54
-      colorTransitionScaffold: Colors.white70, // default Color.black54
+    return BaseView<MarkViewModel>(
+        model: MarkViewModel(Provider.of(context), context),
+        onModelReady: (model) {},
+        builder: (context, model, child) {
+          return _buildInnerDraw(context, model);
+        });
+  }
+}
 
-      //When setting the vertical offset, be sure to use only top or bottom
-      offset: IDOffset.only(bottom: 0, right: 0, left: 0.6),
+Widget _buildInnerDraw(BuildContext context, MarkViewModel model) {
+  return InnerDrawer(
+    key: Provider.of<ThemeProvider>(context, listen: false).innerDrawerKey,
+    leftChild: _buildLeftChild(context, model),
+    scaffold: _buildMainChild(context, model),
+    // 一些配置
+    onTapClose: true,
+    swipe: true,
+    colorTransitionChild: Colors.grey[900],
+    colorTransitionScaffold: Colors.white70,
+    offset: IDOffset.only(bottom: 0, right: 0, left: 0.6),
+    proportionalChildArea: true,
+    borderRadius: 0,
+    leftAnimationType: InnerDrawerAnimation.quadratic,
+    backgroundDecoration: BoxDecoration(color: Colors.grey[900]),
+    innerDrawerCallback: (a) => {},
+  );
+}
 
-      // scale: IDOffset.horizontal(1), // set the offset in both directions
+Widget _buildLeftChild(BuildContext context, MarkViewModel model) {
+  return GestureDetector(
+      onHorizontalDragEnd: model.toggle, child: MenuWidget());
+}
 
-      proportionalChildArea: true, // default true
-      borderRadius: 0, // default 0
-      leftAnimationType: InnerDrawerAnimation.linear, // default static
-      backgroundDecoration: BoxDecoration(color: Colors.grey[900]),
-      // default  Theme.of(context).backgroundColor
-      //when a pointer that is in contact with the screen and moves to the right or left
-      // onDragUpdate: (double val, InnerDrawerDirection direction) {
-      //   // return values between 1 and 0
-      //   print(val);
-      //   // check if the swipe is to the right or to the left
-      //   print(direction == InnerDrawerDirection.start);
-      // },
-      innerDrawerCallback: (a) => {},
-      // print(a), // return  true (open) or false (close)
-      leftChild: GestureDetector(
-          onHorizontalDragEnd: _toggle,
-          // onTap: _toggle,
-          child: MenuWidget()), // required if rightChild is not set
-
-      scaffold: Scaffold(
-        key: Provider.of<ThemeProvider>(context).scaffoldKey,
-        body: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).requestFocus(FocusNode());
-          },
-          child: DirectSelectContainer(
-            child: Container(
-              child: ConstrainedBox(
-                constraints: BoxConstraints.expand(),
-                child: Container(
-                  // color: Colors.white,
-                  decoration: ThemeFonts.lineBoxDecoration,
-                  child: Stack(
-                    alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
-                    children: <Widget>[
-                      Positioned(
-                        // left: ScreenUtil().setWidth(14),
-                        right: 14.w,
-                        top: 56.h,
-                        child: GestureDetector(
-                          onTap: handleSaveBtnClick,
-                          child: Icon(Ionicons.settings_outline),
-                        ),
+Widget _buildMainBox(BuildContext context, MarkViewModel model) {
+  return Container(
+    child: Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              Stack(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Center(
+                    child: Text(
+                      model.title(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(18),
+                        fontFamily:
+                            Provider.of<FontFamilyProvider>(context).fontFamily,
                       ),
-                      Positioned(
-                        left: 14.w,
-                        // right: ScreenUtil().setWidth(14),
-                        top: 56.h,
-                        child: GestureDetector(
-                          onTap: openMenu,
-                          child: Icon(Ionicons.menu),
-                        ),
-                      ),
-                      Positioned(
-                        left: ScreenUtil().setWidth(14),
-                        right: ScreenUtil().setWidth(14),
-                        top: 50.h,
-                        child: Column(
-                          children: <Widget>[
-                            Text("10月30日周五",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: ScreenUtil().setSp(24),
-                                )),
-                            SizedBox(
-                              height: 40.h,
-                            ),
-                            //中间的大盒子
-                            MarkMainBox(),
-                            Padding(padding: EdgeInsets.all(10)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                MyButton(
-                                  "完美",
-                                  width: 120,
-                                  isYellow: true,
-                                  tapAction: handlePerfectBtnClick,
-                                ),
-                                MyButton("提交",
-                                    width: 170,
-                                    isYellow: false,
-                                    tapAction: handleSubmitBtnClick),
-                              ],
-                            )
-                          ],
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 20.h),
+              ),
+              Container(
+                  height: 285.h,
+                  child: Theme(
+                    data: Theme.of(context)
+                        .copyWith(accentColor: ThemeColors.colorWhite),
+                    child: Center(
+                      child: ListView.builder(
+                          padding: const EdgeInsets.all(0),
+                          itemCount: Provider.of<DailyMarkProvider>(context)
+                              .getLength(), //.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return MarkDetailLi(index);
+                          }),
+                    ),
+                  )),
+            ],
+          ),
+          TotalMark(model.dailyRecorder.list),
+        ],
+      ),
+    ),
+    height: 400.h,
+    width: 343.w,
+    decoration: BoxDecoration(
+      color: Color.fromRGBO(255, 255, 255, 0.5),
+      border: Border.all(
+        color: ThemeColors.colorBlack,
+        width: 3, //边框粗细
+      ), //容器内的方框弧度
+      borderRadius: BorderRadius.all(const Radius.circular(10.0)),
+    ),
+  );
+}
+
+Widget _buildMainChild(BuildContext context, MarkViewModel model) {
+  return Scaffold(
+    key: Provider.of<ThemeProvider>(context).scaffoldKey,
+    body: GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: DirectSelectContainer(
+        child: Container(
+          child: ConstrainedBox(
+            constraints: BoxConstraints.expand(),
+            child: Container(
+              // color: Colors.white,
+              decoration: ThemeFonts.lineBoxDecoration,
+              child: Stack(
+                alignment: Alignment.center, //指定未定位或部分定位widget的对齐方式
+                children: <Widget>[
+                  Positioned(
+                    // left: ScreenUtil().setWidth(14),
+                    right: 14.w,
+                    top: 56.h,
+                    child: GestureDetector(
+                      onTap: model.handleSaveBtnClick,
+                      child: Icon(Ionicons.settings_outline),
+                    ),
+                  ),
+                  Positioned(
+                    left: 14.w,
+                    // right: ScreenUtil().setWidth(14),
+                    top: 56.h,
+                    child: GestureDetector(
+                      onTap: model.openMenu,
+                      child: Icon(Ionicons.menu),
+                    ),
+                  ),
+                  Positioned(
+                    left: ScreenUtil().setWidth(14),
+                    right: ScreenUtil().setWidth(14),
+                    top: 50.h,
+                    child: Column(
+                      children: <Widget>[
+                        Text(model.nowDate(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: ScreenUtil().setSp(24),
+                            )),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        //中间的大盒子
+                        _buildMainBox(context, model),
+                        Padding(padding: EdgeInsets.all(10)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            MyButton(
+                              "完美",
+                              width: 120,
+                              isYellow: true,
+                              tapAction: model.handlePerfectBtnClick,
+                            ),
+                            MyButton("提交",
+                                width: 170,
+                                isYellow: false,
+                                tapAction: model.handleSubmitBtnClick),
+                          ],
+                        )
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
         ),
       ),
-    );
-  }
-
-  void openMenu() {
-    Provider.of<ThemeProvider>(context, listen: false)
-        .innerDrawerKey
-        .currentState
-        .toggle(direction: InnerDrawerDirection.start);
-  }
+    ),
+  );
 }

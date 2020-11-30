@@ -1,11 +1,13 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:suyu_simple/constant/theme_color.dart';
 import 'package:suyu_simple/provider/font_family_provider.dart';
+import 'package:suyu_simple/provider/theme_provider.dart';
 // import 'package:provider/provider.dart';
 import 'package:suyu_simple/route/RouterHelper.dart';
 import 'package:suyu_simple/ui/components/about_dialog.dart';
@@ -49,11 +51,13 @@ class MenuWidget extends StatelessWidget {
                   MenuItem(
                       title: "答题",
                       icon: Ionicons.game_controller_outline,
-                      tapAction: () => RouterHelper.router.navigateTo(
-                            context,
-                            "/quiz",
-                            transition: TransitionType.native,
-                          )),
+                      tapAction: () => {
+                            RouterHelper.router.navigateTo(
+                              context,
+                              "/quiz",
+                              transition: TransitionType.inFromRight,
+                            )
+                          }),
                   MenuItem(
                       title: "相册",
                       icon: Ionicons.images_outline,
@@ -64,12 +68,16 @@ class MenuWidget extends StatelessWidget {
                       tapAction: () => RouterHelper.router.navigateTo(
                             context,
                             "/paint",
-                            transition: TransitionType.native,
+                            transition: TransitionType.inFromRight,
                           )),
                   MenuItem(
                       title: "唱歌",
                       icon: Ionicons.musical_note_outline,
-                      tapAction: () => {}),
+                      tapAction: () => RouterHelper.router.navigateTo(
+                            context,
+                            "/song",
+                            transition: TransitionType.inFromRight,
+                          )),
                   MenuItem(
                       title: "收藏夹",
                       icon: Ionicons.bookmark_outline,

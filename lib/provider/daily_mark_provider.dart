@@ -18,6 +18,15 @@ class DailyMarkProvider with ChangeNotifier {
     }
   }
 
+  // 设置为最大值
+  void perfect() {
+    todayRecorder.list.forEach((element) {
+      element.currentScore = element.maxScore;
+    });
+    notifyListeners();
+    EasyLoading.showSuccess('真棒！！!');
+  }
+
   void decrement(index) {
     if (todayRecorder.list.elementAt(index).currentScore != 0) {
       todayRecorder.list.elementAt(index).currentScore--;

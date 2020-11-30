@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:suyu_simple/config/android_back.dart';
+import 'package:suyu_simple/provider/chat_provider.dart';
 import 'package:suyu_simple/provider/tabbar_provider.dart';
 import 'package:suyu_simple/provider/user_picture_provider.dart';
 import 'package:suyu_simple/tools/share_preferences_utils.dart';
@@ -38,7 +40,7 @@ class _HomePageState extends State<HomePage> {
     sign.then((value) =>
         Provider.of<UserPictureProvider>(context, listen: false).signSvgStr =
             value);
-
+    Provider.of<ChatProvider>(context, listen: false).initList(null);
     // ChatStream.instance.getStream().listen(
     //       (data) =>
     //           Provider.of<ChatProvider>(context, listen: false).initList(data),
@@ -47,10 +49,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pageList
-          .elementAt(Provider.of<TabbarProvider>(context).currentIndex),
-      bottomNavigationBar: TabbarComponent(),
+    return AppRetainWidget(
+      child: Scaffold(
+        body: _pageList
+            .elementAt(Provider.of<TabbarProvider>(context).currentIndex),
+        bottomNavigationBar: TabbarComponent(),
+      ),
     );
   }
 }

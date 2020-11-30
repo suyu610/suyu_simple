@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
   Future<void> handleSingleModeBtnClick() async {
     String jsonStr = '''
-    {"id":"88888","username":"","faceImageBig":"https://file.suyu.cool/group1/M00/00/00/rBAACF-2J42AJnTEAAABq0MgYKM485.png", "nickname": "你", "qrcode": "https://file.suyu.cool/group1/M00/00/00/rBAACF-2J42AJnTEAAABq0MgYKM485.png", "token": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkNzFmMzhhZS1jOWYwLTQ5ZWUtYjZhOC0yYmJmYjRjMDAxMDQiLCJpYXQiOjE2MDYxMzQxMTgsImV4cCI6MTYwNjEzNzcxOCwicm9sZXMiOiJ1c2VyIiwiaWQiOiI0MDA1OCIsInVzZXJuYW1lIjoidXVvcmIifQ.Cnr3jxJCkmMfMx-3lHx1J10qZYp4iryIlI2SHFMDyr8",
+    {"id":"88888","username":"","faceImageBig":"https://file.suyu.cool/group1/M00/00/00/rBAACF-2J42AJnTEAAABq0MgYKM485.png", "nickname": "他", "qrcode": "https://file.suyu.cool/group1/M00/00/00/rBAACF-2J42AJnTEAAABq0MgYKM485.png", "token": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkNzFmMzhhZS1jOWYwLTQ5ZWUtYjZhOC0yYmJmYjRjMDAxMDQiLCJpYXQiOjE2MDYxMzQxMTgsImV4cCI6MTYwNjEzNzcxOCwicm9sZXMiOiJ1c2VyIiwiaWQiOiI0MDA1OCIsInVzZXJuYW1lIjoidXVvcmIifQ.Cnr3jxJCkmMfMx-3lHx1J10qZYp4iryIlI2SHFMDyr8",
 "friend": {"friendUserId": "63589", "friendUsername": "sususu", "friendFaceImage": "https://file.suyu.cool/group1/M00/00/00/rBAACF-4CoeAMkcRAAABnJUkP7g219.png", "friendNickname": "大猪蹄子"}}
         ''';
     User user = User.fromJson(json.decode(jsonStr));

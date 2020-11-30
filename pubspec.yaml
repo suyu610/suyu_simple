@@ -33,6 +33,10 @@ dependencies:
   toast: ^0.1.5
   flame: ^0.28.0
   flutter_easyloading: ^2.0.0  
+  cool_alert: ^1.0.3
+  # 头像
+  circular_profile_avatar: ^1.0.6
+
   ###### 不知道干什么的
   equatable: ^1.2.3
   http: ^0.12.2

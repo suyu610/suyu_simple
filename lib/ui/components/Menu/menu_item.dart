@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:suyu_simple/provider/theme_provider.dart';
 
 // ignore: must_be_immutable
 class MenuItem extends StatelessWidget {
@@ -11,7 +14,13 @@ class MenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: tapAction,
+      onTap: () => {
+        tapAction(),
+        Provider.of<ThemeProvider>(context, listen: false)
+            .innerDrawerKey
+            .currentState
+            .toggle(direction: InnerDrawerDirection.start),
+      },
       child: Container(
         decoration: BoxDecoration(color: Colors.transparent),
         child: Padding(
